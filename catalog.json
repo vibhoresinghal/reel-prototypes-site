@@ -1,0 +1,18 @@
+[
+  {
+    "id": "payzapp",
+    "title": "PayZapp home",
+    "description": "The complete home screen, with original artwork, natural scrolling, and placeholder tap interactions.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "payzapp.html",
+    "logo": "assets/473-17470-9dd33.svg",
+    "width": 412,
+    "height": 860,
+    "tags": [
+      "Payments",
+      "Banking"
+    ],
+    "reference": "payzapp.html?reference=1"
+  }
+]
