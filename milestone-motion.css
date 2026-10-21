@@ -137,3 +137,14 @@
 /* Dissolve the globe into the same green as the map before revealing its title. */
 .loader:not(.quick)::after{content:"";position:absolute;inset:0;background:#7dc66b;pointer-events:none;animation:earthToGreen .85s 2.65s ease-in-out both}
 @keyframes earthToGreen{from{opacity:0}to{opacity:1}}
+
+/* Preserve the outgoing home frame while the loader fades into its place. */
+.screen-content{view-transition-name:prototype-screen}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-group(prototype-screen){animation-duration:.55s}
+::view-transition-old(prototype-screen){animation:spotlightExit .55s cubic-bezier(.4,0,.2,1) both;mix-blend-mode:normal}
+::view-transition-new(prototype-screen){animation:spotlightLoaderEnter .55s cubic-bezier(.4,0,.2,1) both;mix-blend-mode:normal}
+@keyframes spotlightExit{from{opacity:1}to{opacity:0}}
+@keyframes spotlightLoaderEnter{from{opacity:0}to{opacity:1}}
+@supports not (view-transition-name:prototype-screen){.stage[data-screen="loader"]>.screen-content{animation:spotlightLoaderEnter .55s ease-in-out both}}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
