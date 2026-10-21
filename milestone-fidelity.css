@@ -220,3 +220,12 @@
 .reward-lip-star.right{left:234px}
 .reward-lip>span{position:absolute;left:34px;top:7px;width:196px;text-align:center;font-size:12px;font-weight:600;line-height:15px;white-space:nowrap;color:#fdffaf}
 .map-footer>.primary{top:30px;border-radius:14px;border-color:#0003;box-shadow:0 10px 28px #161b211a}
+
+/* Keep white fill inside the dark translucent Figma stroke. */
+.map-footer>.primary{background-clip:padding-box}
+/* Only copy fades; the SVG, stars and text box keep their fixed geometry. */
+.lip-copy-out{animation:lip-copy-out 160ms ease-out both}
+.lip-copy-in{animation:lip-copy-in 200ms ease-in 160ms both}
+@keyframes lip-copy-out{from{opacity:1}to{opacity:0}}
+@keyframes lip-copy-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.lip-copy-out{display:none}.lip-copy-in{animation:none}}
