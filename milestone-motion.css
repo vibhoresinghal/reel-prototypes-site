@@ -1,6 +1,6 @@
-/* One 6.22s opening, following the four Figma frames in order.
+/* One 7.2s opening, following the four Figma frames in order.
    The large title travels alongside the map; the compact header enters later. */
-.intro-title{position:absolute;left:0;top:calc((var(--h) - 800px)*.5);width:360px;height:800px;pointer-events:none;z-index:3;animation:introTitleTravel 6.22s both}
+.intro-title{position:absolute;left:0;top:calc((var(--h) - 800px)*.5);width:360px;height:800px;pointer-events:none;z-index:3;animation:introTitleTravel 7.2s both}
 .intro-title img{position:absolute;max-width:none}
 .intro-earn{left:148px;top:285px;width:60px;height:16px}
 .intro-sixty{left:157px;top:288px;width:84px;height:89px}
@@ -9,38 +9,38 @@
 .intro-spark{left:99.9px;top:299.9px;width:18.94px;height:20.94px;transform:rotate(-16deg)}
 .intro-star{left:270px;top:344px;width:29px;height:32px;transform:rotate(-165deg) scaleY(-1)}
 .intro-title p{position:absolute;left:80px;top:407px;width:200px;font-size:20px;line-height:24px;font-weight:700;color:#0008;text-align:center}
-.opening .reward-title{animation:introHeader 6.22s both;transform-origin:initial}
-.opening .map-window{animation:introMapHeight 6.22s both}
+.opening .reward-title{animation:introHeader 7.2s both;transform-origin:initial}
+.opening .map-window{animation:introMapHeight 7.2s both}
 .map-screen{overflow:clip}
 .map-screen.compact .reward-title{scale:.8;transform-origin:180px 0}
-.opening .map-entry-track{animation:introLandscape 6.22s both}
-.opening:not(.ready) .map-toolbar{animation:introToolbar 6.22s both}
-.opening:not(.ready) .map-footer{animation:introFooter 6.22s both}
+.opening .map-entry-track{animation:introLandscape 7.2s both}
+.opening:not(.ready) .map-toolbar{animation:introToolbar 7.2s both}
+.opening:not(.ready) .map-footer{animation:introFooter 7.2s both}
 .opening:not(.ready) .map-toolbar,.opening:not(.ready) .map-footer{pointer-events:none}
 @keyframes introTitleTravel{
-  0%{opacity:0;transform:translateY(-160px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
-  12.324%{opacity:1;transform:none}
-  31.617%{opacity:1;transform:none;animation-timing-function:cubic-bezier(.4,0,.2,1)}
-  89.495%,100%{opacity:1;transform:translateX(1159px)}
+  0%,4.1667%{opacity:0;transform:translateY(24px);animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  20.8333%{opacity:1;transform:none}
+  33.3333%{opacity:1;transform:none;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  83.3333%,100%{opacity:1;transform:translateX(1159px)}
 }
 @keyframes introLandscape{
-  0%,31.617%{transform:translateX(-1243px);animation-timing-function:cubic-bezier(.4,0,.2,1)}
-  89.495%,100%{transform:none}
+  0%,33.3333%{transform:translateX(-1243px);animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  83.3333%,100%{transform:none}
 }
 @keyframes introMapHeight{
-  0%,31.617%{transform:translateY(var(--entry-map-offset));animation-timing-function:cubic-bezier(.4,0,.2,1)}
-  89.495%,100%{transform:none}
+  0%,33.3333%{transform:translateY(var(--entry-map-offset));animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  83.3333%,100%{transform:none}
 }
 @keyframes introHeader{
-  0%,89.495%{transform:translateY(-239px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
-  100%{transform:none}
+  0%,83.3333%{opacity:0;transform:translateY(-24px);animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  100%{opacity:1;transform:none}
 }
 @keyframes introToolbar{
-  0%,89.495%{opacity:0;transform:none;animation-timing-function:ease-out}
-  94%,100%{opacity:1;transform:none}
+  0%,83.3333%{opacity:0;transform:none;animation-timing-function:ease-out}
+  90.2778%,100%{opacity:1;transform:none}
 }
 @keyframes introFooter{
-  0%,89.495%{transform:translateY(229px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
+  0%,83.3333%{transform:translateY(229px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
   100%{transform:none}
 }
 
@@ -83,7 +83,7 @@
 }
 
 /* Keep rotation alive through the zoom, ending exactly at the screen handoff. */
-.loader:not(.quick) .earth{animation:earthDrift 2.1s linear forwards,earthEnter .9s 2.1s cubic-bezier(.45,0,.85,1) forwards}
+.loader:not(.quick) .earth{animation:earthDrift 2.1s linear forwards,earthEnter 1.4s 2.1s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes earthDrift{from{transform:rotate(0deg)}to{transform:rotate(-32deg)}}
 @keyframes earthEnter{from{transform:rotate(-32deg) scale(1)}to{transform:translateY(-270px) rotate(-44deg) scale(2)}}
 /* Original glyph outlines extend beyond their Figma export viewport. */
@@ -133,3 +133,7 @@
 
 /* Figma map gesture 4684:120322: parent -122.3627° + child 34.3502°; CSS reverses the sign. */
 .gesture{transform:rotate(88.012515deg);transform-origin:center;mix-blend-mode:luminosity}
+
+/* Dissolve the globe into the same green as the map before revealing its title. */
+.loader:not(.quick)::after{content:"";position:absolute;inset:0;background:#7dc66b;pointer-events:none;animation:earthToGreen .85s 2.65s ease-in-out both}
+@keyframes earthToGreen{from{opacity:0}to{opacity:1}}
