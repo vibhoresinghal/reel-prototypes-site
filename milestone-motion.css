@@ -165,4 +165,3 @@
  ::view-transition-new(root){animation:none}
 }
 
-@media(max-width:760px){.hosted:has(.stage[data-screen="home"]) .mobile-library{display:block;position:fixed;top:24px;left:50%;transform:translateX(-50%);font:600 12px Inter;color:#234b65;text-decoration:none;z-index:20}}
