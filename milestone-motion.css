@@ -20,28 +20,27 @@
 @keyframes introTitleTravel{
   0%{opacity:0;transform:translateY(-160px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
   12.324%{opacity:1;transform:none}
-  31.617%{opacity:1;transform:none;animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
+  31.617%{opacity:1;transform:none;animation-timing-function:cubic-bezier(.4,0,.2,1)}
   89.495%,100%{opacity:1;transform:translateX(1159px)}
 }
 @keyframes introLandscape{
-  0%,31.617%{transform:translateX(-1243px);animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
+  0%,31.617%{transform:translateX(-1243px);animation-timing-function:cubic-bezier(.4,0,.2,1)}
   89.495%,100%{transform:none}
 }
 @keyframes introMapHeight{
-  0%,31.617%{transform:translateY(var(--entry-map-offset));animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
-  89.495%{transform:translateY(var(--entry-settle-offset));animation-timing-function:cubic-bezier(.3533,-.3267,.7933,1.0433)}
-  100%{transform:none}
+  0%,31.617%{transform:translateY(var(--entry-map-offset));animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  89.495%,100%{transform:none}
 }
 @keyframes introHeader{
-  0%,89.495%{transform:translateY(-239px);animation-timing-function:cubic-bezier(.3533,-.3267,.7933,1.0433)}
+  0%,89.495%{transform:translateY(-239px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
   100%{transform:none}
 }
 @keyframes introToolbar{
-  0%,31.617%{transform:translateY(-410px);animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
-  89.495%,100%{transform:none}
+  0%,89.495%{opacity:0;transform:none;animation-timing-function:ease-out}
+  94%,100%{opacity:1;transform:none}
 }
 @keyframes introFooter{
-  0%,89.495%{transform:translateY(229px);animation-timing-function:cubic-bezier(.3533,-.3267,.7933,1.0433)}
+  0%,89.495%{transform:translateY(229px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
   100%{transform:none}
 }
 
@@ -84,8 +83,9 @@
 }
 
 /* Keep rotation alive through the zoom, ending exactly at the screen handoff. */
-.loader:not(.quick) .earth{animation:earthRotate 2.1s linear forwards,earthEnter .9s 2.1s cubic-bezier(.45,0,.85,1) forwards}
-@keyframes earthEnter{from{transform:rotate(-111.41deg) scale(1)}to{transform:translateY(-270px) rotate(-145deg) scale(2)}}
+.loader:not(.quick) .earth{animation:earthDrift 2.1s linear forwards,earthEnter .9s 2.1s cubic-bezier(.45,0,.85,1) forwards}
+@keyframes earthDrift{from{transform:rotate(0deg)}to{transform:rotate(-32deg)}}
+@keyframes earthEnter{from{transform:rotate(-32deg) scale(1)}to{transform:translateY(-270px) rotate(-44deg) scale(2)}}
 /* Original glyph outlines extend beyond their Figma export viewport. */
 .lettering>svg{width:100%;height:100%;overflow:visible}
 .intro-title>.lettering{position:absolute}
