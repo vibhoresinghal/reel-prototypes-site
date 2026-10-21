@@ -133,4 +133,3 @@
 
 /* Figma map gesture 4684:120322: parent -122.3627° + child 34.3502°; CSS reverses the sign. */
 .gesture{transform:rotate(88.012515deg);transform-origin:center;mix-blend-mode:luminosity}
-

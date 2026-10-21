@@ -59,10 +59,10 @@
 .help-modal .popup{border-radius:20px;background:#fff;width:312px}
 .help-art{height:198px;background:none;overflow:hidden}
 .help-art>.art{width:312px}
-.help-art [data-node-id="I5056:220431;4234:119777"]{display:block;position:absolute;inset:0;width:279px;height:180px;transform-origin:134.7px 86.13px;transition:transform 1.533153s cubic-bezier(.22,.85,.26,1),opacity .8s ease-out}
+.help-art [data-node-id="I5056:220431;4234:119777"]{display:block;position:absolute;inset:0;width:279px;height:180px;transform-origin:134.7px 86.13px;transition:transform .65s cubic-bezier(.22,.85,.26,1),opacity .35s ease-out}
 .education-1 [data-node-id="I5056:220431;4234:119777"]{transform:translateY(-36.7px) scale(.5686914)}
 .education-2 [data-node-id="I5056:220431;4234:119777"],.education-3 [data-node-id="I5056:220431;4234:119777"],.education-4 [data-node-id="I5056:220431;4234:119777"]{transform:translateY(-36.7px) scale(.5686914);opacity:0}
-.help-art [data-node-id="I5056:220431;4234:119793"],.help-art [data-node-id="I5056:220431;4234:119800"],.help-art [data-node-id="I5056:220431;4234:119726"]{transition:opacity 1.533153s ease-out}
+.help-art [data-node-id="I5056:220431;4234:119793"],.help-art [data-node-id="I5056:220431;4234:119800"],.help-art [data-node-id="I5056:220431;4234:119726"]{transition:opacity .28s ease-out}
 .help-art:not(.education-0) [data-node-id="I5056:220431;4234:119793"],.help-art:not(.education-0) [data-node-id="I5056:220431;4234:119800"],.help-art:not(.education-0) [data-node-id="I5056:220431;4234:119726"]{opacity:0}
 .education-scene{position:absolute;left:16.5px;top:18px;width:279px;height:180px;overflow:hidden;pointer-events:none}
 .education-earned{position:absolute;left:66px;top:-19px;width:150px;height:150px;opacity:0;transition:left .3s ease-out,opacity .8s ease-out}
@@ -203,3 +203,7 @@
 .amount-keyboard>button:nth-child(4n){transform:translateX(-3px)}
 .amount-keyboard button[aria-label="Delete last digit"]>img{height:18px}
 .map-footer>.primary{height:52px;border-radius:14px}
+
+/* Figma 5233:149554: 2px stroke, black 10% at top → 2% at bottom. */
+.progress-card{border-color:transparent}
+.progress-card::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,.02));mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
