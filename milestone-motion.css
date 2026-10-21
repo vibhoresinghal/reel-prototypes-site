@@ -12,7 +12,7 @@
 .opening .reward-title{animation:introHeader 7.2s both;transform-origin:initial}
 .opening .map-window{animation:introMapHeight 7.2s both}
 .map-screen{overflow:clip}
-.map-screen.compact .reward-title{scale:.8;transform-origin:180px 0}
+.map-screen.compact .reward-title{scale:.9;transform-origin:180px 0}
 .opening .map-entry-track{animation:introLandscape 7.2s both}
 .opening:not(.ready) .map-toolbar{animation:introToolbar 7.2s both}
 .opening:not(.ready) .map-footer{animation:introFooter 7.2s both}
@@ -154,3 +154,11 @@
 .stage[data-modal-closing="true"] .popup{animation:popupClose .24s cubic-bezier(.4,0,1,1) both}
 @keyframes popupBackdropExit{from{opacity:1}to{opacity:0}}
 @keyframes popupClose{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(20px) scale(.97)}}
+
+/* Respect real system insets; Android may already exclude the top status bar. */
+@media(max-width:760px){
+ body{background:var(--screen-top-color,#fff)}
+ .viewer:not(.embedded){padding-top:env(safe-area-inset-top,0px)}
+ .viewer:not(.embedded) .phone{height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+ body:has(.viewer:not(.embedded))::after{content:"";position:fixed;z-index:9999;left:0;right:0;bottom:0;height:env(safe-area-inset-bottom,0px);background:#000;pointer-events:none}
+}
