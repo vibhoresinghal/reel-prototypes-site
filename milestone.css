@@ -16,3 +16,10 @@ picture{display:contents}.number-thirty{position:relative;width:55.6px;height:43
 .large .title-art{top:10px;bottom:-10px}.large .title-star{left:246px}.coin-spark{position:absolute;left:125px;top:85px;width:14px;height:16px;transform:rotate(-16deg)}.earned .coin-spark{left:109px;top:75px}.reward-uses button>img{width:17px;height:20px;object-fit:contain}.reward-uses button{background:#a8e699;border-color:#78b569}.reward-uses b{font-weight:600}.home-nav .art{overflow:visible}
 @media(max-width:760px){body{background:#7dc66b}.viewer{padding:0;display:block;height:100dvh;min-height:0}.viewer-tools{display:none}.phone{width:100%;height:100dvh;max-height:none;border-radius:0;box-shadow:none;max-width:480px;margin:auto}.mobile-library{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.opening .map-toolbar,.opening .map-footer{opacity:1}.opening .map-window,.opening .reward-title{transform:none}.completion-confetti,.gesture{display:none}}
+
+/* Viewer controls use one SVG icon family, outside the prototype artwork. */
+.viewer-tools .library-link,.viewer-actions button{display:flex;align-items:center;gap:10px}
+.viewer-tools .library-link svg,.viewer-actions button svg{width:18px;height:18px;flex:0 0 18px;stroke-width:1.75;fill:none}
+.viewer-actions button{min-height:40px;border-radius:8px;padding:9px 10px;margin-left:-10px;text-align:left;transition:background .16s,color .16s}
+.viewer-actions button:hover{background:#e5ecdf;color:#173a2b}
+.viewer-tools .library-link{width:fit-content;min-height:32px}
