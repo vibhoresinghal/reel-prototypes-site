@@ -130,3 +130,7 @@
 @keyframes pipDotLight{0%,100%{fill-opacity:.2}80%,99.999%{fill-opacity:.5}}
 .counting.earned .title-art>.glyph{animation:earnedNumeralEnter .5s cubic-bezier(.22,.85,.26,1) both}
 @keyframes earnedNumeralEnter{0%{opacity:0;transform:translateY(10px)}35%{opacity:0}100%{opacity:1;transform:none}}
+
+/* Figma map gesture 4684:120322: parent -122.3627° + child 34.3502°; CSS reverses the sign. */
+.gesture{transform:rotate(88.012515deg);transform-origin:center;mix-blend-mode:luminosity}
+
