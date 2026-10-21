@@ -155,25 +155,14 @@
 @keyframes popupBackdropExit{from{opacity:1}to{opacity:0}}
 @keyframes popupClose{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(20px) scale(.97)}}
 
-/* Paint the cutout within the screen surface, not an exposed outer page gap. */
+/* Every mobile screen, including its overlays, occupies the entire viewport. */
 @media(max-width:760px){
- html,body{background:var(--screen-top-color,#fff)}
- .viewer:not(.embedded){padding-top:0}
- .viewer:not(.embedded) .phone{height:100dvh;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--screen-top-color,#fff)}
- body:has(.viewer:not(.embedded))::after{content:"";position:fixed;z-index:9999;left:0;right:0;bottom:0;height:env(safe-area-inset-bottom,0px);background:#000;pointer-events:none}
+ .viewer:not(.embedded){padding:0}
+ .viewer:not(.embedded) .phone{height:100dvh;box-sizing:border-box;padding:0}
 }
 @media(display-mode:fullscreen){
- body:has(.viewer:not(.embedded))::after{display:none}
- /* Only the named screen slides; don't crossfade the cutout/page background. */
  ::view-transition-old(root){animation:none;opacity:0}
  ::view-transition-new(root){animation:none}
 }
 
-/* Immersive mode paints the actual screen behind the cutout, with no faux bar. */
-@media(max-width:760px) and (display-mode:fullscreen){
- .viewer:not(.embedded) .phone{padding-top:0;padding-bottom:0;height:100dvh}
-}
-@media(max-width:760px){
- html:fullscreen .viewer:not(.embedded) .phone{padding-top:0;padding-bottom:0;height:100dvh}
- html:fullscreen body:has(.viewer:not(.embedded))::after{display:none}
-}
+@media(max-width:760px){.hosted:has(.stage[data-screen="home"]) .mobile-library{display:block;position:fixed;top:24px;left:50%;transform:translateX(-50%);font:600 12px Inter;color:#234b65;text-decoration:none;z-index:20}}
