@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150" fill="none">
 <g clip-path="url(#clip0_2590_22916)">
 <g clip-path="url(#clip1_2590_22916)">
-<path d="M12 36C12 18.3269 26.3269 4 44 4H105C122.673 4 137 18.3269 137 36V114C137 131.673 122.673 146 105 146H44C26.3269 146 12 131.673 12 114V36Z" fill="url(#paint0_linear_2590_22916)" fill-opacity="0.05" />
-<path d="M30 42C30 30.9543 38.9543 22 50 22H99C110.046 22 119 30.9543 119 42V109C119 120.046 110.046 129 99 129H50C38.9543 129 30 120.046 30 109V42Z" fill="url(#paint1_linear_2590_22916)" fill-opacity="0.18" />
+<path class="active-ripple-outer" d="M12 36C12 18.3269 26.3269 4 44 4H105C122.673 4 137 18.3269 137 36V114C137 131.673 122.673 146 105 146H44C26.3269 146 12 131.673 12 114V36Z" fill="url(#paint0_linear_2590_22916)" fill-opacity="0.05" />
+<path class="active-ripple-mid" d="M30 42C30 30.9543 38.9543 22 50 22H99C110.046 22 119 30.9543 119 42V109C119 120.046 110.046 129 99 129H50C38.9543 129 30 120.046 30 109V42Z" fill="url(#paint1_linear_2590_22916)" fill-opacity="0.18" />
 <path d="M43 52C43 42.6112 50.6112 35 60 35H89C98.3888 35 106 42.6112 106 52V116H43V52Z" fill="url(#paint2_linear_2590_22916)" />
 <path d="M60 36H89C97.8366 36 105 43.1634 105 52V115H44V52C44 43.1634 51.1634 36 60 36Z" stroke="url(#paint3_linear_2590_22916)" stroke-opacity="0.55" stroke-width="2" />
 <g filter="url(#filter0_d_2590_22916)">

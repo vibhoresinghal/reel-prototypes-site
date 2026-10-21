@@ -1,4 +1,23 @@
 /* Measurements from the six original Figma popup variants. */
+[data-source-home-tile]>svg{display:block;overflow:visible}
+.contact-list .avatar{border:1px solid #9fc2ff;border-radius:10px;background:#def;color:#16249c;font-weight:700}
+.contact-list .avatar-1{border-color:#ffce68;background:#feeac1;color:#573e0b}
+.contact-list .avatar-2{border-color:#f4bcdd;background:#fce2f1;color:#873366}
+.contact-provider{position:absolute;right:-2.5px;bottom:-2.5px;width:20px;height:20px;border-radius:50%;background:white}
+.contact-provider>span{position:absolute;left:1.1px;top:1.1px;width:17.78px;height:17.78px;overflow:hidden;border-radius:50%}
+.contact-list .contact-provider>span>img{position:absolute;left:-39.13%;top:-.14%;right:auto;bottom:auto;width:178.26%;height:100.28%;max-width:none;border:0;border-radius:0;padding:0;object-fit:fill;background:none}
+.contact-provider.phonepe>span{left:2.5px;top:2.5px;width:15px;height:15px}
+.contact-list .contact-provider.phonepe>span>img{left:-10.51%;top:-6.25%;width:394.35%;height:112.5%}
+.check-balance{display:flex;align-items:center;gap:2px}
+.check-balance>img{width:12px;height:12px;object-fit:contain}
+.transaction-card>button>span>img{width:18px;height:18px}
+.keyboard-row.row-0>button{position:relative}
+.keyboard-row.row-0>button>small{position:absolute;right:4px;top:1px;font-size:9px;line-height:10px;color:#fff9}
+.pin-keypad-art{position:absolute;left:0;top:0;width:361.352px;height:189px;overflow:hidden;pointer-events:none}
+.pin-keypad-art>img{position:absolute;left:-37.22%;top:-352.77%;width:298.87%;height:578.61%;max-width:none}
+.pin-bottom .original-pin-keypad{position:relative}
+.original-pin-keypad>button{position:relative;z-index:1;background:transparent!important;border-radius:0!important;width:auto!important;height:auto!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .milestone-modal .popup{width:304px;padding:0;max-height:none}
 .blue-popup{height:360px;min-height:360px;padding:0;filter:drop-shadow(14px 30px 8.85px #0004)}
 .popup-orb{left:112.5px;top:2px}
@@ -137,6 +156,10 @@
 .flash-number{overflow:hidden;left:137px;top:250px;width:93px;height:93px;background:none;box-shadow:none;animation:counterFade .2s 2.958708s forwards}
 .flash-base{position:absolute;inset:0;width:93px;height:93px}
 .flash-reel{position:absolute;left:19.5px;top:0;width:54px;height:1270px;max-width:none;transform:translateY(-1177px);animation:originalCounter 2.508707523s .2s linear forwards}
+.flash-reel-window{position:absolute;left:0;right:0;top:17px;bottom:17px;overflow:hidden;mask-image:linear-gradient(transparent,#000 12%,#000 88%,transparent)}
+.flash-reel-window>.flash-reel{top:-17px}
+.phase-1 .reveal-coin{opacity:0}
+.phase-1 .flash-number{animation:none}
 @keyframes counterFade{to{opacity:0}}
 .rays{animation:originalRays 7s linear infinite}
 @keyframes originalRays{to{transform:rotate(180deg)}}
@@ -157,3 +180,26 @@
 
 @media(prefers-reduced-motion:reduce){.button-glints{display:none}.flash-reel{animation:none;transform:translateY(2px)}.flash-number{animation:none}.rays{animation:none}}
 @keyframes originalCounter{0%{transform:translateY(-1177.0000px)}2%{transform:translateY(-1160.5333px)}4%{transform:translateY(-1117.8253px)}6%{transform:translateY(-1057.2837px)}8%{transform:translateY(-985.4577px)}10%{transform:translateY(-907.3796px)}12%{transform:translateY(-826.8520px)}14%{transform:translateY(-746.6881px)}16%{transform:translateY(-668.9114px)}18%{transform:translateY(-594.9211px)}20%{transform:translateY(-525.6280px)}22%{transform:translateY(-461.5660px)}24%{transform:translateY(-402.9823px)}26%{transform:translateY(-349.9104px)}28%{transform:translateY(-302.2283px)}30%{transform:translateY(-259.7053px)}32%{transform:translateY(-222.0376px)}34%{transform:translateY(-188.8773px)}36%{transform:translateY(-159.8532px)}38%{transform:translateY(-134.5877px)}40%{transform:translateY(-112.7081px)}42%{transform:translateY(-93.8554px)}44%{transform:translateY(-77.6899px)}46%{transform:translateY(-63.8949px)}48%{transform:translateY(-52.1787px)}50%{transform:translateY(-42.2754px)}52%{transform:translateY(-33.9447px)}54%{transform:translateY(-26.9714px)}56%{transform:translateY(-21.1639px)}58%{transform:translateY(-16.3528px)}60%{transform:translateY(-12.3894px)}62%{transform:translateY(-9.1436px)}64%{transform:translateY(-6.5024px)}66%{transform:translateY(-4.3683px)}68%{transform:translateY(-2.6572px)}70%{transform:translateY(-1.2971px)}72%{transform:translateY(-0.2267px)}74%{transform:translateY(0.6059px)}76%{transform:translateY(1.2445px)}78%{transform:translateY(1.7261px)}80%{transform:translateY(2.0814px)}82%{transform:translateY(2.3361px)}84%{transform:translateY(2.5112px)}86%{transform:translateY(2.6242px)}88%{transform:translateY(2.6894px)}90%{transform:translateY(2.7182px)}92%{transform:translateY(2.7200px)}94%{transform:translateY(2.7022px)}96%{transform:translateY(2.6707px)}98%{transform:translateY(2.6302px)}100%{transform:translateY(2.0000px)}}
+
+/* Exact icon boxes and keyboard type from the payment frames. */
+[data-source-home-tile]>svg{stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter}
+.payment-toolbar{right:24px;gap:24px}
+.payment-toolbar>button:not(.back){display:grid;place-items:center}
+.payment-toolbar>button:not(.back)>img{width:20px;height:20px}
+.contact-list>button{padding-top:4px;padding-bottom:20px}
+.contact-list b{color:#0066b4}
+.contact-list small{color:#444}
+.contact-list small strong{font-weight:600;color:#222}
+.search-keyboard,.amount-keyboard{font-family:Roboto,Arial,sans-serif;background:#313131}
+.keyboard-row>button{font-size:23px}
+.keyboard-row.row-0>button>small{font-size:10px;font-weight:700;color:#fff;top:3px}
+.keyboard-row.row-0>button{transform:translateY(-3px)}
+.history-card>.history-chevron{height:22px;top:20px}
+.bank-select{display:grid;place-items:center}
+.bank-select>img{width:24px;height:24px;transform:none}
+.check-balance>img{width:14px;height:14px}
+.amount-keyboard{grid-template-columns:repeat(3,96px) 72px;padding-left:0}
+.amount-keyboard>button:nth-child(4n+1),.amount-keyboard>button:nth-child(4n+2),.amount-keyboard>button:nth-child(4n+3){transform:translateX(-3px)}
+.amount-keyboard>button:nth-child(4n){transform:translateX(-3px)}
+.amount-keyboard button[aria-label="Delete last digit"]>img{height:18px}
+.map-footer>.primary{height:52px;border-radius:14px}

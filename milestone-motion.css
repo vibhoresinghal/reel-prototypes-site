@@ -1,0 +1,84 @@
+/* One 6.22s opening, following the four Figma frames in order.
+   The large title travels alongside the map; the compact header enters later. */
+.intro-title{position:absolute;left:0;top:calc((var(--h) - 800px)*.5);width:360px;height:800px;pointer-events:none;z-index:3;animation:introTitleTravel 6.22s both}
+.intro-title img{position:absolute;max-width:none}
+.intro-earn{left:148px;top:285px;width:60px;height:16px}
+.intro-sixty{left:157px;top:288px;width:84px;height:89px}
+.intro-cashpoints{left:79px;top:367px;width:199px;height:26px}
+.intro-coin{left:93px;top:301px;width:69px;height:70.54px}
+.intro-spark{left:99.9px;top:299.9px;width:18.94px;height:20.94px;transform:rotate(-16deg)}
+.intro-star{left:270px;top:344px;width:29px;height:32px;transform:rotate(-165deg) scaleY(-1)}
+.intro-title p{position:absolute;left:80px;top:407px;width:200px;font-size:20px;line-height:24px;font-weight:700;color:#0008;text-align:center}
+.opening .reward-title{animation:introHeader 6.22s both;transform-origin:initial}
+.opening .map-window{animation:introMapHeight 6.22s both}
+.map-screen{overflow:clip}
+.map-screen.compact .reward-title{scale:.8;transform-origin:180px 0}
+.opening .map-entry-track{animation:introLandscape 6.22s both}
+.opening:not(.ready) .map-toolbar{animation:introToolbar 6.22s both}
+.opening:not(.ready) .map-footer{animation:introFooter 6.22s both}
+.opening:not(.ready) .map-toolbar,.opening:not(.ready) .map-footer{pointer-events:none}
+@keyframes introTitleTravel{
+  0%{opacity:0;transform:translateY(-160px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
+  12.324%{opacity:1;transform:none}
+  31.617%{opacity:1;transform:none;animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
+  89.495%,100%{opacity:1;transform:translateX(1159px)}
+}
+@keyframes introLandscape{
+  0%,31.617%{transform:translateX(-1243px);animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
+  89.495%,100%{transform:none}
+}
+@keyframes introMapHeight{
+  0%,31.617%{transform:translateY(96px);animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
+  89.495%{transform:translateY(22px);animation-timing-function:cubic-bezier(.3533,-.3267,.7933,1.0433)}
+  100%{transform:none}
+}
+@keyframes introHeader{
+  0%,89.495%{transform:translateY(-239px);animation-timing-function:cubic-bezier(.3533,-.3267,.7933,1.0433)}
+  100%{transform:none}
+}
+@keyframes introToolbar{
+  0%,31.617%{transform:translateY(-410px);animation-timing-function:cubic-bezier(.66,-.24,.585,1.195)}
+  89.495%,100%{transform:none}
+}
+@keyframes introFooter{
+  0%,89.495%{transform:translateY(229px);animation-timing-function:cubic-bezier(.3533,-.3267,.7933,1.0433)}
+  100%{transform:none}
+}
+
+/* Fade the loader's copy before the world fills the screen. */
+.loader:not(.quick) .loader-clouds,.loader:not(.quick) .loader-ring,.loader:not(.quick) .loader-coin,.loader:not(.quick) .loader-pill,.loader:not(.quick) .loader-title{animation:loaderUiExit .2s 8.6s both}
+@keyframes loaderUiExit{from{opacity:1}to{opacity:0}}
+
+/* Translation is isolated from layout scaling and the opening's movement. */
+.map-entry-track{position:absolute;left:0;top:0;width:1237px;height:337px}
+.map-world{left:0;transform:translateX(var(--camera));transition:transform 2.8106s cubic-bezier(.22,.85,.26,1)}
+.map-world.travelling{will-change:transform}
+.map-world.dragging{transition:none}
+
+/* Ripple the original Figma halo layers, leaving the coin and number rigid. */
+.marker.active .halo-outer,.marker.active .active-ripple-outer{animation:markerRippleOuter 2.801s .4s infinite both;transform-box:fill-box;transform-origin:center}
+.marker.active .halo-mid,.marker.active .active-ripple-mid{animation:markerRippleMid 2.801s .4s infinite both;transform-box:fill-box;transform-origin:center}
+.marker.active .halo-inner{animation:none}
+@keyframes markerRippleOuter{0%{opacity:0;transform:scale(.65)}14%{opacity:1}72%,100%{opacity:0;transform:scale(1.12)}}
+@keyframes markerRippleMid{0%,10%{opacity:.65;transform:scale(.85)}30%{opacity:1}82%,100%{opacity:0;transform:scale(1.3)}}
+.screen-content[inert] *{animation-play-state:paused!important}
+
+/* Keep screen arrivals and the reward invitation from competing for attention. */
+.stage[data-screen="contacts"]>.screen-content,.stage[data-screen="amount"]>.screen-content{animation:paymentPageEnter .24s cubic-bezier(.2,.8,.25,1)}
+.stage[data-screen="success"]>.screen-content{animation:paymentSuccessEnter .3s ease-out}
+@keyframes paymentPageEnter{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes paymentSuccessEnter{from{transform:translateX(-360px)}to{transform:none}}
+.progress-pip:not(.visible) .pip-coin,.progress-pip:not(.visible) b,.progress-pip:not(.visible) .pip-action:after{animation-play-state:paused}
+.success-bottom>.progress-pip{transition:transform 1.022094s cubic-bezier(.22,.85,.26,1)}
+.overlay{animation:backdropEnter .18s ease-out}
+@keyframes backdropEnter{from{opacity:0}to{opacity:1}}
+.recenter{right:16px;bottom:208px;width:auto;height:28px;padding:0 10px;border-radius:14px;background:#f1ffeac9;font-size:10px;font-weight:600;color:#285f32;opacity:1}
+
+@media(prefers-reduced-motion:reduce){
+ .intro-title{display:none}
+ .opening .reward-title,.opening .map-window,.opening .map-entry-track,.opening .map-toolbar,.opening .map-footer{animation:none!important;transform:none!important}
+ .loader .loader-clouds,.loader .loader-ring,.loader .loader-coin,.loader .loader-pill,.loader .loader-title{animation:none!important}
+ .marker.active .halo-outer,.marker.active .halo-mid,.marker.active .active-ripple-outer,.marker.active .active-ripple-mid{animation:none!important;transform:none!important;opacity:1}
+ .map-world,.success-bottom>.progress-pip{transition:none}
+ .stage>.screen-content,.overlay{animation:none!important}
+}
