@@ -1,0 +1,46 @@
+/* Paint at the phone's actual resolution; never magnify a cached map texture. */
+.stage{transform:none;transform-origin:initial}
+.map-scale{transform:none;transform-origin:initial}
+.map-world{transition:left 2.8106s cubic-bezier(.22,.85,.26,1);will-change:auto;transform:none}
+.map-world.dragging{transition:none}
+.vector-art{display:block;pointer-events:none}
+.vector-art>svg{display:block;overflow:visible;shape-rendering:geometricPrecision;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter}
+.map-route{position:absolute;left:0;top:0;max-width:none;pointer-events:none;overflow:visible;shape-rendering:geometricPrecision}
+.regular-orb{height:43px}
+.halo,.coin-pulse,.mystery-coin,.loader-coin{animation:none}
+.loader-coin>svg{zoom:1.3953488372}
+
+/* Original Active Orb Animation: .4s hold, 1.2s ease-out, .001s hold,
+   then 1.2s ease-in. Only the pointer moves; the coin and halo keep their shape. */
+.current-pointer,.active-pointer{animation:figmaPointer 2.801s infinite;transform-origin:center}
+@keyframes figmaPointer{
+ 0%,14.2806%{transform:translateY(0);animation-timing-function:ease-out}
+ 57.1225%,57.1582%{transform:translateY(12px);animation-timing-function:ease-in}
+ 100%{transform:translateY(0)}
+}
+
+/* Original Mystery coin: the lightning and question-mark glyphs exchange.
+   The circular coin face is never squeezed, rotated or faded. */
+.coin-symbol{transform-origin:21.5px 22.5px;animation-timing-function:ease-out;animation-duration:4.102s;animation-iteration-count:infinite}
+.coin-bolt{animation-name:coinBolt}
+.coin-question{animation-name:coinQuestion;opacity:0}
+@keyframes coinBolt{
+ 0%,39.0054%{transform:scale(1);opacity:1}
+ 42.6621%,92.6865%{transform:scale(.07912);opacity:0}
+ 100%{transform:scale(1);opacity:1}
+}
+@keyframes coinQuestion{
+ 0%,42.6865%{transform:scale(.19577);opacity:0}
+ 50%,89.0054%{transform:scale(1);opacity:1}
+ 92.6621%,100%{transform:scale(.19577);opacity:0}
+}
+.popup-orb{top:2px}
+.popup-orb>.popup-orb-base{position:absolute;inset:0;width:80px;height:80px}
+.popup-orb>.popup-tick{position:absolute;left:25.9124px;top:27.4146px;width:28.6752px;height:25.0908px}
+.popup-orb>.popup-number{position:absolute;inset:0;background:none;box-shadow:none;color:#226d9c}
+.mini-route>span>img{width:15px;height:auto;filter:brightness(0) invert(1)}
+@media(prefers-reduced-motion:reduce){
+ .current-pointer,.active-pointer,.coin-symbol{animation:none;transform:none}
+ .coin-bolt{opacity:1}.coin-question{opacity:0}
+ .map-world{transition:none}
+}
