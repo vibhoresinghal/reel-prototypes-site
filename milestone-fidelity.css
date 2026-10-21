@@ -211,4 +211,12 @@
 /* Let the centered badge include both the icon and the full text padding. */
 .blue-popup>.conversion{width:max-content;max-width:calc(100% - 32px)}
 .blue-popup>.conversion>img{flex-shrink:0}
-
+/* Original Figma 4918:101949 curve and 4918:101950/101951 stars, unmodified. */
+.map-footer{height:136px}
+.reward-lip{position:absolute;left:48px;top:0;width:264px;height:30px}
+.reward-lip-shape{position:absolute;left:0;top:0}
+.reward-lip-star{position:absolute;top:9px}
+.reward-lip-star.left{left:18px}
+.reward-lip-star.right{left:234px}
+.reward-lip>span{position:absolute;left:34px;top:7px;width:196px;text-align:center;font-size:12px;font-weight:600;line-height:15px;white-space:nowrap;color:#fdffaf}
+.map-footer>.primary{top:30px;border-radius:14px;border-color:#0003;box-shadow:0 10px 28px #161b211a}
