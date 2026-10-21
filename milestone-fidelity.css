@@ -1,0 +1,159 @@
+/* Measurements from the six original Figma popup variants. */
+.milestone-modal .popup{width:304px;padding:0;max-height:none}
+.blue-popup{height:360px;min-height:360px;padding:0;filter:drop-shadow(14px 30px 8.85px #0004)}
+.popup-orb{left:112.5px;top:2px}
+.popup-orb>img{width:80px;height:80px}
+.popup-orb>.popup-lock{position:absolute;left:24.5px;top:24px;width:32px;height:32px}
+.popup-orb>.popup-number{font-size:30px;line-height:20px;color:#1c5b76}
+.blue-popup h2{position:absolute;left:50%;top:118px;transform:translateX(-50%);width:204px;max-width:none;margin:0;font-size:20px;line-height:21.6px}
+.blue-popup p{position:absolute;left:28px;top:178px;width:248px;margin:0;font-size:16px;line-height:22px}
+.blue-popup em{font-style:normal;color:#ffdf66}
+.blue-popup>.primary{position:absolute;left:28px;bottom:27px;width:248px;height:52px;border-radius:14px;margin:0}
+.blue-popup>.conversion,.step-badge{position:absolute;left:50%;top:167px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;border:1.6px solid #3fa8e7;border-radius:20px;background:#0d84cda6;padding:8px 22px 8px 17px;font-size:14px;line-height:19.6px;text-transform:uppercase;white-space:nowrap;color:#ffdf66}
+.blue-popup>.conversion>img{width:18.5px;height:18.5px}
+.reward-popup .blue-popup h2{top:108px;width:206px}
+.reward-popup.earned-popup .blue-popup h2,.reward-popup.locked-popup .blue-popup h2{top:107.5px;width:162px}
+.reward-popup .blue-popup p{top:217px}
+.reward-popup.earned-popup .blue-popup p{top:214px}
+.locked-popup .blue-popup h2{top:109px;color:#4f695b}
+.locked-popup .blue-popup p{top:217px;color:#555f59cc}
+.locked-popup .step-badge{background:#5a5d5c54;border-color:#7676767a;color:white}
+.regular-popup.locked-popup .primary{background:#1d86ff;border-color:#05b5ff21;color:#fff}
+.reward-popup.locked-popup .blue-popup h2{color:#904b1a}
+.reward-popup.locked-popup .blue-popup p{color:#8a6c57}
+.reward-popup.locked-popup .conversion{background:#ffdeb0;border-color:#f0d7aa;color:#855d31}
+.reward-popup.locked-popup .primary{border-color:#a24c0f29;color:#904b1a}
+
+/* Original button shimmer: 1.2s hold, 1.8s sweep, .8s hold. */
+.shimmer:after{display:none}
+.button-glints{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit}
+.button-glints img{position:absolute;top:0;max-width:none;height:101px;animation:originalShimmer 3.8s infinite}
+.button-glints img:first-child{left:calc(50% - 285px);width:101px}
+.button-glints img:last-child{left:calc(50% - 228px);width:71px}
+@keyframes originalShimmer{0%,31.578947%{transform:translateX(0);animation-timing-function:ease-out}78.947368%,100%{transform:translateX(420px)}}
+.back>img{width:18px;height:18px}
+.map-toolbar .back>img,.map-toolbar .info>img{width:24px;height:24px}
+.map-toolbar .info{display:grid;place-items:center}
+.small-orb>img{width:24px;height:24px;max-width:none}
+
+/* Offer explanation: original header art, facts and terms layout. */
+.help-modal .popup{border-radius:20px;background:#fff;width:312px}
+.help-art{height:198px;background:none;overflow:hidden}
+.help-art>.art{width:312px}
+.help-art [data-node-id="I5056:220431;4234:119777"]{display:block;position:absolute;inset:0;width:279px;height:180px;transform-origin:134.7px 86.13px;transition:transform 1.533153s cubic-bezier(.22,.85,.26,1),opacity .8s ease-out}
+.education-1 [data-node-id="I5056:220431;4234:119777"]{transform:translateY(-36.7px) scale(.5686914)}
+.education-2 [data-node-id="I5056:220431;4234:119777"],.education-3 [data-node-id="I5056:220431;4234:119777"],.education-4 [data-node-id="I5056:220431;4234:119777"]{transform:translateY(-36.7px) scale(.5686914);opacity:0}
+.help-art [data-node-id="I5056:220431;4234:119793"],.help-art [data-node-id="I5056:220431;4234:119800"],.help-art [data-node-id="I5056:220431;4234:119726"]{transition:opacity 1.533153s ease-out}
+.help-art:not(.education-0) [data-node-id="I5056:220431;4234:119793"],.help-art:not(.education-0) [data-node-id="I5056:220431;4234:119800"],.help-art:not(.education-0) [data-node-id="I5056:220431;4234:119726"]{opacity:0}
+.education-scene{position:absolute;left:16.5px;top:18px;width:279px;height:180px;overflow:hidden;pointer-events:none}
+.education-earned{position:absolute;left:66px;top:-19px;width:150px;height:150px;opacity:0;transition:left .3s ease-out,opacity .8s ease-out}
+.education-mystery{position:absolute;left:161px;top:34px;opacity:0;transition:opacity .3s ease-out}
+.education-2 .education-earned,.education-3 .education-earned{opacity:1}
+.education-3 .education-earned{left:22px}
+.education-3 .education-mystery{opacity:1}
+.education-final{position:absolute;left:96px;top:-5px;width:87.2357px;height:107px;object-fit:cover;opacity:0;transition:opacity .3s ease-out}
+.education-4 .education-final{opacity:1}
+.education-caption{position:absolute;left:4px;top:90px;width:271px;font-size:16px;line-height:19.5px;font-weight:700;color:#215367;text-align:center;opacity:1;transition:opacity .3s ease-out}
+.education-0 .education-caption{opacity:0}
+.education-2 .education-caption,.education-4 .education-caption{left:47px;top:102px;width:186px}
+.education-3 .education-caption{left:37px;top:102px;width:205px}
+.help-facts{display:flex;gap:24px;margin:18px 18px 0;align-items:center;height:35px}
+.help-facts>div{display:flex;align-items:center;gap:8px}
+.fact-icon{width:35px;height:35px;display:grid;place-items:center;flex:none;border-radius:10px;border:1.6px solid}
+.coin-fact{background:#feeac1;border-color:#fbf0da}.time-fact{background:#dcefff;border-color:#ebf4ff}
+.coin-fact img{width:18.75px;height:20px}.time-fact img{width:18.667px;height:20px}
+.help-facts p{font-size:10px;line-height:14px;color:#888}
+.help-facts b{display:block;font-size:12px;color:#c89e23;line-height:17px}.help-facts>div+div b{color:#467bba}
+.help-copy{padding:24px 18px 18px}
+.help-copy h2{font-size:14px;line-height:20px;letter-spacing:0;font-weight:700}
+.terms-panel{margin-top:10px;border:1px solid #cee9c7;border-radius:20px;box-shadow:0 10px 8px #00000005;padding:15px 18px;color:#222}
+.terms-panel ul{padding-left:13px;margin:0;font-size:10px;line-height:14px;font-weight:500}
+.terms-panel li+li{margin-top:8px}
+.help-copy>.primary{width:276px;margin-top:16px;height:44px;font-size:13px}
+
+/* Use supplied payment icons instead of keyboard-dependent text glyphs. */
+.upi-brands .paytm-logo{width:38px;height:12px}
+.upi-brands{gap:0;left:26px;width:229px}
+.upi-brands img{position:absolute;max-width:none;object-fit:contain}
+.upi-brands img:nth-child(1){left:0;width:38px;height:12px}
+.upi-brands img:nth-child(2){left:57px;width:36px;height:18px}
+.upi-brands img:nth-child(3){left:111px;width:58px;height:18px}
+.upi-brands img:nth-child(4){left:185px;width:44px;height:11px}
+.contacts-screen .payment-toolbar>.back>img{transform:rotate(-90deg)}
+.contact-list .avatar>img{width:16px;height:16px;object-fit:cover;object-position:left;background:white;border-radius:50%;padding:1px}
+.search-keyboard button>img{max-width:none;object-fit:contain}
+.keyboard-row>button{display:grid;place-items:center;min-width:0}
+.keyboard-row.row-2>button:first-child,.keyboard-row.row-2>button:last-child{min-width:0;flex:1.6}
+.search-keyboard button[aria-label="Shift"]>img{width:22px;height:22px}
+.search-keyboard button[aria-label="Delete search character"]>img{width:24px;height:24px}
+.search-keyboard button[aria-label="Emoji"]>img{width:24px;height:24px}
+.search-keyboard .return-key{background:none}
+.search-keyboard .return-key>img{width:36px;height:36px}
+.history-card>.history-chevron{position:absolute;right:16px;top:24px;width:16px;height:16px}
+.history-card>p{display:flex;align-items:center;gap:8px}
+.history-card>p>img{width:12px;height:12px}
+.history-card.received>p>img{transform:rotate(135deg)}
+.history-card.sent>p>img{transform:rotate(-45deg)}
+.bank-select>img{width:16px;height:16px;transform:rotate(90deg)}
+.amount-keyboard button{display:grid;place-items:center}
+.amount-keyboard .confirm-number{background:none}
+.amount-keyboard .confirm-number>img{width:36px;height:36px;max-width:none}
+.amount-keyboard button[aria-label="Delete last digit"]>img{width:24px;height:24px}
+
+/* The PIN stays a safe demo, while matching the source layout and keypad. */
+.bank-top{height:78px;padding:27px 8px 12px;display:flex;justify-content:space-between;align-items:center}
+.bank-top>b{font:700 12px/17px Arial,sans-serif;letter-spacing:0;color:#444}
+.pin-upi{position:relative;width:70px;height:29px;overflow:hidden}
+.pin-upi>img{position:absolute;width:179.23px;height:42px;max-width:none;left:-106.93px;top:-6.65px}
+.pin-payee{height:34px;padding:0 24px 0 8px;background:#eee;font:700 12px/16px Arial,sans-serif}
+.pin-entry{position:absolute;left:0;top:124px;width:360px;padding:0 24px;text-align:center}
+.pin-entry h1{font:500 12px/16px Arial,sans-serif;letter-spacing:0}
+.pin-dots{margin:17px 7px 25px;gap:0}
+.pin-dots span{width:36px;height:28px;line-height:28px;border:0;font-size:22px}
+.pin-warning{font:600 11px/14px Arial,sans-serif;background:none;padding:0;margin:0;color:#888;border-radius:0}
+.pin-entry>.text-button{font-size:12px;margin-top:12px;color:#27368c}
+.pin-entry .payment-error{font-size:11px;line-height:14px;margin:10px 0}
+.pin-bottom{height:189px;background:#f0f0f0;padding:0}
+.pin-bottom>.text-button{position:absolute;right:12px;top:-33px;font-size:11px;padding:8px;color:#27368c}
+.pin-bottom .keypad{height:189px;grid-template-rows:repeat(4,47.25px);padding:0}
+.pin-bottom .keypad button{font:400 32px/1 Arial,sans-serif;color:#27368c}
+.pin-bottom .keypad .key-submit{width:42px;height:42px;background:#27368c}
+.key-submit img{width:22px;height:20px;filter:brightness(0) invert(1)}
+.keypad button[aria-label="Delete last digit"]>img{width:24px;height:24px;filter:brightness(0) saturate(100%) invert(19%) sepia(52%) saturate(2148%) hue-rotate(216deg)}
+
+/* Original payment processing scene and animated phone-to-bank artwork. */
+.processing{display:block;background:#c78a11;color:white}
+.processing .art{height:100%}
+.processing .art [data-node-id="2766:55873"],.processing .art [data-node-id="2766:55875"]{visibility:hidden}
+.processing .art [data-node-id="2766:55875"]{font-size:32px;font-weight:700;line-height:44.8px;color:#fff}
+.processing .art [data-node-id="2766:55876"]{font-size:18px;font-weight:600;line-height:25.2px;color:#fff}
+.processing .art [data-node-id="2766:55886"]{font-size:10px;font-weight:400;line-height:14px;color:#fff}
+.processing h1{position:absolute;left:0;right:0;top:304px;text-align:center;font-size:32px;line-height:44.8px;font-weight:700}
+.processing-original-animation{position:absolute;left:65px;top:186px;width:229px;height:94px;overflow:hidden}
+.processing-original-animation img{position:absolute;left:-88.852px;top:-86.4236px;width:406.2px;height:718.6488px;max-width:none}
+.success-original-animation{position:absolute;left:-81px;top:-119px;width:522px;height:522px;max-width:none;mix-blend-mode:lighten;pointer-events:none}
+
+/* Original spring-driven reward number strip; the surrounding coin does not distort. */
+.flash-number{overflow:hidden;left:137px;top:250px;width:93px;height:93px;background:none;box-shadow:none;animation:counterFade .2s 2.958708s forwards}
+.flash-base{position:absolute;inset:0;width:93px;height:93px}
+.flash-reel{position:absolute;left:19.5px;top:0;width:54px;height:1270px;max-width:none;transform:translateY(-1177px);animation:originalCounter 2.508707523s .2s linear forwards}
+@keyframes counterFade{to{opacity:0}}
+.rays{animation:originalRays 7s linear infinite}
+@keyframes originalRays{to{transform:rotate(180deg)}}
+.reveal-copy{transition:opacity .3s ease-out,transform .3s ease-out}
+.phase-3 .reveal-copy{opacity:0;transform:translateY(30px)}
+.phase-3 .rays,.phase-3 .reward-halo,.phase-3 .reveal-coin{opacity:0;transition:opacity .3s ease-out}
+
+/* Completion card icon slots and spacing from the 1071px source frame. */
+.complete-copy h1{width:288px;margin:0 auto;letter-spacing:0}
+.complete-copy p{margin-top:5px}
+.reward-uses{gap:16px}
+.reward-uses button{height:77px;padding:8px 24px;border-radius:16px}
+.reward-uses button>b{position:absolute;left:55px;top:19px;width:201px;line-height:16.8px}
+.reward-uses button>.wallet-original{width:19.947px;height:18px}
+.reward-uses button>.reward-chevron{position:absolute;left:276.15px;top:30.65px;width:7.2px;height:11.7px}
+.rating .primary{height:52px;border-radius:14px}
+.share-friends{left:103.5px;top:1027px;width:150px;height:24px;gap:4px;white-space:nowrap}
+
+@media(prefers-reduced-motion:reduce){.button-glints{display:none}.flash-reel{animation:none;transform:translateY(2px)}.flash-number{animation:none}.rays{animation:none}}
+@keyframes originalCounter{0%{transform:translateY(-1177.0000px)}2%{transform:translateY(-1160.5333px)}4%{transform:translateY(-1117.8253px)}6%{transform:translateY(-1057.2837px)}8%{transform:translateY(-985.4577px)}10%{transform:translateY(-907.3796px)}12%{transform:translateY(-826.8520px)}14%{transform:translateY(-746.6881px)}16%{transform:translateY(-668.9114px)}18%{transform:translateY(-594.9211px)}20%{transform:translateY(-525.6280px)}22%{transform:translateY(-461.5660px)}24%{transform:translateY(-402.9823px)}26%{transform:translateY(-349.9104px)}28%{transform:translateY(-302.2283px)}30%{transform:translateY(-259.7053px)}32%{transform:translateY(-222.0376px)}34%{transform:translateY(-188.8773px)}36%{transform:translateY(-159.8532px)}38%{transform:translateY(-134.5877px)}40%{transform:translateY(-112.7081px)}42%{transform:translateY(-93.8554px)}44%{transform:translateY(-77.6899px)}46%{transform:translateY(-63.8949px)}48%{transform:translateY(-52.1787px)}50%{transform:translateY(-42.2754px)}52%{transform:translateY(-33.9447px)}54%{transform:translateY(-26.9714px)}56%{transform:translateY(-21.1639px)}58%{transform:translateY(-16.3528px)}60%{transform:translateY(-12.3894px)}62%{transform:translateY(-9.1436px)}64%{transform:translateY(-6.5024px)}66%{transform:translateY(-4.3683px)}68%{transform:translateY(-2.6572px)}70%{transform:translateY(-1.2971px)}72%{transform:translateY(-0.2267px)}74%{transform:translateY(0.6059px)}76%{transform:translateY(1.2445px)}78%{transform:translateY(1.7261px)}80%{transform:translateY(2.0814px)}82%{transform:translateY(2.3361px)}84%{transform:translateY(2.5112px)}86%{transform:translateY(2.6242px)}88%{transform:translateY(2.6894px)}90%{transform:translateY(2.7182px)}92%{transform:translateY(2.7200px)}94%{transform:translateY(2.7022px)}96%{transform:translateY(2.6707px)}98%{transform:translateY(2.6302px)}100%{transform:translateY(2.0000px)}}
