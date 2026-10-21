@@ -1,1 +1,25 @@
-{"name":"PayZapp Prototype","short_name":"PayZapp","start_url":"./payzapp.html","scope":"./","display":"standalone","background_color":"#ffffff","theme_color":"#ffffff","icons":[{"src":"assets/app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
+{
+  "id": "./",
+  "name": "Flows \u00b7 Vibhore Singhal",
+  "short_name": "Flows",
+  "description": "Interactive design prototypes by Vibhore Singhal",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f7f8",
+  "theme_color": "#183b37",
+  "icons": [
+    {
+      "src": "assets/flows-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/flows-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+if ('serviceWorker' in navigator && window.top === window.self) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js', {scope:'./', updateViaCache:'none'}).catch(error => console.warn('App setup unavailable:', error)); }); }
