@@ -9,3 +9,8 @@ const actions={'294:13867':'Learn more','473:16804':'Profile','473:16811':'Notif
 for(const [id,label] of Object.entries(actions)){const el=document.querySelector(`[data-node-id="${id}"]`);if(!el)throw Error('Missing interaction '+id);el.setAttribute('role','button');el.setAttribute('tabindex','0');el.setAttribute('aria-label',label);el.setAttribute('aria-haspopup','dialog');el.addEventListener('click',()=>show(label,el));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(label,el)}})}
 const pay=document.querySelector('[data-node-id="473:17263"]');pay.setAttribute('role','button');pay.setAttribute('tabindex','0');pay.setAttribute('aria-label','Pay, return to top');pay.onclick=()=>scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});pay.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pay.click()}};
 document.querySelector('[data-node-id="473:16949"]').setAttribute('aria-label','UPI ID: 8281908756@pz');
+
+// Return through the parent library so its fullscreen session stays alive.
+if(window.parent!==window&&new URLSearchParams(location.search).get('hosted')==='1'){
+ const home=document.createElement('a');home.href='./';home.className='library-return';home.textContent='← Flows';home.setAttribute('aria-label','Back to prototype library');document.body.append(home);
+}
