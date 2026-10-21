@@ -168,3 +168,12 @@
  ::view-transition-old(root){animation:none;opacity:0}
  ::view-transition-new(root){animation:none}
 }
+
+/* Immersive mode paints the actual screen behind the cutout, with no faux bar. */
+@media(max-width:760px) and (display-mode:fullscreen){
+ .viewer:not(.embedded) .phone{padding-top:0;padding-bottom:0;height:100dvh}
+}
+@media(max-width:760px){
+ html:fullscreen .viewer:not(.embedded) .phone{padding-top:0;padding-bottom:0;height:100dvh}
+ html:fullscreen body:has(.viewer:not(.embedded))::after{display:none}
+}
