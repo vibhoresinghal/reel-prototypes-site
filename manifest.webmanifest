@@ -5,7 +5,7 @@
   "description": "Interactive design prototypes by Vibhore Singhal",
   "start_url": "./",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#f6f7f8",
   "theme_color": "#183b37",
   "icons": [
