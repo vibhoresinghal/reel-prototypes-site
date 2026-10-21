@@ -207,3 +207,8 @@
 /* Figma 5233:149554: 2px stroke, black 10% at top → 2% at bottom. */
 .progress-card{border-color:transparent}
 .progress-card::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,.02));mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+
+/* Let the centered badge include both the icon and the full text padding. */
+.blue-popup>.conversion{width:max-content;max-width:calc(100% - 32px)}
+.blue-popup>.conversion>img{flex-shrink:0}
+
