@@ -2,7 +2,7 @@
   {
     "id": "payzapp",
     "title": "PayZapp home",
-    "description": "The complete home screen, with original artwork, natural scrolling, and placeholder tap interactions.",
+    "description": "Payments, bills, and everyday banking.",
     "source": "figma",
     "layout": "mobile",
     "entry": "payzapp.html",
@@ -13,6 +13,7 @@
       "Payments",
       "Banking"
     ],
-    "reference": "payzapp.html?reference=1"
+    "reference": "payzapp.html?reference=1",
+    "thumbnail": "assets/payzapp-preview.png"
   }
 ]
