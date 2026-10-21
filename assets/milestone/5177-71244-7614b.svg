@@ -1,0 +1,21 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="304" height="320" viewBox="0 0 304 320" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Subtract">
+<use xlink:href="#stroke0_0_185" fill="black" fill-opacity="0.08"/>
+<use xlink:href="#stroke0_0_185" fill="url(#paint0_linear_0_185)"/>
+<mask id="stroke1_0_185" fill="white">
+<path d="M0 20C0 8.95431 8.95431 0 20 0H284C295.046 0 304 8.95431 304 20V300C304 311.046 295.046 320 284 320H20C8.9543 320 0 311.046 0 300V20Z"/>
+</mask>
+<path d="M20 320H284C295.046 320 304 311.046 304 300V20C304 8.95431 295.046 0 284 0H20C8.95431 0 0 8.95431 0 20V300C0 311.046 8.9543 320 20 320Z" stroke-width="5.375" stroke="url(#paint1_linear_0_185)" stroke-opacity="0.8" mask="url(#stroke1_0_185)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_185" x1="152" y1="0" x2="152" y2="485.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F2F2F2"/>
+<stop offset="1" stop-color="#EBEBEB"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_185" x1="220.903" y1="-37.2111" x2="177.898" y2="271.051" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<path id="stroke0_0_185" d="M0 20C0 8.95431 8.95431 0 20 0H284C295.046 0 304 8.95431 304 20V300C304 311.046 295.046 320 284 320H20C8.9543 320 0 311.046 0 300V20Z"/>
+</defs>
+</svg>

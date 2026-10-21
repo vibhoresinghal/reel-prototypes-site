@@ -1,0 +1,41 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Frame 1686552053">
+<g clip-path="url(#clip0_0_10)">
+<g id="Group 219912233">
+<g id="Ellipse 5101">
+<use xlink:href="#stroke0_0_10" fill="black" fill-opacity="0.08"/>
+<use xlink:href="#stroke0_0_10" fill="url(#paint0_radial_0_10)"/>
+<path d="M77.5 40C77.5 60.7107 60.7107 77.5 40 77.5C19.2893 77.5 2.5 60.7107 2.5 40C2.5 19.2893 19.2893 2.5 40 2.5C60.7107 2.5 77.5 19.2893 77.5 40Z" stroke-width="5" stroke="url(#paint1_linear_0_10)"/>
+</g>
+<g id="Mask group">
+<path id="Vector 1" d="M29.5 42.9479L36.6687 48.9219L51.0063 31" stroke-width="7.16875" stroke-linecap="round" stroke-linejoin="round" stroke="white"/>
+</g>
+</g>
+<path id="Rectangle 2627938" d="M50.1909 -1.5H69.5L37.8091 86.5H18.5L50.1909 -1.5Z" fill="url(#paint2_linear_0_10)" fill-opacity="0.36"/>
+<path id="Rectangle 2627939" d="M74.9667 -1.5H83.5L50.0333 86.5H41.5L74.9667 -1.5Z" fill="url(#paint3_linear_0_10)" fill-opacity="0.36"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_10" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(40 40) rotate(90) scale(62.9846)">
+<stop stop-color="#FFC279"/>
+<stop offset="1" stop-color="#E6662F"/>
+</radialGradient>
+<linearGradient id="paint1_linear_0_10" x1="40" y1="0" x2="40" y2="80" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F1C674"/>
+<stop offset="1" stop-color="#F7B364"/>
+</linearGradient>
+<linearGradient id="paint2_linear_0_10" x1="33.5182" y1="23.1829" x2="30.8342" y2="86.4999" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFEFB0"/>
+<stop offset="0.472687" stop-color="white" stop-opacity="0"/>
+<stop offset="1" stop-color="#D7AF65" stop-opacity="0.54"/>
+</linearGradient>
+<linearGradient id="paint3_linear_0_10" x1="75.1" y1="2.2561" x2="53.5218" y2="86.4372" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFEFB0"/>
+<stop offset="0.472687" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_0_10">
+<rect width="80" height="80" rx="40" fill="white"/>
+</clipPath>
+<path id="stroke0_0_10" d="M80 40C80 62.0914 62.0914 80 40 80C17.9086 80 0 62.0914 0 40C0 17.9086 17.9086 0 40 0C62.0914 0 80 17.9086 80 40Z"/>
+</defs>
+</svg>

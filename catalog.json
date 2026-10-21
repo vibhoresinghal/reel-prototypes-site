@@ -15,5 +15,67 @@
     ],
     "reference": "payzapp.html?reference=1",
     "thumbnail": "assets/payzapp-preview.png"
+  },
+  {
+    "id": "milestone-rewards",
+    "title": "Milestone rewards",
+    "description": "A journey from everyday payments to little wins.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "milestone.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Payments",
+      "Rewards",
+      "Milestones"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/milestone-preview.png",
+    "scenarios": [
+      {
+        "id": "first",
+        "title": "First visit",
+        "description": "Discover the offer and make your first payment.",
+        "entry": "milestone.html?scene=first"
+      },
+      {
+        "id": "returning",
+        "title": "Returning to the offer",
+        "description": "Pick up your progress before payment seven.",
+        "entry": "milestone.html?scene=returning"
+      },
+      {
+        "id": "reward",
+        "title": "Earning a reward",
+        "description": "Make payment four and reveal 15 Cashpoints.",
+        "entry": "milestone.html?scene=reward"
+      },
+      {
+        "id": "no-reward",
+        "title": "Between milestones",
+        "description": "Payment three moves you closer to your next reward.",
+        "entry": "milestone.html?scene=no-reward"
+      },
+      {
+        "id": "final",
+        "title": "The final payment",
+        "description": "Finish payment fifteen and collect all 60 Cashpoints.",
+        "entry": "milestone.html?scene=final"
+      },
+      {
+        "id": "help",
+        "title": "How it works",
+        "description": "Explore the offer, milestones, and terms.",
+        "entry": "milestone.html?scene=help"
+      },
+      {
+        "id": "completed",
+        "title": "Completed offer",
+        "description": "Return to your rewards and the finished journey.",
+        "entry": "milestone.html?scene=completed"
+      }
+    ]
   }
 ]

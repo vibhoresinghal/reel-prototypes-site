@@ -1,0 +1,20 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="10.4802" height="14.9711" viewBox="0 0 10.4802 14.9711" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="T2">
+<ellipse id="Ellipse 5324" cx="4.86636" cy="12.7255" rx="2.99408" ry="2.24556" fill="#1E7C4B"/>
+<rect id="Rectangle 2628699" x="3.74269" y="7.11138" width="2.24556" height="5.61389" rx="1.12278" fill="#7A2544"/>
+<g id="Ellipse 5323" filter="url(#filter0_i_0_2726)">
+<circle cx="5.23963" cy="5.23972" r="5.23963" fill="#57A256"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_i_0_2726" x="0" y="8.63048e-05" width="10.4793" height="10.4793" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="-1.81968" dy="-1.21312"/>
+<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="shape" result="effect1_innerShadow_0_2726"/>
+</filter>
+</defs>
+</svg>

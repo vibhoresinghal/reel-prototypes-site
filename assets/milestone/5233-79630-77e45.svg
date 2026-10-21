@@ -1,0 +1,24 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="43" height="89" viewBox="0 0 43 89" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Frame 1686552078">
+<g id="Vector 78">
+<use xlink:href="#stroke0_0_26" fill="url(#paint0_linear_0_26)"/>
+<mask id="stroke1_0_26" maskUnits="userSpaceOnUse" x="6" y="21.0001" width="30" height="43" fill="black">
+<rect fill="white" x="6" y="21.0001" width="30" height="43"/>
+<use xlink:href="#stroke0_0_26"/>
+</mask>
+<path d="M16.267 24.0001H24.6633C26.4799 24.0001 27.7955 25.7329 27.3073 27.4827L24.9972 35.7622C24.8741 36.2034 25.2058 36.6403 25.6638 36.6403H30.2255C32.4134 36.6403 33.722 39.075 32.5148 40.8997L19.3441 60.8094C18.7954 61.6389 17.5043 61.1102 17.6949 60.1341L20.1826 47.3967C20.2661 46.9693 19.9389 46.572 19.5034 46.572H12.795C10.3808 46.572 8.62792 44.2755 9.26468 41.9468L13.6193 26.021C13.9456 24.8277 15.0299 24.0001 16.267 24.0001Z" stroke-width="5.1907" stroke="url(#paint1_linear_0_26)" stroke-opacity="0.32" mask="url(#stroke1_0_26)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_26" x1="22.1498" y1="16.9631" x2="2.68463" y2="45.0794" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFFEFB"/>
+<stop offset="1" stop-color="#FFEBA9"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_26" x1="21.6663" y1="11.8642" x2="21.6663" y2="64.6295" gradientUnits="userSpaceOnUse">
+<stop stop-color="#D4551E"/>
+<stop offset="0.5" stop-color="#D85720" stop-opacity="0.710379"/>
+<stop offset="1" stop-color="#E35D23" stop-opacity="0"/>
+</linearGradient>
+<path id="stroke0_0_26" d="M24.6633 24.0001H16.267C15.0299 24.0001 13.9456 24.8277 13.6193 26.021L9.26468 41.9468C8.62792 44.2755 10.3808 46.572 12.795 46.572H19.5034C19.9389 46.572 20.2661 46.9693 20.1826 47.3967L17.6949 60.1341C17.5043 61.1102 18.7954 61.6389 19.3441 60.8094L32.5148 40.8997C33.722 39.075 32.4134 36.6403 30.2255 36.6403H25.6638C25.2058 36.6403 24.8741 36.2034 24.9972 35.7622L27.3073 27.4827C27.7955 25.7329 26.4799 24.0001 24.6633 24.0001Z"/>
+</defs>
+</svg>
