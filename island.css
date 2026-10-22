@@ -62,14 +62,17 @@
 /* Original expanded marker from Figma 407:5129. Only its direction is mirrored
    at the right edge; iconography and text remain upright. The whole callout
    belongs to the map world, preserving its pin anchor while the camera moves. */
-.pin-callout{position:absolute;width:247.11px;height:75.0632px;z-index:14;touch-action:manipulation;text-align:left;transform-origin:30.44px 75.0632px;animation:pin-callout-in .38s cubic-bezier(.22,.75,.2,1) both;filter:drop-shadow(-4px 7px 4px #0004)}
-.pin-callout-shape{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.pin-callout.left{transform-origin:216.67px 75.0632px}
-.pin-callout.left>.pin-callout-shape{transform:scaleX(-1)}
+.pin-callout{position:absolute;z-index:14;touch-action:manipulation;text-align:left;animation:pin-callout-in .38s cubic-bezier(.22,.75,.2,1) both;filter:drop-shadow(-4px 7px 4px #0004)}
+.pin-callout-content{position:absolute;left:0;top:0;display:block;transform-origin:0 0}
+.pin-callout-shape{position:absolute;left:0;top:0;max-width:none;pointer-events:none}
+.pin-callout.left .pin-callout-shape{transform:scaleX(-1)}
 .pin-callout-icon{position:absolute;left:11.82px;top:11.82px;width:36px;height:36px;border-radius:12px;background:#e4f1ff;display:grid;place-items:center}
 .pin-callout-icon.coral{background:#ffe8e7}.pin-callout-icon.mint{background:#e0f8eb}.pin-callout-icon.purple{background:#eee5ff}
-.pin-callout-icon img{width:18px;height:18px}
-.pin-callout strong{position:absolute;left:63.39px;top:11.82px;min-height:40px;width:168px;display:flex;align-items:center;color:#fff;font-size:14px;line-height:1.4;font-weight:600}
+.pin-callout-icon img{width:16.2px;height:16.2px}
+.pin-callout-icon.locked{background:#fff}.pin-callout-icon.cream{background:#fff8e7}
+.pin-callout strong{position:absolute;left:63.39px;right:14px;top:11.82px;min-height:40px;display:flex;align-items:center;color:#fff;font-size:14px;line-height:1.4;font-weight:600}
+.pin-callout.locked strong{top:12px;min-height:0;height:21px;color:#4b4747}
+.pin-callout small{position:absolute;left:63px;top:32px;width:203px;height:18px;font-size:12px;line-height:1.4;font-weight:500;color:#fff;white-space:nowrap}
 .pin-callout.closing{animation:pin-callout-out .22s ease forwards;pointer-events:none}
 .map-pin.selected>.art,.map-pin.selected>.pin-pulse{opacity:0}
 .map-pin>.art{transition:opacity .2s}
