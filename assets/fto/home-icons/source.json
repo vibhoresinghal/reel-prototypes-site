@@ -1,0 +1,109 @@
+{
+  "source": {
+    "fileKey": "7nTdSx7LMU3lsY4tUcLbGt",
+    "section": "9606:24489",
+    "page": "6766:131"
+  },
+  "format": "PNG",
+  "scale": 2,
+  "contentsOnly": true,
+  "notes": "Original tile exports; 48x48 layout bounds plus 4px outside stroke gives 56x56 rendered bounds, exported at 112x112. No image manipulation.",
+  "icons": [
+    {
+      "id": "6898:24933",
+      "name": "Frame 48095431",
+      "renderBounds": {
+        "x": 7541.5,
+        "y": -2151,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 13214,
+      "file": "6898-24933.png"
+    },
+    {
+      "id": "6898:24938",
+      "name": "UPI Anchor Square",
+      "renderBounds": {
+        "x": 7629.5,
+        "y": -2151,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 12628,
+      "file": "6898-24938.png"
+    },
+    {
+      "id": "6898:24940",
+      "name": "Frame 48095433",
+      "renderBounds": {
+        "x": 7717.5,
+        "y": -2151,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 13223,
+      "file": "6898-24940.png"
+    },
+    {
+      "id": "6898:24948",
+      "name": "Frame 48095431",
+      "renderBounds": {
+        "x": 7805.5,
+        "y": -2151,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 12875,
+      "file": "6898-24948.png"
+    },
+    {
+      "id": "6898:25184",
+      "name": "Frame 48095431",
+      "renderBounds": {
+        "x": 7541.5,
+        "y": -1985,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 8618,
+      "file": "6898-25184.png"
+    },
+    {
+      "id": "6898:25189",
+      "name": "Frame 48095431",
+      "renderBounds": {
+        "x": 7629.5,
+        "y": -1985,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 8363,
+      "file": "6898-25189.png"
+    },
+    {
+      "id": "6898:25192",
+      "name": "Frame 48095431",
+      "renderBounds": {
+        "x": 7717.5,
+        "y": -1985,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 8583,
+      "file": "6898-25192.png"
+    },
+    {
+      "id": "6898:25196",
+      "name": "Frame 48095431",
+      "renderBounds": {
+        "x": 7805.5,
+        "y": -1985,
+        "width": 56,
+        "height": 56
+      },
+      "bytes": 8526,
+      "file": "6898-25196.png"
+    }
+  ]
+}

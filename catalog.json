@@ -406,5 +406,68 @@
         "entry": "island.html?scene=completed"
       }
     ]
+  },
+  {
+    "id": "fto",
+    "title": "First Transaction Offer",
+    "description": "A guided first payment, from the home-screen offer to ₹20 cashback.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "fto.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "FTO",
+      "Handholding",
+      "UPI",
+      "Cashback"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/fto/preview.png",
+    "scenarios": [
+      {
+        "id": "pip",
+        "title": "Home · floating offer",
+        "description": "Discover the first-payment offer on the PayZapp home screen.",
+        "entry": "fto.html?scene=pip"
+      },
+      {
+        "id": "spotlight",
+        "title": "Home · spotlight banner",
+        "description": "The alternate home banner leads into the same payment journey.",
+        "entry": "fto.html?scene=spotlight"
+      },
+      {
+        "id": "send",
+        "title": "Send money",
+        "description": "The ₹20 offer follows you into your first UPI payment.",
+        "entry": "fto.html?scene=send"
+      },
+      {
+        "id": "search",
+        "title": "Find a contact",
+        "description": "Search for Nirmal Stephen and choose the matching contact.",
+        "entry": "fto.html?scene=search"
+      },
+      {
+        "id": "amount",
+        "title": "Enter an amount",
+        "description": "Choose an amount and continue to the demo confirmation.",
+        "entry": "fto.html?scene=amount"
+      },
+      {
+        "id": "pin",
+        "title": "Confirm the payment",
+        "description": "Use six demo keypad taps to complete the payment.",
+        "entry": "fto.html?scene=pin"
+      },
+      {
+        "id": "success",
+        "title": "Cashback earned",
+        "description": "See the payment confirmation and the ₹20 cashback reveal.",
+        "entry": "fto.html?scene=success"
+      }
+    ]
   }
 ]
