@@ -1,11 +1,41 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover"><title>Flows · Vibhore Singhal</title><meta name="description" content="A collection of interactive design work by Vibhore Singhal."><link rel="icon" href="assets/app-icon.svg"><link rel="stylesheet" href="gallery.css?v=915857af1402"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png"><style>html,body{touch-action:pan-x pan-y}</style></head>
-<body><main><nav class="masthead" aria-label="Collection"><a class="identity" href="./"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Vibhore Singhal<span class="slash">/</span><span class="muted">Design</span></a><span class="mast-note">Prototypes</span></nav>
-<header><div class="title-line"><h1>Flows</h1><span id="total" class="total"></span><button id="fill-screen" class="button" type="button" hidden>Fill screen</button></div><p>Open a flow, or add it to your website.</p></header>
-<div class="toolbar"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span class="sr-only">Search flows</span><input id="search" type="search" placeholder="Search flows…" autocomplete="off"></label><label class="device"><span class="sr-only">Device</span><select id="layout"><option value="">All devices</option><option value="mobile">Mobile</option><option value="desktop">Desktop</option><option value="responsive">Any screen</option></select></label><span id="count" class="count" role="status"></span></div>
-<div id="projects" class="grid"></div><div id="empty" hidden><h2>No flows found</h2><p>Try a different name or device.</p><button id="reset" class="button">Clear filters</button></div>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover">
+  <title>Flows · Vibhore Singhal</title><meta name="description" content="A collection of interactive design work by Vibhore Singhal.">
+  <link rel="icon" href="assets/app-icon.svg"><link rel="stylesheet" href="gallery.css?v=bd99adf8d69c"><link rel="manifest" href="manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png">
+  <style>html,body{touch-action:pan-x pan-y}</style>
+</head>
+<body>
+<a class="skip-link" href="#projects">Skip to flows</a>
+<main>
+  <nav class="masthead" aria-label="Collection"><a class="identity" href="./"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Vibhore Singhal<span class="slash">/</span><span class="muted">Design</span></a><span class="mast-note">Prototypes</span></nav>
+  <header><div class="title-line"><h1>Flows</h1><span id="total" class="total"></span><button id="fill-screen" class="button" type="button" hidden>Fill screen</button></div><p>Open a flow, or choose where to begin.</p></header>
+  <div class="toolbar">
+    <div class="search"><span data-icon="search"></span><label class="sr-only" for="search">Search flows</label><input id="search" type="search" placeholder="Search flows…" autocomplete="off" maxlength="200"><button id="clear-search" class="icon-button" aria-label="Clear search" hidden><span data-icon="close"></span></button></div>
+    <label class="device"><span class="sr-only">Device</span><select id="layout"><option value="">All devices</option><option value="mobile">Mobile</option><option value="desktop">Desktop</option><option value="responsive">Any screen</option></select></label>
+    <span id="count" class="count" role="status" aria-live="polite">Loading flows…</span>
+  </div>
+  <div id="projects" class="grid" tabindex="-1" aria-label="Flow library"></div>
+  <div id="empty" hidden><h2>No flows found</h2><p>Try a different name or clear your search.</p><button id="reset" class="button">Clear filters</button></div>
 </main>
-<dialog id="embed-dialog" aria-labelledby="embed-title"><button class="close" aria-label="Close website panel">×</button><span id="embed-name" class="eyebrow"></span><h2 id="embed-title">Add to your website</h2><p>Paste this into an HTML block on your website.</p><label><span class="sr-only">Website code</span><textarea id="embed-code" readonly rows="7" spellcheck="false"></textarea></label><div class="actions"><button id="copy-embed" class="button primary">Copy code</button><a id="embed-direct" class="button" target="_blank" rel="noopener">Open flow ↗</a></div><details id="embed-preview"><summary>Preview</summary><div id="frame-preview"></div></details></dialog>
-<dialog id="phone-dialog" aria-labelledby="phone-title"><button class="close" aria-label="Close phone panel">×</button><span id="phone-name" class="eyebrow"></span><h2 id="phone-title">Open on your phone</h2><p>Scan this code with your phone’s camera.</p><canvas id="phone-qr" role="img" aria-label="Scan to open this flow"></canvas><p id="network-note" class="note"></p><button id="copy-phone" class="button primary">Copy phone link</button></dialog>
-<dialog id="scenes-dialog" aria-labelledby="scenes-title"><button class="close" aria-label="Close starting points">×</button><span id="scenes-name" class="eyebrow"></span><h2 id="scenes-title">Choose a starting point</h2><p>Each one has its own link for your phone or website.</p><div id="scene-list"></div><div class="scene-actions"><a id="open-scene" class="button primary">Open flow ↗</a><button id="copy-scene" class="button">Copy link</button><button id="phone-scene" class="button">Open on phone</button><button id="embed-scene" class="button">Add to website</button></div></dialog>
-<div id="toast" role="status" aria-live="polite"></div><script type="module" src="gallery.js?v=6b9902ccaf71"></script><script src="pwa-register.js?v=ef0461fd8db5" defer></script><script type="module" src="design-select.js?v=ecfd45abf680"></script></body></html>
+<dialog id="embed-dialog" aria-labelledby="embed-title">
+  <div class="dialog-header"><button class="close icon-button" aria-label="Close website panel"><span data-icon="close"></span></button><span id="embed-name" class="eyebrow"></span><h2 id="embed-title">Add to your website</h2><p id="embed-note">Paste this into an HTML block on your website.</p></div>
+  <div class="dialog-body"><label id="embed-code-label"><span class="sr-only">Website code</span><textarea id="embed-code" readonly rows="7" spellcheck="false"></textarea></label><details id="embed-preview"><summary>Preview</summary><div id="frame-preview"></div></details></div>
+  <div class="dialog-footer"><button id="copy-embed" class="button primary">Copy code</button><button id="retry-embed" class="button" hidden>Try again</button><a id="embed-direct" class="button" target="_blank" rel="noopener">Open flow <span data-icon="open"></span></a></div>
+</dialog>
+<dialog id="phone-dialog" aria-labelledby="phone-title">
+  <div class="dialog-header"><button class="close icon-button" aria-label="Close phone panel"><span data-icon="close"></span></button><span id="phone-name" class="eyebrow"></span><h2 id="phone-title">Open on your phone</h2><p id="phone-instruction">Scan this code with your phone’s camera.</p></div>
+  <div class="dialog-body"><canvas id="phone-qr" role="img" aria-label="Scan to open this flow"></canvas><p id="network-note" class="note" role="status"></p><label id="phone-link-label"><span class="sr-only">Phone link</span><input id="phone-link" class="link-field" readonly></label></div>
+  <div class="dialog-footer"><button id="copy-phone" class="button primary">Copy phone link</button><button id="retry-phone" class="button" hidden>Try again</button></div>
+</dialog>
+<dialog id="scenes-dialog" aria-labelledby="scenes-title">
+  <div class="dialog-header"><button class="close icon-button" aria-label="Close starting points"><span data-icon="close"></span></button><span id="scenes-name" class="eyebrow"></span><h2 id="scenes-title">Choose a starting point</h2><p>Start from the beginning, or jump to a moment.</p></div>
+  <div class="dialog-body"><div id="scene-list" role="radiogroup" aria-label="Starting point"></div></div>
+  <div class="dialog-footer scene-actions"><a id="open-scene" class="button primary">Open flow <span data-icon="open"></span></a><div class="scene-tools"><button id="copy-scene" class="quiet-action"><span data-icon="copy"></span>Copy link</button><button id="phone-scene" class="quiet-action"><span data-icon="phone"></span>Open on phone</button><button id="embed-scene" class="quiet-action"><span data-icon="embed"></span>Add to website</button></div></div>
+</dialog>
+<dialog id="copy-dialog" aria-labelledby="copy-title"><div class="dialog-header"><button class="close icon-button" aria-label="Close copy panel"><span data-icon="close"></span></button><h2 id="copy-title">Copy your link</h2><p>Automatic copying isn’t available here. Select and copy the text below.</p></div><div class="dialog-body"><label><span class="sr-only">Text to copy</span><textarea id="copy-value" readonly rows="4"></textarea></label></div></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<script type="module" src="gallery.js?v=57037113f154"></script><script src="pwa-register.js?v=64547d83a3ee" defer></script><script type="module" src="design-select.js"></script>
+</body></html>
