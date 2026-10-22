@@ -13,12 +13,12 @@ function art(name,cls='layer'){const e=el('img',cls);e.src=asset(name);e.alt='';
 function hotspot(label,rect,fn,parentNode=stage){const b=el('button','hotspot',parentNode);b.setAttribute('aria-label',label);['left','top','width','height'].forEach((key,i)=>b.style[key]=rect[i]+'%');b.onclick=fn;return b;}
 function animate(name,cls='',options={}){const container=el('div','anim '+cls);const a=lottie.loadAnimation({container,renderer:'svg',loop:false,autoplay:false,animationData:structuredClone(data.get('assets/lottie/'+name)),assetsPath:name.startsWith('User Referral/')?asset('lottie/User Referral/images/'):undefined,rendererSettings:{preserveAspectRatio:options.ratio||'xMidYMax meet'}});animations.push(a);a.addEventListener('DOMLoaded',()=>{if(reduced)a.goToAndStop(options.still??Math.max(0,a.totalFrames-1),true);else if(!document.hidden&&options.play!==false)a.play();options.ready?.(a);});a.loop=options.loop&&!reduced;return {a,container};}
 function reset(){disposeCamera?.();disposeCamera=null;cancelAnimationFrame(frame);animations.forEach(a=>a.destroy());animations=[];jobs=[];elapsed=0;last=0;media?.pause();media=null;stage.replaceChildren();}
-function show(id,update=true){reset();active=scenes.some(s=>s[0]===id)?id:'splash';select.value=active;stage.dataset.scene=active;$('#hint').textContent=scenes.find(s=>s[0]===active)[2];if(update){const u=new URL(location.href);u.searchParams.set('scene',active);history.replaceState(null,'',u);}
+function show(id,update=true,autoOpen=false){reset();active=scenes.some(s=>s[0]===id)?id:'splash';select.value=active;stage.dataset.scene=active;$('#hint').textContent=scenes.find(s=>s[0]===active)[2];if(update){const u=new URL(location.href);u.searchParams.set('scene',active);history.replaceState(null,'',u);}
  if(active==='leaderboard'||active==='leaderboard-new'){const sc=el('div','scroll');const image=art(active==='leaderboard'?'Leaderboard Page.png':'Leaderboard Page - Copy.png','art');sc.append(image);sc.tabIndex=0;sc.setAttribute('aria-label','Runs leaderboard, scroll to explore');}
  else if(active==='splash'){
  art('Home Screen.png','layer full');let started=false;
  const start=()=>{if(started)return;started=true;const cover=el('div','splash');const a=animate('splash_screen_ipl_v2.json','',{ratio:'xMidYMid meet',ready:a=>{if(reduced)later(700,finish);else a.addEventListener('complete',finish);}});cover.append(a.container);function finish(){cover.style.opacity='0';later(250,()=>show('spotlight-1'));}};
- hotspot('Open PayZapp',[25,84,25,16],start);
+ hotspot('Open PayZapp',[25,84,25,16],start);if(autoOpen)start();
  }
  else if(active==='promo'){media=el('video','');media.src=asset('promo video.mp4');media.muted=true;media.playsInline=true;media.controls=!matchMedia('(max-width:760px)').matches&&!embedded;media.onclick=()=>{if(!media.controls){if(media.paused)media.play().catch(()=>{});else media.pause();}};media.autoplay=!reduced;media.addEventListener('ended',()=>show('leaderboard'));media.addEventListener('error',()=>{const b=el('button','');b.textContent='Retry video';b.onclick=()=>media.load();});}
  else if(active==='scan'){art('scan-qr-bg.png','layer full');disposeCamera=mountScannerCamera(stage,data.get('assets/lottie/scanqrIPL.json'));animate('scanqrIPL.json','',{loop:true,ratio:'xMidYMin slice',still:250});art('scan-qr-overlay.png','layer bottom');hotspot('Back to PayZapp',[0,0,16,10],()=>show('spotlight-1'));}
@@ -49,6 +49,8 @@ function show(id,update=true){reset();active=scenes.some(s=>s[0]===id)?id:'splas
  frame=requestAnimationFrame(tick);
 }
 select.innerHTML=scenes.map(([id,title])=>`<option value="${id}">${title}</option>`).join('');select.onchange=()=>show(select.value);$('#replay').onclick=()=>show(active);
+$('#opening').onclick=()=>show('splash',true,true);
+$('#home').onclick=()=>show('spotlight-1');
 $('#library').onclick=e=>{if(parent!==window&&params.get('hosted')==='1'){e.preventDefault();parent.postMessage({type:'flows:home'},location.origin);}};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')show('spotlight-1');});
 let resume=[];document.addEventListener('visibilitychange',()=>{last=0;if(document.hidden){resume=animations.filter(a=>!a.isPaused);resume.forEach(a=>a.pause());if(media){media.dataset.wasPlaying=String(!media.paused);media.pause();}}else{resume.forEach(a=>{if(animations.includes(a))a.play();});if(media?.dataset.wasPlaying==='true')media.play().catch(()=>{});}});

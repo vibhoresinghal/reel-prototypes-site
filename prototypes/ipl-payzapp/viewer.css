@@ -1,0 +1,29 @@
+/* Desktop viewer vocabulary shared with the Milestone/Island family.
+   Scope chrome to the sidebar; never style the imported prototype artwork. */
+@font-face{font-family:Inter;src:url('../../assets/inter-latin-600-normal.woff2');font-weight:600}
+body{--viewer-bg:#f2f4ef;--viewer-ink:#173a2b;--viewer-muted:#728071;--viewer-line:#d3ddce;background:var(--viewer-bg);color:var(--viewer-ink);gap:90px}
+.viewer-tools{width:245px;flex:0 0 245px;align-self:center}
+.viewer-tools .library-link{display:flex;align-items:center;gap:10px;width:fit-content;min-height:32px;margin-bottom:65px;color:#67816d;font-size:12px}
+.viewer-tools .tool-eyebrow{font-size:10px;letter-spacing:2px;color:#65866c;font-weight:600}
+.viewer-tools h1{font-size:37px;font-weight:700;letter-spacing:-1.6px;line-height:1.1;margin:14px 0;color:var(--viewer-ink)}
+.viewer-tools .viewer-intro{font-size:14px;line-height:1.65;color:var(--viewer-muted);margin:0}
+.viewer-tools label{display:block;font-size:11px;font-weight:600;margin:40px 0 9px}
+.viewer-tools .select-wrap{position:relative}
+.viewer-tools select{appearance:none;width:100%;padding:13px 35px 13px 11px;border:1px solid var(--viewer-line);border-radius:10px;background:#fff;color:#254530;font:400 12px/1.5 Inter,sans-serif;cursor:pointer}
+.viewer-tools .select-wrap>svg{position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;color:#3a6648}
+.viewer-tools .scene-description{font-size:11px;line-height:1.6;margin:11px 0 25px;min-height:36px;color:var(--viewer-muted)}
+.viewer-actions{display:grid;gap:13px}
+.viewer-tools .viewer-actions button{display:flex;align-items:center;gap:10px;min-height:40px;width:fit-content;max-width:100%;border:0;border-radius:8px;margin:0 0 0 -10px;padding:9px 10px;text-align:left;font:400 12px/1.5 Inter,sans-serif;color:#3a6648;background:none;cursor:pointer;transition:background .16s,color .16s}
+.viewer-tools .viewer-actions button:hover{background:#e5ecdf;color:var(--viewer-ink)}
+.viewer-tools svg{width:18px;height:18px;flex:0 0 18px;fill:none;stroke-width:1.75}
+.viewer-tools .viewer-note{font-size:10px;line-height:1.7;color:#85907f;margin:40px 0 0}
+.viewer-tools .source-credit{margin-top:12px}
+.viewer-tools .source-credit summary{cursor:pointer;width:fit-content;color:#67816d}
+.viewer-tools .source-credit p{font-size:10px;line-height:1.7;margin:8px 0;color:#728071}
+.viewer-tools .source-credit a{display:inline-flex;align-items:center;gap:6px;color:#3a6648}
+.viewer-tools .source-credit svg{width:12px;height:12px;flex-basis:12px}
+.viewer-tools :is(a,button,select,summary):focus-visible{outline:3px solid #ffbd4f;outline-offset:4px}
+@media(max-width:760px){.viewer-tools{display:none}}
+body.embedded{background:white}
+.embedded .viewer-tools{display:none}
+@media(prefers-reduced-motion:reduce){.viewer-tools *{transition:none!important}}
