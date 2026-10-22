@@ -133,5 +133,116 @@
         "entry": "island.html?scene=completed"
       }
     ]
+  },
+  {
+    "id": "ipl-payzapp",
+    "title": "IPL on PayZapp",
+    "description": "A cricket-season takeover, from the first splash to the winning runs.",
+    "source": "html",
+    "layout": "mobile",
+    "entry": "prototypes/ipl-payzapp/index.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "IPL",
+      "Cricket",
+      "Motion",
+      "Rewards"
+    ],
+    "logo": "prototypes/ipl-payzapp/assets/IPL themification.png",
+    "thumbnail": "prototypes/ipl-payzapp/assets/spotlights/3.png",
+    "scenarios": [
+      {
+        "id": "splash",
+        "title": "App opening",
+        "description": "Tap the PayZapp icon. The original IPL splash plays once.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=splash"
+      },
+      {
+        "id": "promo",
+        "title": "Season promo",
+        "description": "Tap to play or pause the original promo. Playback starts muted.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=promo"
+      },
+      {
+        "id": "leaderboard",
+        "title": "Runs leaderboard",
+        "description": "Scroll to explore the original ranking and earning rules.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=leaderboard"
+      },
+      {
+        "id": "leaderboard-new",
+        "title": "Leaderboard · new player",
+        "description": "The alternate leaderboard supplied in the repository.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=leaderboard-new"
+      },
+      {
+        "id": "scan",
+        "title": "Stadium scanner",
+        "description": "Enable the rear camera inside the original animated scanner. Camera preview only; no payment is initiated.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=scan"
+      },
+      {
+        "id": "referral",
+        "title": "Refer & score",
+        "description": "Original referral entrance, hold and exit. Tap Share Invite to replay; no invitation is sent.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=referral"
+      },
+      {
+        "id": "success",
+        "title": "Payment success",
+        "description": "Original cricket-ball success, followed by the six-runs celebration.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=success"
+      },
+      {
+        "id": "success-alt",
+        "title": "Success · alternate overlay",
+        "description": "Alternate transaction overlay supplied in the repository.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=success-alt"
+      },
+      {
+        "id": "spotlight-1",
+        "title": "Spotlight 1",
+        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-1"
+      },
+      {
+        "id": "spotlight-2",
+        "title": "Spotlight 2",
+        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-2"
+      },
+      {
+        "id": "spotlight-3",
+        "title": "Spotlight 3",
+        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-3"
+      },
+      {
+        "id": "spotlight-4",
+        "title": "Spotlight 4",
+        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-4"
+      },
+      {
+        "id": "spotlight-5",
+        "title": "Spotlight 5",
+        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-5"
+      },
+      {
+        "id": "sheet",
+        "title": "Campaign invitation",
+        "description": "Tap the gift to view the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=sheet"
+      },
+      {
+        "id": "sheet-alt",
+        "title": "Campaign invitation · alternate",
+        "description": "Alternate campaign artwork. Tap the gift to view the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=sheet-alt"
+      }
+    ]
   }
 ]

@@ -1,0 +1,17 @@
+# IPL on PayZapp
+
+Imported with the user's stated permission from Ishant Periwal's caseStudies repository, gh-pages commit 163aab846602ffda84e4d4c37990d8f11fedcd77, IPL Themification directory. Original work by Ishant Periwal in collaboration with Vibhore Singhal.
+
+Source: https://github.com/ishantperiwal/caseStudies/tree/gh-pages/IPL%20Themification
+Case study: https://ishantperiwal.github.io/caseStudies/IPL%20Themification/ipl-themification-case-study.html?sticky=false
+
+The source embeds eight demonstrations in a single case-study HTML file rather than separate prototype routes. This import exposes 15 starting points: app opening, promo, two leaderboard states, scanner, referral, two success overlays, five spotlights, and two campaign invitations. All 33 original asset files, including seasonal reference examples, are preserved byte-for-byte; source-assets.json records SHA-256 hashes. The Lottie player is vendored at the original version 5.12.2 with its MIT license.
+
+The composition and motion settings are adapted from the case-study code. Original Lottie geometry, raster illustrations, promo video and five banners are untouched. Referral uses the source frame-15 hold, 3500ms rest, 450ms entrance and 650ms exit. Success reveals the runs after 4000ms and hides them after 10000ms; spotlight crossfades use 800ms every 4000ms. Demo loops were replaced with intentional replay where appropriate. Leaderboard is a manually scrollable original image, not a live ranking service; campaign invitation screens are image-based. Alternate assets not used by the case study are labeled alternate. No banking actions or invitations occur. The scanner requests camera access only after Enable camera is tapped; its live preview is not a payment or QR-decoding flow.
+
+Mobile and external embeds hide the desktop sidebar. Hosted library mode preserves the fullscreen parent; desktop return sends the existing origin-checked flows:home message. Refresh/replay resets the scene. Six concurrent asset loads gate startup; errors offer retry. Hidden documents pause active animation/video and the scene clock. Reduced motion uses still Lottie frames and disables banner cycling. Video is loaded on demand, rather than downloading it for every scene. A 30-second asset timeout avoids indefinite startup.
+
+All direct scene URLs retain the stable prototypes/ipl-payzapp/index.html?scene= identifier. Existing library sharing, QR and embed tools apply automatically. Only supplied source interactions and modest recording navigation are provided; these are not complete banking mocks. The raster UI has the source's resolution limits. Physical S25 Ultra verification and public publication remain pending.
+
+
+Camera update: `camera.js` derives the exact cubic-Bezier aperture from `Scanner Window Outlines 2` in the original Lottie, including its transforms and xMidYMin slice scaling. The camera occupies only this cutout, below the unchanged animation and PNG overlay. Rear camera is preferred; audio is never requested. Enable/retry states stay inside the cutout and disappear during live playback. Hidden documents, navigation and page exit stop all tracks; resume is deliberate. Pending permission responses after exit are immediately released. HTTPS is required on phones (desktop localhost is also trusted); plain HTTP LAN addresses cannot access the camera. Hosted and generated embed frames permit camera only for IPL. Camera data is neither uploaded nor recorded. QR decoding, flashlight and photo-library actions are not implemented by this preview.
