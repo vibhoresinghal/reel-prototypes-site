@@ -1,0 +1,1096 @@
+:root {
+    --blue-primary: #0056b3;
+    /* PayZapp Blue approx */
+    --blue-dark: #183862;
+    --blue-bg: #1e5fa8;
+    /* Lighter blue for cover */
+    --white: #ffffff;
+    --grey-light: #f0f2f5;
+    --grey-text: #666;
+    --green-success: #d1e7dd;
+    --green-text: #0f5132;
+    --green-btn: #a8e6cf;
+
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-dm-serif-italic: 'DM Serif Display', serif;
+
+    --card-radius: 24px;
+    --spine-height: 20px;
+    /* Visual height of the fold area */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--blue-dark);
+    /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.70) 100%), linear-gradient(180deg, #488DDB 21.86%, #8E83CD 36.27%, #EB9AAB 51.01%, #FFCDA4 72.87%); */
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+    /* Disable zoom on iOS Safari */
+    touch-action: pan-x pan-y;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+/* PRELOADER */
+/* Note: Animations controlled by GSAP, no CSS transitions needed */
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* ========== AUTO-FLIP PROGRESS BAR (Instagram story style) ========== */
+
+.autoflip-progress-container {
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    left: 16px;
+    top: 4px;
+    right: 16px;
+}
+
+.autoflip-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    transition: width 0.1s linear;
+}
+
+@keyframes autoflipProgress {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.autoflip-progress-bar.animating {
+    animation: autoflipProgress 5s linear forwards;
+}
+
+/* ========== CARD OVERLAY ANIMATIONS ========== */
+
+/* Currency note floating and swaying animation */
+@keyframes floatSway {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-4deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(4deg);
+    }
+}
+
+.currency-note-overlay {
+    z-index: 10;
+    animation: floatSway 3s ease-in-out infinite;
+    pointer-events: none;
+    margin-top: 60px;
+}
+
+/* Product/vehicle subtle float animation */
+@keyframes subtleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.product-overlay {
+    z-index: 10;
+    animation: subtleFloat 2.5s ease-in-out infinite;
+    pointer-events: none;
+    margin-top: 60px;
+}
+
+/* Container for centered overlays */
+.card-overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* ========== CARD 2: SMARTPHONE & BUBBLES ========== */
+
+.smartphone-overlay {
+    z-index: 10;
+    animation: subtleFloat 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Bubble floating animations - each with unique path */
+@keyframes bubbleFloat1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(8px, -12px) scale(1.05) rotate(8deg);
+    }
+
+    50% {
+        transform: translate(-5px, -8px) scale(0.95) rotate(-15deg);
+    }
+
+    75% {
+        transform: translate(10px, 5px) scale(1.02) rotate(8deg);
+    }
+}
+
+@keyframes bubbleFloat2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-10px, 8px) scale(0.95) rotate(-9deg);
+    }
+
+    50% {
+        transform: translate(6px, 12px) scale(1.05) rotate(15deg);
+    }
+
+    75% {
+        transform: translate(-8px, -6px) scale(0.98) rotate(-7deg);
+    }
+}
+
+@keyframes bubbleFloat3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(12px, 6px) scale(1.02) rotate(12deg);
+    }
+
+    50% {
+        transform: translate(-8px, -10px) scale(0.96) rotate(-20deg);
+    }
+
+    75% {
+        transform: translate(5px, 8px) scale(1.04) rotate(12deg);
+    }
+}
+
+@keyframes bubbleFloat4 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-6px, -10px) scale(0.98) rotate(-7deg);
+    }
+
+    50% {
+        transform: translate(10px, 5px) scale(1.03) rotate(5deg);
+    }
+
+    75% {
+        transform: translate(-12px, 8px) scale(0.97) rotate(-4deg);
+    }
+}
+
+.bubble-overlay {
+    position: absolute;
+    z-index: 11;
+    pointer-events: none;
+}
+
+.bubble-1 {
+    animation: bubbleFloat1 4s ease-in-out infinite;
+}
+
+.bubble-2 {
+    animation: bubbleFloat2 4.5s ease-in-out infinite;
+}
+
+.bubble-3 {
+    animation: bubbleFloat3 5s ease-in-out infinite;
+}
+
+.bubble-4 {
+    animation: bubbleFloat4 3.5s ease-in-out infinite;
+}
+
+/* ========== CARD 3: FIST BUMP ANIMATION ========== */
+
+.fist-bump-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.fist-hand {
+    position: absolute;
+    width: 100%;
+    /* max-width: 220px; */
+    pointer-events: none;
+    z-index: 10;
+}
+
+.fist-hand-left {
+    /* Positioned to meet at center from left */
+    transform-origin: right center;
+}
+
+.fist-hand-right {
+    /* Positioned to meet at center from right */
+    transform-origin: left center;
+}
+
+/* Heart floating up and fading animation */
+@keyframes heartFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.8);
+    }
+}
+
+.heart-particle {
+    position: absolute;
+    pointer-events: none;
+    animation: heartFloat 1s ease-out forwards;
+}
+
+/* ========== CARD 4: CALENDAR ANIMATION ========== */
+
+/* Calendar gentle sway animation */
+@keyframes calendarSway {
+
+    0%,
+    100% {
+        transform: rotate(-1deg);
+    }
+
+    50% {
+        transform: rotate(1deg);
+    }
+}
+
+.calendar-overlay {
+    z-index: 10;
+    animation: calendarSway 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Checkmark stroke reveal - animates clip-path to reveal following the stroke */
+.calendar-tick-overlay {
+    z-index: 11;
+    pointer-events: none;
+    clip-path: inset(0 100% 0 0);
+    opacity: 1;
+    transition: opacity 0.4s ease-out;
+}
+
+.calendar-tick-overlay.fade-out {
+    opacity: 0;
+}
+
+.calendar-tick-overlay.animate-reveal {
+    /* cubic-bezier: slow start, accelerates towards end */
+    animation: tickReveal 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+@keyframes tickReveal {
+    0% {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* ========== CARD 5: CHAI GLASS WITH STEAM ========== */
+
+/* Chai glass gentle breathing/float animation */
+@keyframes chaiBreathing {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-5px) scale(1.01);
+    }
+}
+
+.chai-overlay {
+    z-index: 10;
+    animation: chaiBreathing 3s ease-in-out infinite;
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    width: 50%;
+}
+
+/* Steam rising animation - rises, expands, fades, and waves */
+@keyframes steamRise {
+    0% {
+        opacity: 0;
+        transform: translateY(0) translateX(0) scale(0.8);
+    }
+
+    5% {
+        opacity: 1;
+        transform: translateY(-8px) translateX(0) scale(0.82);
+    }
+
+    25% {
+        opacity: 0.8;
+        transform: translateY(-40px) translateX(3px) scale(0.9);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: translateY(-60px) translateX(-2px) scale(1);
+    }
+
+    75% {
+        opacity: 0.2;
+        transform: translateY(-90px) translateX(4px) scale(1.1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-110px) translateX(0) scale(1.2);
+    }
+}
+
+.steam-overlay {
+    position: absolute;
+    z-index: 11;
+    pointer-events: none;
+    animation: steamRise 10s ease-out infinite;
+}
+
+/* 3D STAGE */
+.stage {
+    perspective: 1500px;
+    /* Deep perspective */
+    padding-top: max(60px, calc((100vh - 300px) / 2 - 100px));
+    /* Center notepad optically: account for 300px notepad height and bottom content space */
+    /* Minimum 60px for top nav */
+    transition: padding-top 0.4s ease;
+}
+
+.stage.expanded {
+    padding-top: calc(1rem + 72px + env(safe-area-inset-top));
+    /* Center notepad vertically when expanded: account for 640px notepad height */
+    /* Minimum 60px for top nav */
+}
+
+/* Scrollable state for outro with landing page */
+.stage.outro-scrollable {
+    /* Keep the same padding-top as expanded state to prevent flipbook jump */
+    padding-bottom: 0;
+    min-height: auto;
+}
+
+/* Fix gap between scaled notepad and landing page in outro state */
+/* When notepad is scaled, it still occupies original space in layout */
+/* This negative margin compensates for the empty space at the bottom */
+.stage.outro-scrollable .notepad {
+    margin-bottom: calc(640px * (1 - var(--notepad-scale)) * -1);
+}
+
+.top-nav {
+    padding-top: calc(1rem + env(safe-area-inset-top));
+}
+
+.brand-logo {
+    top: calc(1rem + env(safe-area-inset-top));
+}
+
+.swipe-hint {
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+/* Navbar background for outro state */
+.top-nav.outro-active {
+    background: linear-gradient(180deg, rgba(46, 36, 25, 1) 0%, rgba(46, 36, 25, 0.7) 50%, transparent 100%);
+}
+
+/* Center notepad optically in initial state */
+.stage .notepad {
+    transition: height 0.4s ease;
+}
+
+.notepad {
+    transform-style: preserve-3d;
+    width: 80%;
+    height: 320px;
+    /* Initial height: 50% to match intro cover */
+    transform: rotate(-2deg);
+    transition: height 0.4s ease, transform 0.4s ease;
+    /* Smooth transition when expanding */
+}
+
+.notepad.expanded {
+    height: 640px;
+    /* Full height after quiz starts */
+}
+
+/* Pseudo-element for the "stacked pages" look at the bottom */
+.notepad::after {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    left: 2.5%;
+    width: 95%;
+    height: 40px;
+    background: #e2e8f0;
+    /* Light gray to look like back pages */
+    border-radius: 0 0 24px 24px;
+    z-index: -1;
+    transform: translateZ(-10px) translateY(0);
+    /* Push behind, baseline position */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-out;
+}
+
+/* Move the pseudo-element up when on last question */
+.notepad.hide-stacked-pages::after {
+    transform: translateZ(-10px) translateY(-40px);
+}
+
+/* SHARED CARD STYLES */
+.top-half,
+.bottom-half,
+.intro-cover {
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    /* Hide back when flipped */
+    border-radius: var(--card-radius);
+    background: var(--white);
+}
+
+/* TOP HALF (Static background) */
+.top-half {
+    top: 0;
+    height: 50%;
+    /* Top half of the notebook */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    z-index: 1;
+    background: var(--white);
+    /* Active Question Area */
+    overflow: hidden;
+    opacity: 0;
+    /* Hidden initially */
+}
+
+/* BOTTOM HALF (Active flippable part) */
+/* BOTTOM HALF (Active flippable part) */
+.bottom-half {
+    top: 50%;
+    /* Starts at the middle */
+    height: 50%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    transform-origin: top center;
+    /* HINGE IS HERE */
+    z-index: 2;
+    background: transparent;
+    /* Container should be transparent to let faces show */
+    transform-style: preserve-3d;
+    /* Crucial for children 3D */
+    overflow: visible;
+    /* CRITICAL: overflow:hidden flattens 3D context! */
+    opacity: 0;
+    /* Hidden initially */
+}
+
+/* The Front Face of the Bottom Card */
+.bottom-half .content-container {
+    background: var(--white);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    z-index: 2;
+    /* Shadow to lift it off the background slightly */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: var(--card-radius);
+    border-bottom-right-radius: var(--card-radius);
+}
+
+.lighting-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    transition: none;
+    /* Controlled by GSAP */
+    backface-visibility: hidden;
+    /* Only shadow the front */
+}
+
+/* SPINE SHADOWS */
+.spine-shadow-top {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+    z-index: 10;
+}
+
+.spine-shadow-bottom {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent);
+    z-index: 10;
+}
+
+/* CARD BACK (Seen when flipping up) */
+.card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: var(--white); */
+    /* Match top-half for seamless transition */
+    transform: rotateX(180deg);
+    /* Pre-rotated to be the back */
+    backface-visibility: hidden;
+    z-index: -1;
+    border-bottom: 1px solid #eee;
+    /* Subtle separator */
+    overflow: hidden;
+    border-radius: var(--card-radius) var(--card-radius) 0 0;
+    /* Top becomes Visual Top when flipped */
+}
+
+.back-content {
+    width: 100%;
+    height: 100%;
+    transform: rotateX(180deg);
+    /* Crucial: Counter-rotate so it's upright when the back face is shown */
+}
+
+/* INTRO COVER */
+.intro-cover {
+    height: 100%;
+    /* Full height initially to match notepad */
+    top: 0;
+    /* Position at top initially */
+    z-index: 1000;
+    transform-origin: top center;
+    /* Add radius to all corners */
+    border-radius: var(--card-radius);
+    transform-style: preserve-3d;
+    /* Enable 3D for children */
+    position: absolute;
+    width: 100%;
+    transition: none;
+    /* Handled by GSAP for smoother control */
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+    background: transparent;
+    /* Ensure no white background peeps through */
+}
+
+/* .notepad.expanded .intro-cover - Height and position are controlled by GSAP */
+
+.cover-content {
+    backface-visibility: hidden;
+    box-shadow: inset 0px 6px 12px rgba(255, 255, 255, 0.4);
+    /* Hide when flipped */
+    position: relative;
+    border-radius: 8px 8px 24px 24px;
+    background: linear-gradient(180deg, #488DDB 21.86%, #8E83CD 36.27%, #EB9AAB 51.01%, #FFCDA4 72.87%);
+}
+
+.intro-cover-mask {
+    border-radius: 8px 8px 24px 24px;
+}
+
+/* Shimmer Effect moved to intro-cover-mask */
+.intro-cover-mask::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(to bottom right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0) 40%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 60%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(30deg);
+    animation: shimmer 3s infinite;
+    pointer-events: none;
+    /* Let clicks pass through */
+    z-index: 10;
+    /* Ensure it's above elements inside the mask */
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(30deg);
+    }
+
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(30deg);
+    }
+}
+
+.intro-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--white);
+    transform: rotateX(180deg);
+    /* Pre-rotated to be the back */
+    backface-visibility: hidden;
+    border-radius: var(--card-radius) var(--card-radius) 0 0;
+    overflow: hidden;
+}
+
+.intro-back .question-text,
+.intro-back .option-btn {
+    opacity: 0;
+    /* Hidden on the back, will animate when moved to top-half */
+}
+
+.logo-area h1 {
+    font-family: var(--font-heading);
+}
+
+/* CONTENT STYLING */
+/* Carousel Indicator */
+.carousel-indicator {
+    margin-top: 0rem;
+}
+
+.carousel-dots {
+    position: relative;
+    gap: 0.35rem;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* Light blue matching card background */
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.carousel-dot.secondary {
+    width: 6px;
+    height: 6px;
+    opacity: 0.4;
+}
+
+.carousel-dot.active {
+    width: 32px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.75);
+    /* Dark teal for active dot */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    opacity: 1;
+    letter-spacing: 0.075rem;
+}
+
+.carousel-dot.active::after {
+    content: attr(data-progress);
+    position: absolute;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    line-height: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.question-text {
+    font-family: var(--font-heading);
+    color: #333;
+    font-size: 1.6rem;
+    /* Hidden initially for animation */
+}
+
+.option-btn {
+    background: rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    color: #444;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* Hidden initially for animation */
+}
+
+.option-btn:active {
+    background: #e2e6ea;
+    transform: scale(0.96);
+    /* Subtle scale down on tap */
+}
+
+.option-btn.correct {
+    background: var(--green-btn);
+    color: var(--green-text);
+}
+
+.option-btn.wrong {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* VALIDATION OVERLAY */
+.validation-overlay {
+    position: fixed;
+    /* Fixed to cover entire screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    /* Semi-transparent dark background */
+    z-index: 2000;
+    /* High z-index to sit on top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    /* Hidden initially */
+    visibility: hidden;
+    /* Hidden initially */
+    pointer-events: none;
+    /* Allow clicks to pass through when hidden */
+    text-align: center;
+}
+
+.validation-content {
+    transform: scale(0.8);
+    opacity: 0;
+}
+
+.validation-content h3 {
+    font-family: var(--font-heading);
+}
+
+.emoji-sprite {
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+.trivia-text {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    position: relative;
+    z-index: 10;
+    /* Ensure trivia appears above illustration */
+}
+
+.trust-card,
+.promo-card {
+    background: linear-gradient(#3B2F20, #3B2F20) padding-box,
+        linear-gradient(to bottom, rgba(133, 99, 38, 1), rgba(133, 99, 38, 0)) border-box;
+    border: 1px solid transparent;
+}
+
+/* Feature cards layout - buttons aligned to bottom */
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.feature-card button {
+    margin-top: auto;
+}
+
+.feature-card p {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+/* Feature cards with rays overlay */
+.feature-card,
+.trust-card,
+.promo-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before,
+.trust-card::before,
+.promo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/rays-bg.svg');
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.trust-card::before,
+.promo-card::before {
+    background-image: url('assets/rays-bg-yellow.svg');
+    opacity: 0.5;
+}
+
+
+.feature-card>*,
+.trust-card>*,
+.promo-card>* {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* UTILS */
+.hidden {
+    display: none;
+}
+
+.illustration-placeholder {
+    position: relative;
+    background-image: url('assets/illustration1.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.illustration-placeholder:has(.outro-content) {
+    background-image: unset;
+    background-size: unset;
+    background-position: unset;
+    background-repeat: unset;
+}
+
+.dm-serif-italic {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+}
+
+/* SNOWFALL ANIMATION */
+.snowflake {
+    position: absolute;
+    top: -20px;
+    color: white;
+    font-size: 1rem;
+    user-select: none;
+    pointer-events: none;
+    animation: snowfall linear infinite;
+    opacity: 0;
+    /* Start invisible */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0;
+    }
+
+    5% {
+        opacity: var(--snow-opacity, 0.5);
+    }
+
+    90% {
+        opacity: var(--snow-opacity, 0.5);
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(360deg) translateX(20px);
+        opacity: 0;
+    }
+}
+
+/* Subtle horizontal sway for more realistic snow */
+@keyframes snowSway {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(15px);
+    }
+}
+
+/* ========== RESPONSIVE FLIPBOOK SCALING ========== */
+/* Scale is controlled via CSS custom property set by JavaScript */
+:root {
+    --notepad-scale: 1;
+}
+
+.notepad {
+    transform: rotate(-2deg) scale(var(--notepad-scale));
+    transform-origin: top center;
+}
+
+.notepad.expanded {
+    transform: rotate(0deg) scale(var(--notepad-scale));
+}
+
+/* Adjust stage padding based on scale */
+.stage {
+    --scaled-notepad-height: calc(320px * var(--notepad-scale));
+}
+
+.stage.expanded {
+    --scaled-notepad-height: calc(640px * var(--notepad-scale));
+}
+
+/* Media query fallbacks for common small screen heights */
+@media screen and (max-height: 900px) {
+    :root {
+        --notepad-scale: 1;
+    }
+}
+
+@media screen and (max-height: 820px) {
+    :root {
+        --notepad-scale: 0.8;
+    }
+
+    .swipe-hint {
+        display: none !important;
+    }
+
+    .notepad {
+        width: 95%;
+    }
+}
+
+@media screen and (max-height: 550px) {
+    :root {
+        --notepad-scale: 0.6;
+    }
+
+    .swipe-hint {
+        display: none;
+    }
+
+    .notepad {
+        width: 95%;
+    }
+
+    .brand-logo {
+        display: none !important;
+    }
+}
+
+@media screen and (max-height: 480px) {
+    :root {
+        --notepad-scale: 0.5;
+    }
+
+    .swipe-hint {
+        display: none;
+    }
+
+    .notepad {
+        width: 95%;
+    }
+
+    .brand-logo {
+        display: none;
+    }
+}

@@ -1,0 +1,103 @@
+{
+  "source": "recap.zip",
+  "entry": "experience.html?scene=intro",
+  "runtimeFiles": [
+    "experience.html",
+    "experience.js",
+    "experience.css",
+    "style.css",
+    "utilities.css",
+    "fonts.css",
+    "profile.js",
+    "source-assets.json",
+    "import-notes.json"
+  ],
+  "runtimeDirectories": [
+    "assets",
+    "vendor",
+    "fonts"
+  ],
+  "developmentFiles": [
+    "test-recap.mjs",
+    "tailwind.config.cjs",
+    "utilities.input.css"
+  ],
+  "doNotPublish": [
+    "tooling",
+    "script.js",
+    "notes.txt",
+    "ref",
+    "adapt.py",
+    "fonts-google.css"
+  ],
+  "scenes": [
+    {
+      "id": "intro",
+      "title": "Recap opening",
+      "description": "Open Vibhore’s 2025 flipbook."
+    },
+    {
+      "id": "quiz",
+      "title": "Your year in payments",
+      "description": "Six questions with sample app activity."
+    },
+    {
+      "id": "power",
+      "title": "Power user recap",
+      "description": "The original high-spend variation with sample activity."
+    },
+    {
+      "id": "inactive",
+      "title": "First-time user recap",
+      "description": "Five platform trivia cards for a user with no payment activity."
+    },
+    {
+      "id": "summary",
+      "title": "Payment personality",
+      "description": "The final personality reveal and PayZapp discovery page."
+    }
+  ],
+  "profile": {
+    "module": "profile.js",
+    "api": "window.RECAP_DEMO.normalizeProfile(input), profileForScene(scene)",
+    "name": "Vibhore",
+    "source": "simulated app profile; no account, native bridge, or analytics calls",
+    "fields": [
+      "userName",
+      "totalSpends",
+      "totalTxns",
+      "offusMerchantName",
+      "maxMonth",
+      "platformMonthlyUsers",
+      "streakDays",
+      "userTotalCashbackEarned",
+      "cashbackSpends",
+      "rcbpTxns",
+      "frqP2pPayee",
+      "frqP2pPayeeTxnCount",
+      "maxHour",
+      "txnCountMaxHourwise"
+    ],
+    "warning": "Sidebar should label sample app data. Source platform totals and promotional copy are preserved design content, not verified live statistics. No query-injected profile or external profile endpoint exists."
+  },
+  "integration": {
+    "home": "window.parent.postMessage({type: \"recap:home\"}, window.location.origin)",
+    "nativeActions": "Local preview dialog. No deeplinks launched.",
+    "share": "Original html2canvas templates rendered into an accessible local preview dialog; no navigator.share or automatic download."
+  },
+  "dependencies": {
+    "gsap": "3.12.2 local",
+    "html2canvas": "1.4.1 local",
+    "tailwindcss": "3.4.17 compiled utilities.css",
+    "fonts": "Local Inter 400/500/600/700/800; original DM Serif Display italic and Material Symbols Rounded"
+  },
+  "preservation": "73 original assets byte-identical, including artwork and all three sounds. Original style.css retained. Original flipbook renderers, animations, question building and personality logic retained.",
+  "accessibility": "Zoom enabled; named navigation controls, keyboard buttons, ArrowUp after answer to continue / ArrowDown to go back, dialog focus and Escape; hidden-tab audio pause; reduced-motion disables ambient loops and automatic progression.",
+  "validation": "test-recap.mjs verifies sample segments, 6 personal / 5 inactive questions, correct answer indices, normalization, no native/network sharing, every live asset reference and source asset hashes.",
+  "limitations": [
+    "Physical phone and native app not tested.",
+    "Auto-flip and source playful distractors retained; exact distractor options vary per reload.",
+    "Source retains 2025 campaign year and original offers as supplied."
+  ],
+  "wrapperEntry": "index.html is the compendium viewer, replacing the archive entry. Runtime is experience.html."
+}

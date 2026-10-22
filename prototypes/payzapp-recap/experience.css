@@ -1,0 +1,50 @@
+/* Browser-only additions; original artwork and flipbook layout remain in style.css. */
+body { min-height: 100dvh; }
+button:focus-visible, [role="button"]:focus-visible { outline: 3px solid #ffbd80; outline-offset: 4px; }
+.recap-dialog { position:fixed; inset:0; margin:auto; width:calc(100% - 32px); max-width:380px; max-height:calc(100dvh - 32px); overflow:auto; border:0; border-radius:24px; padding:24px; color:#183862; background:#fff; font-family:Inter,sans-serif; box-shadow:0 20px 80px #0005; }
+.recap-dialog::backdrop { background:#071a35b3; }
+.recap-dialog h2 {font-size:20px;font-weight:700;}
+.recap-dialog p {font-size:13px;line-height:1.5;margin:12px 0 16px;color:#526378;}
+.recap-dialog img {width:100%;max-height:55dvh;object-fit:contain;border-radius:12px;}
+.recap-dialog button {width:100%;padding:14px;border:0;border-radius:14px;background:#183862;color:white;font:600 14px Inter,sans-serif;margin-top:16px;cursor:pointer;}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after {animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}
+  .snowflake,.confetti-piece {display:none!important;}
+}
+
+/* The bundled utility CSS loads before the original stylesheet. Keep this
+   absolute so its background and animated layers fill the lower card. */
+.bottom-half .illustration-placeholder { position:absolute; inset:0; }
+
+/* Keep the cover and its supporting copy in one layout. The original fixed
+   footer competed with the independently positioned book on short phones. */
+.stage:not(.expanded) {
+  box-sizing:border-box;
+  min-height:100dvh;
+  padding:clamp(88px,14dvh,140px) 0 max(24px,env(safe-area-inset-bottom));
+  justify-content:flex-start;
+}
+.stage:not(.expanded) > .notepad {
+  flex:none;
+  margin-bottom:calc(320px * (var(--notepad-scale) - 1) + 32px);
+}
+.stage:not(.expanded) > .intro-content-below {
+  position:relative;
+  inset:auto;
+  transform:none;
+  flex:1;
+  padding:0 28px;
+  gap:12px;
+}
+.stage:not(.expanded) .intro-start-btn { margin-top:auto; flex-shrink:0; }
+.stage:not(.expanded) .intro-subtitle { margin-bottom:16px; }
+@media (max-height:740px) {
+  .stage:not(.expanded) { --notepad-scale:.7; }
+  .stage:not(.expanded) .intro-question { font-size:22px; line-height:1.2; }
+  .stage:not(.expanded) .intro-subtitle { font-size:16px; line-height:1.4; }
+  .stage:not(.expanded) .intro-start-btn { padding-top:14px; padding-bottom:14px; }
+}
+@media (max-height:620px) {
+  .stage:not(.expanded) { --notepad-scale:.6; padding-top:76px; }
+  .stage:not(.expanded) > .notepad { margin-bottom:calc(320px * (var(--notepad-scale) - 1) + 24px); }
+}

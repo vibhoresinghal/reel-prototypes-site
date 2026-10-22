@@ -1,0 +1,93 @@
+{
+  "archive": "Holi.zip",
+  "assets": [
+    {
+      "path": "assets/bg.png",
+      "sha256": "e8a89da23f2146254b65bea60579b80f2359ac6a4f2bc2fef59e129ae97ff835"
+    },
+    {
+      "path": "assets/blob-bg.png",
+      "sha256": "fcb42cf1881ff17a249b587909ae04fedf1fc4460282e67233cfa6f929126066"
+    },
+    {
+      "path": "assets/box.png",
+      "sha256": "cb1b0914c8edf6d738722fd916d2e2dd331e88edb9ad0f057bbf63505183cb7a"
+    },
+    {
+      "path": "assets/box.svg",
+      "sha256": "920a8176b0bc429c6fea0f878617f1b2f66dd93c8614e38e0b2381c92688d244"
+    },
+    {
+      "path": "assets/coloured-powder.png",
+      "sha256": "89c58626617e911557bce76e720a28029b60d70851fd309377196ec4036c1b6b"
+    },
+    {
+      "path": "assets/gujiya.png",
+      "sha256": "716e04c077c641767e74680b22f38881f50ddda5fe0616a6868af66c1ffb9f57"
+    },
+    {
+      "path": "assets/gulal-empty.png",
+      "sha256": "08f2496fded6bc1c5da3889e55f7b2e91389ba6b9233e261e6332e46944fc1d1"
+    },
+    {
+      "path": "assets/gulal-filled.png",
+      "sha256": "f9312a43a99edeb1290adf558185df5fb2191a143151fcf18917febd44fc597e"
+    },
+    {
+      "path": "assets/gulal.png",
+      "sha256": "6f0a7e91c002a974d4bb04475d127a5545c58b284d4cb31c018c3d9431f9a638"
+    },
+    {
+      "path": "assets/happy-holi.png",
+      "sha256": "7018bd7a2737c08eaafa19e6cd6176628dfd13096dd2efbff481b7d7e20d2c4d"
+    },
+    {
+      "path": "assets/heart.png",
+      "sha256": "9eebc357db7040c4e0ef096f812971a254dd19beb44051a6ce6a733dda11b4dc"
+    },
+    {
+      "path": "assets/letter-img-1.png",
+      "sha256": "86d10798a7d2598fd330264441bae5c910370cbd8976d96e9d9f3e0ea3d6b109"
+    },
+    {
+      "path": "assets/letter-img-2.png",
+      "sha256": "ccfe02996a9cdd5ba737900975df9298964f0a1f8cb7a6c25cbee6648b74add0"
+    },
+    {
+      "path": "assets/letter-img-3.png",
+      "sha256": "64d0f0aa5be0451a6fb7776c8936ecc9ae2472f5fc27b6be290e3fe760a16e9e"
+    },
+    {
+      "path": "assets/letter-img-4.png",
+      "sha256": "4b47e0f9230d2751cf495ff34343b388d12118a8b8bf5a96af73ceb8f7301e93"
+    },
+    {
+      "path": "assets/letter-img-5.png",
+      "sha256": "e6c828e2667e8081f7d8c7fd9746f076f51b4b99f7756d0e7a8c52354c5190c0"
+    },
+    {
+      "path": "assets/lid.png",
+      "sha256": "cd69dfe6fd0866952ae789a0f4c656607cb3930313b2fdcfdc4721e5fd78aa5b"
+    },
+    {
+      "path": "assets/nom nom.mp3",
+      "sha256": "0ce96cee6151951cbb62543a90806499c109e25d9ac8368787c8904d62f97131"
+    },
+    {
+      "path": "assets/pichkari-lever.png",
+      "sha256": "34581519e7e19864dd75a8c84257c464abfbcf71a68b9613d3ecc47e1a7d2976"
+    },
+    {
+      "path": "assets/pichkari.png",
+      "sha256": "f6911fd36521bfd4e6ad3a75642542c63b461d23f7755c267be452db2385153e"
+    },
+    {
+      "path": "assets/powder air.mp3",
+      "sha256": "c36463c2ef4eadf255d95d10dd14c1229e0f2d5c3cad01d19f2aea5fb6e4e17b"
+    },
+    {
+      "path": "assets/water splash.mp3",
+      "sha256": "6fd41cb8fe7a49d880a523af9200cf1c9036828c5d6f0659e6647a4a691e2dc8"
+    }
+  ]
+}

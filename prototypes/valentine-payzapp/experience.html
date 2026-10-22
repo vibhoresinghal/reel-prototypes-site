@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#1a1a1a" />
+    <title>A Valentine for Vibhore · PayZapp</title>
+    <link rel="stylesheet" href="fonts.css">
+    <style>
+        :root {
+            --anim-duration: 4s;
+            --scene-2-delay: 3.5s;
+            --scene-3-delay: 7s;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #ebf4fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Instrument Serif", serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        .device-frame {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            background: #000;
+            perspective: 1200px;
+            perspective-origin: 50% 50%;
+        }
+
+        .background-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("assets/background.png") center / cover no-repeat;
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            transform-style: preserve-3d;
+            z-index: 3;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+        }
+
+        .floating-asset {
+            position: absolute;
+            transform-origin: center;
+            opacity: 0;
+            will-change: transform, opacity, filter;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .anim-group {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+        }
+
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            padding: 0 2rem;
+            margin: 0;
+            text-align: center;
+            color: #0091F9;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 3rem;
+            line-height: 1.4;
+            text-shadow: 0 2px 10px #016ebc8f;
+            white-space: normal;
+            opacity: 0;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            perspective: 400px;
+        }
+
+        h1 .char {
+            display: inline-block;
+            will-change: transform, opacity;
+            padding: 0 0.1em;
+            margin: 0 -0.1em;
+        }
+
+        .scene-2 h1 {
+            text-shadow: none;
+        }
+
+        .scene-2 h1 .char {
+            background: linear-gradient(180deg, #0091F9 0%, #006BB7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .s1-g1 {
+            top: 90px;
+            left: -120px;
+            width: 300px;
+        }
+
+        .s1-g2 {
+            top: 35%;
+            right: -120px;
+            width: 300px;
+        }
+
+        .s1-g3 {
+            bottom: 40px;
+            left: -180px;
+            width: 400px;
+        }
+
+        .s2-g4 {
+            top: 20%;
+            right: -150px;
+            width: 250px;
+        }
+
+        .s2-g5 {
+            bottom: 20px;
+            right: -120px;
+            width: 280px;
+        }
+
+        .s2-g6 {
+            bottom: 5%;
+            left: -100px;
+            width: 200px;
+        }
+
+        .s2-g7 {
+            top: -10px;
+            left: -40px;
+            width: 300px;
+        }
+
+        .cloud {
+            position: absolute;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0;
+            filter: blur(8px);
+            transform-style: preserve-3d;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+
+        .c1 {
+            bottom: 50px;
+            left: -80px;
+            width: 450px;
+        }
+
+        .c2 {
+            bottom: 100px;
+            right: -80px;
+            width: 400px;
+        }
+
+        .scene-3 {
+            pointer-events: none;
+            cursor: pointer;
+        }
+
+        .envelope-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 220px;
+            height: 100vh;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        .tap-word {
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none;
+            font-size: 56px;
+            color: #0091F9;
+            margin: 0;
+            opacity: 0;
+            z-index: 5;
+            text-align: center;
+        }
+
+        .lottie-envelope {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            margin-top: -20px;
+            /* Visual centering adjustment */
+            z-index: 1;
+            transform: none;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .letter-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9990;
+            display: block;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            pointer-events: auto;
+            padding: calc(env(safe-area-inset-top) + 64px) 20px;
+            overscroll-behavior: contain;
+            opacity: 0;
+            transform: translateY(-100%);
+            filter: blur(10px);
+        }
+
+        .letter-message::-webkit-scrollbar {
+            display: none;
+        }
+
+        .letter-paper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            z-index: 1;
+            overflow: hidden;
+            border-radius: 24px;
+            /* background-color: #fff; */
+            /* Fallback */
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+            filter: blur(10px);
+            /* box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1); */
+        }
+
+        .letter-message img.letter-bg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: contain;
+            object-position: top;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .letter-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 40px 32px 32px;
+            text-align: left;
+            color: #983A68;
+            font-family: 'Source Serif 4', serif;
+        }
+
+        .message-body {
+            font-size: 1.1rem;
+            line-height: 185%;
+            background-image: linear-gradient(rgba(213, 132, 162, 0.15) 1px, transparent 1px);
+            background-size: 100% 2rem;
+            background-position: 0 1.8rem;
+            font-weight: 500;
+        }
+
+        .message-body p {
+            margin: 0;
+            margin-bottom: 32px;
+        }
+
+        .message-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .pixel-logo {
+            display: block;
+            margin: 15px auto;
+            width: 300px;
+            height: auto;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .letter-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+
+        .footer-prefix {
+            font-family: "Source Serif 4", serif;
+            color: #D584A2;
+            font-size: 1.1rem;
+        }
+
+        .footer-logo {
+            width: 100px;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        .highlight {
+            font-weight: 700;
+            color: #7A2B53;
+        }
+
+        .serif {
+            font-family: "Instrument Serif", serif;
+            font-style: italic;
+        }
+
+        .letter-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .my-dear {
+            font-family: "Playfair Display", serif;
+            color: #D584A2;
+            font-size: 1.1rem;
+            margin-bottom: -5px;
+        }
+
+        .name-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .cursive-name {
+            font-family: "Source Serif 4", cursive;
+            color: #983A68;
+            font-size: 2.5rem;
+            line-height: 110%;
+            font-style: italic;
+            font-weight: 500;
+            letter-spacing: -0.15rem;
+        }
+
+        .css-heart {
+            position: relative;
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: #FFC7F2;
+            transform: rotate(-45deg);
+            opacity: 0.8;
+            filter: blur(0.5px);
+            margin: 5px 0 0 0;
+            /* Space for the top bumps after rotation */
+        }
+
+        .css-heart::before,
+        .css-heart::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #FFC7F2;
+            border-radius: 50%;
+        }
+
+        .css-heart::before {
+            top: -6px;
+            left: 0;
+        }
+
+        .css-heart::after {
+            top: 0;
+            left: 6px;
+        }
+
+        .heart-left {
+            transform: rotate(-57deg);
+            /* -45 - 12 */
+        }
+
+        .heart-right {
+            transform: rotate(-33deg);
+            /* -45 + 12 */
+        }
+
+        .product-reveal {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            margin: 32px auto 0px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            z-index: 1000;
+        }
+
+        .lottie-heart-product {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 220px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .pixel-logo-reveal {
+            position: relative;
+            z-index: 2;
+            width: 180px;
+            height: auto;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @supports (-webkit-touch-callout: none) {
+
+            .scene,
+            .anim-group,
+            .floating-asset,
+            h1 {
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+                -webkit-transform-style: preserve-3d;
+                transform-style: preserve-3d;
+            }
+        }
+
+        .cta-button {
+            position: fixed;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+            background-color: #1D86FF;
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 14px;
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            z-index: 10001;
+            /* box-shadow: 0 10px 30px rgba(45, 27, 78, 0.3); */
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cta-button:active {
+            transform: scale(0.96);
+        }
+
+        .heart-particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 2000;
+            user-select: none;
+            filter: blur(8px);
+        }
+
+        .button-fade-overlay {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            margin-top: -120px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        /* Loader Styles */
+        #loader-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #d3efff 0%, #E1F5FE 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.8s ease-out;
+            pointer-events: auto;
+        }
+
+        .loader-heart {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            animation: heartPulse 1.2s infinite ease-in-out;
+            margin-bottom: 30px;
+            background: none;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .loader-heart svg {
+            width: 100%;
+            height: 100%;
+            filter: blur(3px);
+            /* Blur effect requested */
+            fill: #ffabeb;
+            /* Base color */
+            overflow: visible;
+            /* Allow glow/blur to extend */
+        }
+
+        .loader-heart::before,
+        .loader-heart::after {
+            display: none;
+            /* Remove CSS pseudo-elements */
+        }
+
+        @keyframes heartPulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+                filter: drop-shadow(0 0 15px rgba(255, 171, 235, 0.8));
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+        }
+
+        .loader-text {
+            color: #0091F9;
+            font-family: "Instrument Serif", serif;
+            font-style: italic;
+            font-size: 2.0rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInText 1.5s ease-out forwards 0.3s;
+            text-shadow: 0 2px 10px rgba(0, 145, 249, 0.2);
+            padding: 0 20px;
+        }
+
+        .letter-heart-pulse {
+            filter: blur(0.4rem);
+            opacity: 0.5;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 280px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .back-button {
+            position: fixed;
+            top: calc(env(safe-area-inset-top) + 16px);
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .back-button svg {
+            width: 28px;
+            height: 28px;
+            fill: #444;
+        }
+
+        /* Debug Modal Styles */
+        .debug-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10005;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .debug-modal-content {
+            background: #121212;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 320px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-break: break-all;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            max-height: 70vh;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+
+        .debug-modal-close {
+            margin-top: 20px;
+            background: #2C2C2C;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Error Screen Styles */
+        .error-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/background.png') no-repeat center center;
+            background-size: cover;
+            z-index: 20000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .error-icon-container {
+            width: 120px;
+            height: 120px;
+            position: relative;
+        }
+
+        .error-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .error-title {
+            font-family: "Source Serif 4", serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 2rem;
+            color: #006BB7;
+            margin-bottom: 1rem;
+            line-height: 120%;
+        }
+
+        .error-desc {
+            font-family: "Inter", sans-serif;
+            color: #536F85;
+            font-size: 1rem;
+            line-height: 1.5;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .error-button {
+            position: absolute;
+            bottom: 32px;
+            left: 32px;
+            right: 32px;
+            background-color: #1D86FF;
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 14px;
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+
+        }
+
+        .error-button:active {
+            transform: scale(0.96);
+        }
+    </style>
+<link rel="stylesheet" href="experience.css"></head>
+
+<body>
+    <div id="debug-modal" class="debug-modal">
+        <div class="debug-modal-content">
+            <div
+                style="color: #888; margin-bottom: 10px; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 5px;">
+                DEBUG_LOG</div>
+            <div id="debug-content"></div>
+            <button class="debug-modal-close" id="close-debug">Close HUD</button>
+        </div>
+    </div>
+    <div class="device-frame" id="app">
+        <!-- Loader Screen -->
+        <div id="loader-overlay">
+            <div class="loader-heart">
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M16,28.261c-0.001-0.001-0.002-0.001-0.003-0.002C5.3,18.067,3.18,15.65,3.12,11.85c-0.05-3.15,2.44-5.79,5.59-5.85c2.3-0.04,4.41,1.21,5.32,2.83c0.01,0.02,0.02,0.03,0.04,0.05l1.93,2.44l1.93-2.44c0.02-0.02,0.03-0.03,0.04-0.05c0.91-1.62,3.02-2.87,5.32-2.83c3.15,0.06,5.64,2.7,5.59,5.85c-0.06,3.8-2.18,6.21-12.87,16.41C16.002,28.26,16.001,28.261,16,28.261z" />
+                </svg>
+            </div>
+            <div class="loader-text">finding a perfect<br>match for you</div>
+        </div>
+        <button type="button" aria-label="All flows" class="back-button" id="back-button">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+            </svg>
+        </button>
+        <div class="background-wrapper"></div>
+
+        <!-- Scene 1 -->
+        <div class="scene scene-1">
+            <div class="anim-group">
+                <h1 id="greeting-text">Hi<br><span class="user-name">Vibhore</span></h1>
+                <img src="assets/g1.png" class="floating-asset s1-g1">
+                <img src="assets/g2.png" class="floating-asset s1-g2">
+                <img src="assets/g3.png" class="floating-asset s1-g3">
+                <img src="assets/c1.png" class="cloud c1">
+                <img src="assets/c2.png" class="cloud c2">
+            </div>
+        </div>
+
+        <!-- Scene 2 -->
+        <div class="scene scene-2">
+            <div class="anim-group">
+                <h1>Here's a letter<br>just for you</h1>
+                <img src="assets/g4.png" class="floating-asset s2-g4">
+                <img src="assets/g5.png" class="floating-asset s2-g5">
+                <img src="assets/g6.png" class="floating-asset s2-g6">
+                <img src="assets/g7.png" class="floating-asset s2-g7">
+            </div>
+        </div>
+
+        <!-- Scene 3 -->
+        <div class="scene scene-3" role="button" tabindex="-1" aria-disabled="true" aria-label="Open your letter">
+            <div class="anim-group">
+                <div class="envelope-container">
+                    <h1 class="tap-word tap">Tap</h1>
+                    <div id="lottie-envelope" class="lottie-envelope"></div>
+                    <h1 class="tap-word to-open">to open</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Letter Message (Static Content) -->
+        <div class="letter-message" id="letter-message">
+            <div class="letter-paper" id="letter-paper">
+                <img src="assets/letter.png" alt="Letter Background" class="letter-bg">
+                <div class="letter-content" id="letter-content">
+                    <div class="letter-header">
+                        <span class="my-dear">Dear</span>
+                        <div class="name-container">
+                            <div class="css-heart heart-left"></div>
+                            <span class="cursive-name user-name">Vibhore</span>
+                            <div class="css-heart heart-right"></div>
+                        </div>
+                    </div>
+                    <!-- Smart Buy (default) -->
+                    <div class="message-body" data-product="smartbuy" style="display: none;">
+                        <p>
+                            Turn your travel and brand
+                            spends into bigger savings.
+                        </p>
+                        <p>
+                            With SmartBuy, enjoy <span class="highlight">up to 10%
+                                cashback</span> and <span class="highlight">10x rewards</span> on flights,
+                            hotels, and vouchers. Smarter
+                            rewards for your lifestyle.
+                        </p>
+                    </div>
+
+                    <!-- Pixel -->
+                    <div class="message-body" data-product="pixel" style="display: none;">
+                        <p id="pixel-intro-text">
+                            You have already earned <span class="highlight">₹<span
+                                    class="total-cashback">0</span></span>
+                            on PayZapp! With a Pixel Credit Card, you can earn even more.
+                        </p>
+                        <p>
+                            Enjoy up to <span class="highlight">5% cashback</span> on your
+                            daily spends and boost your yearly savings by up to <span class="highlight">₹7,000.</span>
+                        </p>
+                    </div>
+
+                    <!-- Smart EMI -->
+                    <div class="message-body" data-product="semi" style="display: none;">
+                        <p>
+                            Your spends at <span class="highlight"><span class="merchant-name">Merchant</span></span>
+
+                            does not have to strain your budget.
+                        </p>
+                        <p>
+                            Convert them into <span class="highlight">Smart EMIs</span> to
+                            spread your payments comfortably
+                            and keep your cash flow in control.
+                        </p>
+                    </div>
+
+                    <!-- Limit Enhancement -->
+                    <div class="message-body" data-product="le" style="display: none;">
+                        <p>
+                            You're making the most of your
+                            credit card - you <span class="highlight">nearly hit your
+                                credit limit</span> last month!
+                        </p>
+                        <p>
+                            This Valentine's Day, give yourself
+                            more room to celebrate with a <span class="highlight">credit
+                                limit upgrade</span>. More freedom
+                            for your plans and your lifestyle.
+                        </p>
+                    </div>
+
+                    <!-- Product Reveal (shared, image updated by JS) -->
+                    <div class="product-reveal" id="product-reveal">
+                        <!-- Centering wrapper (not animated) -->
+                        <div class="letter-heart-pulse">
+                            <!-- Animated heart (only pulsates, no positioning) -->
+                            <div class="loader-heart" style="width: 100%; height: 100%; margin: 0;">
+                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M16,28.261c-0.001-0.001-0.002-0.001-0.003-0.002C5.3,18.067,3.18,15.65,3.12,11.85c-0.05-3.15,2.44-5.79,5.59-5.85c2.3-0.04,4.41,1.21,5.32,2.83c0.01,0.02,0.02,0.03,0.04,0.05l1.93,2.44l1.93-2.44c0.02-0.02,0.03-0.03,0.04-0.05c0.91-1.62,3.02-2.87,5.32-2.83c3.15,0.06,5.64,2.7,5.59,5.85c-0.06,3.8-2.18,6.21-12.87,16.41C16.002,28.26,16.001,28.261,16,28.261z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <img src="assets/smartbuy.png" class="pixel-logo-reveal" alt="Product"
+                            style="position: relative; z-index: 2;">
+                    </div>
+                    <div class="letter-footer">
+                        <span class="footer-prefix">With care and love,</span>
+                        <img src="assets/pz-logo.svg" alt="PayZapp" class="footer-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-fade-overlay" id="button-fade-overlay"></div>
+        <button class="cta-button" id="cta-button" disabled>Meet SmartBuy</button>
+    </div>
+
+
+
+    <!-- Lottie Library -->
+    <script src="vendor/lottie.min.js"></script>
+    <!-- GSAP Library -->
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/CustomEase.min.js"></script>
+
+    <script type="module" src="experience.js"></script>
+
+    <!-- Error Screen -->
+    <div id="error-screen" class="error-screen">
+        <button type="button" aria-label="All flows" class="back-button" data-back style="z-index: 20001; pointer-events: auto;">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
+            </svg>
+        </button>
+        <!-- Reusing back button behavior, likely needs handling in JS to ensure visibility -->
+        <div class="error-icon-container">
+            <img src="assets/heart-broken.png" alt="No Match" class="error-icon">
+        </div>
+        <h2 class="error-title">Trouble Finding Your Letter</h2>
+        <p class="error-desc">We ran into a small problem while finding your surprise letter. Let's give it another go.
+        </p>
+        <button class="error-button" id="error-retry">Try Again</button>
+    </div>
+    <!-- Audio Assets -->
+    <audio id="swoosh-sound" src="assets/swoosh.m4a" preload="auto"></audio>
+    <audio id="open-sound" src="assets/envelope-open.m4a" preload="auto"></audio>
+<dialog id="product-dialog"><p class="dialog-eyebrow">PAYZAPP</p><h2 id="product-title"></h2><p id="product-description"></p><button id="close-product">Back to your letter</button></dialog></body>
+
+</html>

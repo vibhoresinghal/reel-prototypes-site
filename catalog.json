@@ -244,5 +244,167 @@
         "entry": "prototypes/ipl-payzapp/index.html?scene=sheet-alt"
       }
     ]
+  },
+  {
+    "id": "valentine-payzapp",
+    "title": "A Valentine for you",
+    "description": "A personalized letter, a little surprise, and a perfect match from PayZapp.",
+    "source": "html",
+    "layout": "mobile",
+    "entry": "prototypes/valentine-payzapp/index.html",
+    "width": 360,
+    "height": 800,
+    "tags": [
+      "PayZapp",
+      "Valentine",
+      "Personalization",
+      "Motion"
+    ],
+    "logo": "prototypes/valentine-payzapp/assets/pz-logo.svg",
+    "scenarios": [
+      {
+        "id": "first",
+        "title": "Full experience",
+        "description": "A personalized greeting, floating gifts, and a letter for Vibhore.",
+        "entry": "prototypes/valentine-payzapp/index.html?scene=first"
+      },
+      {
+        "id": "envelope",
+        "title": "Open the envelope",
+        "description": "Tap the original animated envelope to discover your letter.",
+        "entry": "prototypes/valentine-payzapp/index.html?scene=envelope"
+      },
+      {
+        "id": "smartbuy",
+        "title": "SmartBuy letter",
+        "description": "Sample spending becomes a personalized travel and shopping offer.",
+        "entry": "prototypes/valentine-payzapp/index.html?scene=smartbuy"
+      },
+      {
+        "id": "pixel",
+        "title": "Pixel letter",
+        "description": "A cashback-led letter featuring the Pixel Credit Card.",
+        "entry": "prototypes/valentine-payzapp/index.html?scene=pixel"
+      },
+      {
+        "id": "semi",
+        "title": "Smart EMI letter",
+        "description": "A letter tailored to your sample favourite merchant.",
+        "entry": "prototypes/valentine-payzapp/index.html?scene=semi"
+      },
+      {
+        "id": "le",
+        "title": "Credit limit letter",
+        "description": "A little more room for the things you love.",
+        "entry": "prototypes/valentine-payzapp/index.html?scene=le"
+      }
+    ],
+    "thumbnail": "prototypes/valentine-payzapp/thumbnail.png"
+  },
+  {
+    "id": "holi-payzapp",
+    "title": "Holi on PayZapp",
+    "description": "A colourful gift box, playful surprises, and a personalised festive letter.",
+    "source": "html",
+    "layout": "mobile",
+    "entry": "prototypes/holi-payzapp/index.html",
+    "width": 360,
+    "height": 800,
+    "tags": [
+      "PayZapp",
+      "Holi",
+      "Personalization",
+      "Motion"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "scenarios": [
+      {
+        "id": "full",
+        "title": "The gift opening",
+        "description": "A personalised Holi gift for Vibhore. Watch the original reveal, then play with the festive surprises.",
+        "entry": "prototypes/holi-payzapp/index.html?scene=full"
+      },
+      {
+        "id": "shop",
+        "title": "PayZapp Shop letter",
+        "description": "The original festive e-voucher invitation, with gujiya, gulal and a pichkari to explore.",
+        "entry": "prototypes/holi-payzapp/index.html?scene=shop"
+      },
+      {
+        "id": "rupay-apply",
+        "title": "RuPay card invitation",
+        "description": "The original letter for applying for a RuPay credit card.",
+        "entry": "prototypes/holi-payzapp/index.html?scene=rupay-apply"
+      },
+      {
+        "id": "rupay-link",
+        "title": "Link a RuPay card",
+        "description": "The original letter for linking a RuPay credit card to PayZapp.",
+        "entry": "prototypes/holi-payzapp/index.html?scene=rupay-link"
+      },
+      {
+        "id": "wallet",
+        "title": "Zapp Account letter",
+        "description": "The original wallet offer letter.",
+        "entry": "prototypes/holi-payzapp/index.html?scene=wallet"
+      },
+      {
+        "id": "card-shop",
+        "title": "HDFC card shopping letter",
+        "description": "The original PayZapp Shop letter for HDFC Bank cardholders.",
+        "entry": "prototypes/holi-payzapp/index.html?scene=card-shop"
+      }
+    ],
+    "thumbnail": "prototypes/holi-payzapp/thumbnail.png"
+  },
+  {
+    "id": "payzapp-recap",
+    "title": "PayZapp Recap",
+    "description": "A playful look back at your year in payments.",
+    "source": "html",
+    "layout": "mobile",
+    "entry": "prototypes/payzapp-recap/index.html",
+    "width": 360,
+    "height": 800,
+    "tags": [
+      "PayZapp",
+      "Recap",
+      "Personalization",
+      "Quiz"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "scenarios": [
+      {
+        "id": "intro",
+        "title": "Recap opening",
+        "description": "Open Vibhore’s 2025 flipbook, personalised with sample app data.",
+        "entry": "prototypes/payzapp-recap/index.html?scene=intro"
+      },
+      {
+        "id": "quiz",
+        "title": "Your year in payments",
+        "description": "Six questions about Vibhore’s sample payment activity.",
+        "entry": "prototypes/payzapp-recap/index.html?scene=quiz"
+      },
+      {
+        "id": "power",
+        "title": "Power user recap",
+        "description": "The original high-spend variation with sample activity.",
+        "entry": "prototypes/payzapp-recap/index.html?scene=power"
+      },
+      {
+        "id": "inactive",
+        "title": "First-time user recap",
+        "description": "The original platform trivia variation with sample figures.",
+        "entry": "prototypes/payzapp-recap/index.html?scene=inactive"
+      },
+      {
+        "id": "summary",
+        "title": "Payment personality",
+        "description": "The final personality reveal and PayZapp discovery page.",
+        "entry": "prototypes/payzapp-recap/index.html?scene=summary"
+      }
+    ],
+    "thumbnail": "prototypes/payzapp-recap/thumbnail.png"
   }
 ]

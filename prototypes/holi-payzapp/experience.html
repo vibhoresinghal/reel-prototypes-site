@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Happy Holi — PayZapp</title>
+  <link rel="stylesheet" href="fonts.css" />
+  <link rel="stylesheet" href="experience.css" />
+  <script src="vendor/gsap.min.js"></script>
+</head>
+
+<body class="preloading">
+
+  <!-- ===== Preloader ===== -->
+  <div class="preloader" id="preloader" aria-live="polite" aria-label="Loading gift experience">
+    <div class="preloader-content">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="64" height="64">
+        <style>
+          @keyframes spin {
+            0% {
+              transform: rotate(0deg);
+            }
+
+            100% {
+              transform: rotate(360deg);
+            }
+          }
+
+          .rotating-flower {
+            transform-origin: 50px 50px;
+            /* Centers the spin */
+            animation: spin 6s linear infinite;
+            /* 'infinite' makes it loop forever */
+          }
+        </style>
+
+        <g class="rotating-flower">
+
+          <circle cx="50" cy="24" r="22" fill="#FFB74D" />
+          <circle cx="50" cy="24" r="22" fill="#FFB74D" transform="rotate(72 50 50)" />
+          <circle cx="50" cy="24" r="22" fill="#FFB74D" transform="rotate(144 50 50)" />
+          <circle cx="50" cy="24" r="22" fill="#FFB74D" transform="rotate(216 50 50)" />
+          <circle cx="50" cy="24" r="22" fill="#FFB74D" transform="rotate(288 50 50)" />
+
+          <circle cx="50" cy="50" r="20" fill="#FFB74D" />
+
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(36 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(72 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(108 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(144 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(180 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(216 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(252 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(288 50 50)" />
+          <circle cx="50" cy="36" r="3.5" fill="#F57C00" transform="rotate(324 50 50)" />
+
+          <circle cx="50" cy="50" r="12" fill="#F57C00" />
+        </g>
+      </svg>
+
+      <div class="preloader-copy-marquee" id="preloaderCopyMarquee" aria-live="polite">
+        <p class="preloader-copy preloader-copy-current" id="preloaderCopyCurrent">
+          Blending festive colors for your surprise...
+        </p>
+        <p class="preloader-copy preloader-copy-next" id="preloaderCopyNext" aria-hidden="true"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Fixed Toolbar ===== -->
+  <header class="toolbar" id="toolbar">
+    <button class="toolbar-btn cancel-btn" id="cancelBtn" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M18 6L6 18M6 6l12 12" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- ===== Single Scene ===== -->
+  <div class="scene" id="scene">
+    <div class="box-wrapper" id="boxWrapper">
+
+      <!-- Box cast shadow -->
+      <div class="box-cast-shadow" aria-hidden="true"></div>
+
+      <!-- Lid -->
+      <div class="box-lid" id="boxLid">
+        <img src="assets/lid.png" alt="Box Lid" class="lid-img" />
+        <div class="lid-user-name" id="lidUserName"></div>
+      </div>
+
+      <!-- Box body + assets inside -->
+      <div class="box-body" id="boxBody">
+        <img src="assets/box.png" alt="Box" class="box-img" />
+
+        <!-- ===== Intro Color Burst ===== -->
+        <div class="intro-color-burst" id="introColorBurst" aria-hidden="true">
+          <img src="assets/coloured-powder.png" alt="" class="intro-color-img" />
+        </div>
+
+        <!-- Assets layer -->
+        <div class="assets-layer" id="assetsLayer">
+
+          <!-- Letter (center, styled in CSS) -->
+          <div class="asset asset-letter" id="assetLetter">
+            <div class="letter-paper">
+              <div class="letter-content">
+                <img src="assets/happy-holi.png" alt="Happy Holi" class="letter-title-image" />
+
+                <p>
+                  You have already earned <strong>₹200 cashback</strong> on PayZapp. With a Pixel Credit Card, you can
+                  earn even more.
+                </p>
+
+                <p>
+                  Enjoy up to <strong>5% cashback</strong> on your daily spends and boost your yearly savings by up to
+                  <strong>₹7,000.</strong>
+                </p>
+
+                <img src="" alt="" aria-hidden="true" class="letter-product-badge is-hidden" id="letterProductBadge" />
+
+                <a class="letter-cta" id="letterCta" href="#" aria-label="Explore offer">Explore Offer</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gujiya (overlapping left side) -->
+          <button class="asset asset-gujiya" id="assetGujiya" aria-label="Gujiya">
+            <img src="assets/gujiya.png" alt="Gujiya" class="asset-img" />
+          </button>
+          <button class="asset asset-gujiya asset-gujiya-second" id="assetGujiya2" aria-label="Gujiya">
+            <img src="assets/gujiya.png" alt="Gujiya" class="asset-img" />
+          </button>
+
+          <!-- Pichkari (overlapping right side) -->
+          <button class="asset asset-pichkari" id="assetPichkari" aria-label="Pichkari">
+            <img src="assets/pichkari.png" alt="Pichkari" class="asset-img asset-pichkari-main" />
+            <img src="assets/pichkari-lever.png" alt="" class="asset-pichkari-lever" aria-hidden="true" />
+          </button>
+
+          <!-- Gulal (overlapping bottom-right) -->
+          <button class="asset asset-gulal" id="assetGulal" aria-label="Gulal">
+            <img src="assets/gulal-empty.png" alt="Gulal" class="asset-img asset-gulal-base" />
+            <img src="assets/gulal-filled.png" alt="" class="asset-img asset-gulal-fill" aria-hidden="true" />
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-signoff" id="bottomSignoff">
+    <img src="assets/heart.png" alt="" class="bottom-signoff-heart" aria-hidden="true" />
+    <span class="bottom-signoff-line">With Love from</span>
+    <span class="bottom-signoff-brand">PayZapp</span>
+  </div>
+
+  <!-- ===== Spray Canvas ===== -->
+  <canvas id="sprayCanvas"></canvas>
+
+  <!-- ===== Asset Backdrop ===== -->
+  <div class="asset-backdrop" id="assetBackdrop"></div>
+
+  <dialog class="demo-dialog" id="demoDialog" aria-labelledby="demoTitle">
+    <h2 id="demoTitle">Your Holi offer</h2>
+    <p>This offer opens in PayZapp. This prototype uses sample app data; no real application, payment or reward is created.</p>
+    <form method="dialog"><button>Back to your gift</button></form>
+  </dialog>
+  <script src="experience.js"></script>
+</body>
+
+</html>

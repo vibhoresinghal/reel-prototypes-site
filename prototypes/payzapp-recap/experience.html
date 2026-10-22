@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>2025 Zapp Recap</title>
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="utilities.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="experience.css">
+    <script src="vendor/gsap.min.js"></script>
+    <script src="vendor/html2canvas.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Preloader Overlay -->
+    <div id="preloader" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#183862]">
+        <div class="preloader-content flex flex-col items-center gap-16">
+            <img src="assets/logo.png" alt="PayZapp Logo" class="w-32 opacity-90">
+            <div class="loader-spinner"></div>
+            <p id="loader-message" class="text-white text-base font-medium tracking-wide" style="opacity: 0.6;">
+                Polishing your trophy...</p>
+        </div>
+    </div>
+
+    <!-- Error Screen (Hidden by default) -->
+    <div id="error-screen"
+        class="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-[#183862] hidden">
+        <div class="error-content flex flex-col items-center gap-6 px-8 text-center">
+            <!-- Flipbook Preview Image -->
+            <img src="assets/flipbook-preview.png" alt="PayZapp Recap" class="w-64">
+
+            <!-- Header -->
+            <h1 class="text-white text-2xl/6 font-bold mt-8 mb-0">Oops! A slight hiccup.</h1>
+
+            <!-- Sub-header -->
+            <p class="text-white/60 text-base/6 font-medium">
+                We're having some trouble loading your 2025 story. Please give us a moment and try again.
+            </p>
+
+            <!-- Retry Button -->
+            <button id="retry-api-btn" onclick="retryFetchData()"
+                class="mt-4 px-8 py-4 bg-white text-[#183862] font-bold rounded-2xl text-base transition-all active:scale-95 gap-2 w-full text-center">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Debug Toast for API Response -->
+    <div id="debug-toast"
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[10000] px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 opacity-0 translate-y-4 pointer-events-none">
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <div class="top-nav fixed top-0 left-0 right-0 flex justify-between items-center px-5 pb-10 z-[2000]">
+        <button aria-label="Back to all flows" onclick="goBack()"
+            class="nav-icon bg-transparent border-none text-white cursor-pointer p-2 flex items-center justify-center w-10 h-10 rounded-full">
+            <span class="material-symbols-rounded text-2xl">close</span>
+        </button>
+        <!-- Brand Logo - Hidden initially, shown on quiz start -->
+        <div id="brand-logo" class="brand-logo absolute left-1/2 -translate-x-1/2 opacity-0 pointer-events-none pt-1">
+            <img src="assets/logo-horizontal.png" alt="Zapp Recap Logo" class="h-10 w-auto">
+        </div>
+        <div class="flex gap-3">
+            <!-- Replay button - Hidden by default, shown on outro -->
+            <button aria-label="Replay recap" id="replay-btn"
+                class="nav-icon bg-transparent border-none text-white cursor-pointer p-2 flex items-center justify-center w-10 h-10 rounded-full opacity-0 pointer-events-none">
+                <span class="material-symbols-rounded text-2xl">replay</span>
+            </button>
+            <button aria-label="Preview share card" id="share-btn"
+                class="nav-icon bg-transparent border-none text-white cursor-pointer p-2 flex items-center justify-center w-10 h-10 rounded-full">
+                <span class="material-symbols-rounded text-2xl">share</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="stage w-full min-h-screen flex flex-col justify-center items-center pt-[0px] pb-[200px] relative">
+        <!-- Snowfall Animation Container -->
+        <div id="snowfall-container" class="fixed inset-0 pointer-events-none z-[1] overflow-hidden"></div>
+
+        <div class="notepad relative mb-5 notepad-anim">
+            <!-- The "Top Half" - Represents the previous page flipped up (or empty space initially) -->
+            <div class="top-half">
+                <div class="spine-shadow-top"></div>
+                <div class="content-container py-6 px-5 h-full flex flex-col justify-between" id="top-content">
+                    <!-- Question and Options moved here -->
+                    <div class="question-section">
+                        <!-- Auto-flip Progress Bar (Instagram story style) -->
+                        <div id="autoflip-progress" class="autoflip-progress-container opacity-0">
+                            <div class="autoflip-progress-bar"></div>
+                        </div>
+                        <!-- Carousel Indicator -->
+                        <div class="carousel-indicator flex items-center justify-center mb-4 opacity-0">
+                            <div class="carousel-dots flex items-center relative">
+                                <!-- Dots will be dynamically generated -->
+                            </div>
+                        </div>
+                        <h2 class="question-text text-center mb-5 opacity-0 text-xl/7 font-medium mt-5">Loading...</h2>
+                        <div class="options-container flex flex-col gap-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The "Bottom Half" - The active card that flips up -->
+            <div class="bottom-half" id="card-1" style="z-index: 3;">
+                <div class="spine-shadow-bottom"></div>
+                <div class="lighting-overlay"></div>
+                <div class="content-container front py-6 px-5 h-full flex flex-col justify-between">
+                    <!-- Front: Illustration and Trivia -->
+                    <div class="illustration-container absolute left-0 right-0 top-0 bottom-0">
+                        <div
+                            class="illustration-placeholder absolute left-0 right-0 top-0 bottom-0 z-0 rounded-b-[24px]">
+                        </div>
+                        <p class="trivia-text mt-6 text-center opacity-0 relative z-10 px-4 text-md/6 text-gray-800">
+                        </p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <!-- Back: Next Question -->
+                    <div class="content-container back-content py-6 px-5 h-full flex flex-col justify-between">
+                        <div class="question-section">
+                            <h2 class="question-text text-center mb-5 opacity-0 text-xl/7 font-medium mt-5">Loading...
+                            </h2>
+                            <div class="options-container flex flex-col gap-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outro Templates (Hidden, will be cloned when needed) -->
+
+            <!-- Top Half Outro Template -->
+            <div id="outro-top-template" style="display: none;">
+                <div class="outro-top-content h-full flex flex-col items-center justify-center text-center">
+                    <p class="text-sm uppercase font-medium text-gray-900 mb-2 relative z-10 tracking-wider">You're a
+                        certified</p>
+                    <h2
+                        class="outro-top-title dm-serif-italic text-3xl/7 font-extrabold text-gray-900 mb-3 relative z-10">
+                        The Digital Nomad</h2>
+                    <p class="outro-top-message text-base/5 text-gray-800 relative z-10">You find the deal. 'Paisa
+                        Vasool' is your name.</p>
+                    <!-- Add any custom content here -->
+                </div>
+            </div>
+
+            <!-- Bottom Half Outro Template -->
+            <div id="outro-template" style="display: none;">
+                <div class="outro-content h-full flex flex-col items-center justify-center text-center px-6 pt-[160px]">
+                    <p class="outro-message text-base/5 text-gray-800 mb-10">
+                        Flex your badge and show the squad who's the boss
+                    </p>
+                    <button
+                        class="outro-share-btn bg-[#996533] text-white px-6 py-4 rounded-xl text-base/5 font-bold w-full flex items-center justify-center gap-2 h-[52px]">
+                        <span class="outro-share-text">Share with Friends</span>
+                        <span
+                            class="outro-share-loader material-symbols-rounded text-xl hidden animate-spin">progress_activity</span>
+                    </button>
+                    <!-- Add any custom content here -->
+                </div>
+            </div>
+
+            <!-- The "Next" Bottom Half - Hidden underneath -->
+            <div class="bottom-half" id="card-2" style="z-index: 2;">
+                <div class="spine-shadow-bottom"></div>
+                <div class="lighting-overlay"></div>
+                <div class="content-container front py-6 px-5 h-full flex flex-col justify-between">
+                    <div class="illustration-container absolute left-0 right-0 top-0 bottom-0">
+                        <div
+                            class="illustration-placeholder absolute left-0 right-0 top-0 bottom-0 z-0 rounded-b-[24px]">
+                        </div>
+                        <p
+                            class="trivia-text mt-6 text-center opacity-0 relative z-10 px-4 text-md/6 text-gray-800 font-medium">
+                        </p>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <div class="content-container back-content py-6 px-5 h-full flex flex-col justify-between">
+                        <div class="question-section">
+                            <h2 class="question-text text-center mb-5 opacity-0 text-xl/7 font-medium mt-5">Loading...
+                            </h2>
+                            <div class="options-container flex flex-col gap-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Intro Cover -->
+            <div class="intro-cover">
+                <div
+                    class="cover-content absolute w-full h-full flex flex-col justify-between py-10 px-5 text-white text-center">
+                    <div class="flipbook-ring absolute -top-3 left-0 right-0 text-center mx-auto w-fit">
+                        <img src="assets/flipbook-rings.svg" alt="Flipbook Ring" class="w-full">
+                    </div>
+                    <div class="border-solid border-2 border-black opacity-10 absolute top-10 left-0 w-full"></div>
+                    <div class="logo-area text-center z-10">
+                        <img src="assets/logo.png" alt="PayZapp Logo" class="w-36 mx-auto mt-8">
+                    </div>
+                    <div class="user-badge text-center text-base/5 text-gray-900 font-semibold z-10 mt-8">
+                        <span>Prepared exclusively<br>for <span id="user-first-name">you</span></span>
+                    </div>
+                    <div class="intro-cover-mask absolute top-0 left-0 bottom-0 right-0 overflow-hidden">
+                        <img src="assets/cover-bg.png" class="absolute -bottom-4 right-0 left-0">
+                        <!-- <img src="assets/element1.svg" class="absolute top-20 -right-2 w-16 rotate-[20deg]">
+                        <img src="assets/element2.svg" class="absolute bottom-8 right-2 w-14 -rotate-[15deg]">
+                        <img src="assets/element3.svg" class="absolute top-60 left-4 w-14 rotate-[10deg]">
+                        <img src="assets/element4.svg" class="absolute -left-4 top-28 w-20 -rotate-[20deg]"> -->
+                    </div>
+                </div>
+                <!-- Back of intro cover: Shows first question -->
+                <div class="intro-back">
+                    <div class="content-container py-6 px-5 h-full flex flex-col justify-between"
+                        id="intro-back-content">
+                        <div class="question-section">
+                            <h2 class="question-text text-center mb-5 opacity-0 text-xl/7 font-medium mt-5">Loading...
+                            </h2>
+                            <div class="options-container flex flex-col gap-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- Content Below Notepad (Intro State) -->
+        <div
+            class="intro-content-below fixed bottom-0 left-1/2 -translate-x-1/2 py-8 pb-10 px-7 text-center z-[2001] flex flex-col items-center gap-3 w-full to-transparent">
+            <h2 class="intro-question text-2xl font-bold text-white m-0 intro-below-anim">Let's<span
+                    style="font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.75rem; color: #FFBC85;">
+                    rewind</span> your year <br />with PayZapp</h2>
+            <p class="intro-subtitle text-lg opacity-75 text-white/90 m-0 intro-below-anim">From morning chai to big
+                purchases. Can you guess your top moments?</p>
+            <button id="start-btn"
+                class="intro-start-btn bg-white text-[#003d80] border-none w-full py-4 px-10 rounded-2xl text-base font-bold cursor-pointer shadow-md active:scale-95 mt-16 intro-below-anim">Start
+                the Quiz</button>
+        </div>
+    </div>
+
+    <!-- Landing Page Scroll Indicator (outside landing-page for proper fixed positioning) -->
+    <div id="landing-scroll-indicator"
+        class="fixed bottom-0 left-0 right-0 z-[100] flex flex-col items-center gap-1 pb-8 pt-16 opacity-0 pointer-events-none transition-opacity duration-300"
+        style="background: linear-gradient(0deg, rgba(46, 36, 25, 1) 0%, rgba(46, 36, 25, 0.7) 80%, transparent 100%); display: none !important;">
+        <span class="text-white/80 text-base font-semibold">See how to level up your 2026</span>
+        <span class="material-symbols-rounded text-white/80 text-3xl animate-bounce">keyboard_double_arrow_down</span>
+    </div>
+
+    <!-- Landing Page Content (Hidden initially, shown after outro) -->
+    <div id="landing-page" class="hidden w-full px-5 pb-10">
+
+        <!-- Trust Section -->
+        <!-- <section class="trust-section mt-12 text-center">
+            <h3 class="text-2xl font-semibold text-white mb-6">Why India <span
+                    class="dm-serif-italic text-[1.7rem] text-[#F5B12F]">trusts</span> us</h3>
+            <div class="flex gap-4 justify-center">
+                <div class="trust-card bg-[#3B2F20] backdrop-blur-sm rounded-2xl p-5 flex-1">
+                    <img src="assets/users.svg" alt="Users" class="w-10 h-10 mx-auto mb-3">
+                    <p class="text-xl font-bold text-[#F5B12F]">2.3 Cr +</p>
+                    <p class="text-sm text-white/70 mt-1">Indians have chosen PayZapp for their payments</p>
+                </div>
+                <div class="trust-card bg-[#3B2F20] backdrop-blur-sm rounded-2xl p-5 flex-1">
+                    <img src="assets/speed.svg" alt="Uptime" class="w-10 h-10 mx-auto mb-3">
+                    <p class="text-xl font-bold text-[#F5B12F]">94%</p>
+                    <p class="text-sm text-white/70 mt-1">Payment success rate. So you never have to hit retry.</p>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- Level Up Section -->
+        <section class="levelup-section mt-12">
+            <h3 class="text-2xl font-bold text-white text-center">Level up your <span
+                    class="dm-serif-italic text-[1.7rem] text-[#F5B12F]">2026!</span></h3>
+            <p class="text-base text-white/70 text-center mt-1 mb-6">New ways to pay, share, and invest</p>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Feature Card 1 -->
+                <div class="feature-card bg-gradient-to-b from-[#F9DA90] to-[#F8D47C] rounded-2xl p-4">
+                    <img src="assets/feature-1.png" alt="Swipe to Pay" class="w-14 mb-3">
+                    <h4 class="text-base/5 font-bold text-gray-800">UPI without Bank Account</h4>
+                    <p class="text-sm text-gray-600 mt-1">For all your daily payments</p>
+                    <button onclick="openDeepLink('payzapp://reactFullPage?component=MY_MONEY&screenName=WalletScreen')"
+                        class="mt-4 w-full py-2.5 text-sm font-semibold text-gray-800 bg-black/[0.07] border border-black/[0.1] rounded-lg">Get
+                        it now</button>
+                </div>
+                <!-- Feature Card 2 -->
+                <div class="feature-card bg-gradient-to-b from-[#B5E5EE] to-[#93D9E6] rounded-2xl p-4">
+                    <img src="assets/feature-2.png" alt="Credit Card" class="w-14 mb-3">
+                    <h4 class="text-base/5 font-bold text-gray-800">UPI RuPay Credit Card</h4>
+                    <p class="text-sm text-gray-600 mt-1">Get assured rewards on UPI</p>
+                    <button
+                        onclick="openDeepLink('payzapp://educationScreen/?type=FULL_SCREEN_IMAGE_BANNER&bannerImageUri=https%3A%2F%2Fstatic.tachyon.hdfcbank.com%2Fplutus%2Fplutus-user-migration-service-icon%2FRuPay%20CC%20Landing%20Page%20V2-min.png&ctaText=Apply%20Now&ctaUri=payzapp%3A%2F%2FrupayCardActivation&ctaButtonColor=%231D86FF&ctaTextColor=%23FFFFFF&backgroundColor=%23FFFFFF&bacBackButtonColor=%23252E39&campaignName=RupayFloaterV2')"
+                        class="mt-4 w-full py-2.5 text-sm font-semibold text-gray-800 bg-black/[0.07] border border-black/[0.1] rounded-lg">Apply
+                        now</button>
+                </div>
+                <!-- Feature Card 3 -->
+                <div class="feature-card bg-gradient-to-b from-[#E8EFC0] to-[#C1E599] rounded-2xl p-4">
+                    <img src="assets/feature-3.png" alt="Invest" class="w-14 mb-3">
+                    <h4 class="text-base/5 font-bold text-gray-800">Invest with ease</h4>
+                    <p class="text-sm text-gray-600 mt-1">Apply for IPOs and approve mandates easily</p>
+                    <button
+                        onclick="openDeepLink('payzapp://educationScreen/?type=FULL_SCREEN_IMAGE_BANNER&bannerImageUri=https://static.tachyon.hdfcbank.com/plutus/plutus-user-migration-service-icon/IPO.png&ctaUri=payzapp://reactFullScreen?component=RN_HOMEPAGE&ctaText=Okay&ctaButtonColor=%231D86FF&ctaTextColor=%23FFFFFF&backgroundColor=%23FFFFFF&backButtonColor=%23000000&campaignName=IPOViaPayZapp ')"
+                        class="mt-4 w-full py-2.5 text-sm font-semibold text-gray-800 bg-black/[0.07] border border-black/[0.1] rounded-lg">Learn
+                        more</button>
+                </div>
+                <!-- Feature Card 5 -->
+                <div class="feature-card bg-gradient-to-b from-[#FFE1DB] to-[#F5B7B6] rounded-2xl p-4">
+                    <img src="assets/feature-5.png" alt="Bill Pay" class="w-14 mb-3">
+                    <h4 class="text-base/5 font-bold text-gray-800">Never Miss a Bill</h4>
+                    <p class="text-sm text-gray-600 mt-1">Set Autopay for bills and subscriptions. Sleep easy.</p>
+                    <button onclick="openDeepLink('payzapp://reactFullpage?component=LINKED_BILLS&name=MyBills')"
+                        class="mt-4 w-full py-2.5 text-sm font-semibold text-gray-800 bg-black/[0.07] border border-black/[0.1] rounded-lg">Learn
+                        more</button>
+                </div>
+                <!-- Feature Card 4 -->
+                <div class="feature-card bg-gradient-to-b from-[#EED3F8] to-[#DFABF2] rounded-2xl p-4">
+                    <img src="assets/feature-4.png" alt="AutoPay" class="w-14 mb-3">
+                    <h4 class="text-base/5 font-bold text-gray-800">AutoPay with UPI</h4>
+                    <p class="text-sm text-gray-600 mt-1">Never miss a due date. Setup easily!</p>
+                    <!-- <button onclick="openDeepLink('payzapp://offerDetails?offerId=3418')"
+                        class="mt-4 w-full py-2.5 text-sm font-semibold text-gray-800 bg-black/[0.07] border border-black/[0.1] rounded-lg">Learn
+                        more</button> -->
+                    <img src="assets/autopay-icons.png" alt="AutoPay" class="mt-4 h-10 max-w-min">
+                </div>
+                <!-- Feature Card 6 -->
+                <div class="feature-card bg-gradient-to-b from-[#B5E5EE] to-[#93D9E6] rounded-2xl p-4">
+                    <img src="assets/feature-6.png" alt="Share Account" class="w-14 mb-3">
+                    <h4 class="text-base/5 font-bold text-gray-800">Share your Account</h4>
+                    <p class="text-sm text-gray-600 mt-1">UPI Circle - One account, multiple users</p>
+                    <button
+                        class="mt-4 w-full py-2.5 text-sm font-semibold text-gray-800 bg-black/[0.07] border border-black/[0.1] rounded-lg pointer-events-none h-[42px]">
+                        <span class="material-symbols-rounded relative top-[-4px] text-lg mr-[1px]">
+                            schedule
+                        </span>
+                        <span class="relative top-[-8px]">Coming soon</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Smarter Section -->
+        <section class="promo-section mt-12">
+            <h3 class="text-2xl font-bold text-white text-center">Shop smarter. Pay <span
+                    class="dm-serif-italic text-[1.7rem] text-[#F5B12F]">safer.</span></h3>
+            <p class="text-base text-white/70 text-center mt-2 mb-6">Exclusive rewards & iron-clad security</p>
+
+            <div class="flex flex-col gap-4">
+                <!-- Promo Card 1 -->
+                <div role="button" tabindex="0" onclick="openDeepLink('payzapp://reactFullPage?component=RN_HOMEPAGE&name=Shop')"
+                    class="promo-card rounded-2xl p-5 flex items-start gap-4">
+                    <img src="assets/shopping.svg" alt="Shop Smarter" class="w-10 flex-shrink-0">
+                    <div class="flex-1">
+                        <h4 class="text-lg font-semibold text-[#F5B12F]">Shop Smarter</h4>
+                        <p class="text-sm text-white mt-1 opacity-70">Get up to 10X reward points on travel, vouchers,
+                            and shopping via SmartBuy</p>
+                    </div>
+                    <span class="material-symbols-rounded text-white/50 text-2xl flex-shrink-0">chevron_right</span>
+                </div>
+                <!-- Promo Card 2 -->
+                <div role="button" tabindex="0" onclick="openDeepLink('payzapp://educationScreen/?type=FULL_SCREEN_IMAGE_BANNER&bannerImageUri=https%3A%2F%2Fstatic.tachyon.hdfcbank.com%2Fplutus%2Fplutus-user-migration-service-icon%2FCyber%20Suraksha%20-%20Landing%20Page%20V1%203.png&ctaText=Get%20Insured&ctaUri=https://www.hdfcergo.com/OnlineInsurance/CanvasOnline/PayZapp/PayZappIndex&ctaButtonColor=%2337372F&ctaTextColor=%23FFFFFF&backgroundColor=%23FFFFFF&bacBackButtonColor=%23000000&campaignName=Cyber%20Suraksha')"
+                    class="promo-card rounded-2xl p-5 flex items-start gap-4">
+                    <img src="assets/security.svg" alt="Secure Spends" class="w-10 flex-shrink-0">
+                    <div class="flex-1">
+                        <h4 class="text-lg font-semibold text-[#F5B12F]">Secure Your Spends</h4>
+                        <p class="text-sm text-white mt-1 opacity-70">Protect your payments. Cyber Suraksha Insurance
+                            plans starting at just ₹5/month*</p>
+                    </div>
+                    <span class="material-symbols-rounded text-white/50 text-2xl flex-shrink-0">chevron_right</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer-section mt-12 text-center pb-8">
+            <h3 class="text-3xl font-bold">
+                <span class="text-[#594630]">Smart.</span>
+                <span class="dm-serif-italic text-[#E59640]">Secure.</span>
+                <span class="text-[#594630]">Simple.</span>
+            </h3>
+            <div class="flex items-center justify-center gap-2 mt-4">
+                <span class="text-sm text-[#594630] tracking-widest">POWERED BY</span>
+                <img src="assets/hdfc.png" alt="HDFC Bank" class="h-5">
+            </div>
+        </footer>
+    </div>
+    <!-- Validation Overlay -->
+    <div class="validation-overlay" id="validation-overlay">
+        <div class="validation-content">
+            <div class="target-icon text-6xl flex items-center justify-center"></div>
+            <h3 class="text-xl text-gray-800 font-bold mt-4">Spot on!</h3>
+        </div>
+    </div>
+
+    <!-- Swipe Hint -->
+    <div id="swipe-hint"
+        class="swipe-hint fixed left-0 right-0 text-center text-white opacity-0 pointer-events-none z-[100] flex flex-row items-center justify-center gap-2">
+        <span class="material-symbols-rounded animate-bounce mt-2">keyboard_double_arrow_up</span>
+        <span class="text-base font-regular tracking-wide -ml-1">Swipe up for next</span>
+    </div>
+
+    <!-- Gesture Zone: Bottom 30% -->
+    <div id="gesture-zone" class="fixed bottom-0 left-0 w-full h-[50%] z-[150] pointer-events-none touch-none"></div>
+
+    <!-- Share Template - Question Specific (Hidden, for image generation) -->
+    <div id="share-template-question" style="position: absolute; left: -9999px; top: 0; width: 360px; height: 600px;">
+        <div id="share-container-bg" class="share-container"
+            style="width: 360px; height: 600px; display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; background-color: #D6F4FF;">
+            <!-- Illustration Image - aligned to bottom, no stretching -->
+            <img id="share-bg-image" src="" alt=""
+                style="position: absolute; bottom: 0; left: 0; right: 0; width: 100%; height: auto; object-fit: contain; object-position: bottom; z-index: 0;">
+            <!-- Content Overlay -->
+            <div
+                style="position: relative; z-index: 10; width: 100%; display: flex; flex-direction: column; align-items: center; padding: 24px;">
+                <!-- Logo at top -->
+                <img id="share-logo" src="assets/pz-logo.png" alt="2025 Zapp Recap"
+                    style="height: 80px; margin: 36px 0px;">
+                <!-- Main data point -->
+                <h1 id="share-data-value"
+                    style="font-family: 'Inter', sans-serif; font-size: 2rem; font-weight: 800; color: #183862; margin: 0; text-align: center;">
+                </h1>
+                <!-- Data label -->
+                <p id="share-data-label"
+                    style="font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; color: #183862; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 10px; text-align: center;">
+                </p>
+                <!-- Trivia text -->
+                <p id="share-trivia"
+                    style="font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 500; color: #183862; text-align: center; margin-top: 32px; line-height: 1.4; padding: 0 5px;">
+                </p>
+            </div>
+            <!-- Product/Vehicle Image for Card 1 (positioned 160px from bottom, centered) -->
+            <img id="share-product-image" src="" alt=""
+                style="position: absolute; bottom: 0px; left: 50%; transform: translateX(-50%); width: auto; height: 250px; z-index: 20; display: none;">
+        </div>
+    </div>
+
+    <!-- Share Template - Generic/Intro (Hidden, for image generation) -->
+    <div id="share-template-generic" style="position: absolute; left: -9999px; top: 0; width: 360px; height: 640px;">
+        <div class="share-container"
+            style="width: 360px; height: 640px; display: flex; flex-direction: column; align-items: center; background: #183862; position: relative; overflow: hidden;">
+            <!-- Logo at top -->
+            <img id="share-logo" src="assets/pz-logo.png" alt="2025 Zapp Recap" style="height: 72px; margin: 48px 0px;">
+            <!-- Flipbook preview image (2x exported, so using half width) -->
+            <img src="assets/flipbook-preview.png" alt="2025 Zapp Recap"
+                style="width: 220px; height: auto; rotate: 2deg;">
+            <!-- Text below card -->
+            <h2
+                style="font-family: 'Inter', sans-serif; font-size: 1.375rem; font-weight: 600; color: white; text-align: center; margin-top: 30px;">
+                Let's<span
+                    style="font-family: 'DM Serif Display', serif; font-style: italic; color: #FFBC85; font-size: 1.5rem;">Rewind</span>
+                Your Year with PayZapp
+            </h2>
+            <p
+                style="font-family: 'Inter', sans-serif; font-size: 1rem; color: rgba(255,255,255,0.8); text-align: center; margin-top: 10px; line-height: 1.4;">
+                From morning chai to big purchases. Can you guess your top moments?</p>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+    <script src="experience.js"></script>
+</body>
+
+</html>

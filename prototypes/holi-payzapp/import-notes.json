@@ -1,0 +1,56 @@
+{
+  "firstScene": "full",
+  "scenes": [
+    [
+      "full",
+      "The gift opening",
+      "A personalised Holi gift for Vibhore. Watch the original reveal, then play with the festive surprises."
+    ],
+    [
+      "shop",
+      "PayZapp Shop letter",
+      "The original festive e-voucher invitation, with gujiya, gulal and a pichkari to explore."
+    ],
+    [
+      "rupay-apply",
+      "RuPay card invitation",
+      "The original letter for applying for a RuPay credit card."
+    ],
+    [
+      "rupay-link",
+      "Link a RuPay card",
+      "The original letter for linking a RuPay credit card to PayZapp."
+    ],
+    [
+      "wallet",
+      "Zapp Account letter",
+      "The original wallet offer letter."
+    ],
+    [
+      "card-shop",
+      "HDFC card shopping letter",
+      "The original PayZapp Shop letter for HDFC Bank cardholders."
+    ]
+  ],
+  "source": "Holi.zip",
+  "originalAssetCount": 22,
+  "profile": {
+    "userName": "Vibhore"
+  },
+  "sourceRepairs": [
+    "Corrected Box.png references to lowercase box.png for case-sensitive hosting.",
+    "Added missing letter-img-5.png to preloading.",
+    "Replaced native bridge wait, analytics, navigation and dismiss with local demo adapters.",
+    "All original image/audio asset hashes unchanged.",
+    "Local GSAP 3.12.5 matches original CDN version; local Inter font weights match original request."
+  ],
+  "integration": {
+    "homeMessage": {
+      "type": "holi:home"
+    },
+    "innerUrl": "experience.html?scene=<id>",
+    "profileGlobal": "window.__HOLI_PROFILE__ = {userName: string} before experience.js (optional)",
+    "readyMarker": "html[data-ready=\"true\"]",
+    "cta": "Native accessible dialog, no real offer navigation."
+  }
+}
