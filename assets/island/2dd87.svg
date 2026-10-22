@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="200.096" height="185.202" viewBox="0 0 200.096 185.202" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="KYC comp" filter="url(#filter0_f_0_616)">
+<path d="M150.773 16.1953C138.497 5.57751 111.924 26.426 100.173 38.1775C100.173 43.8457 90.9655 55.2651 54.1356 55.5969C8.09823 56.0117 15.1476 85.8742 13.4886 99.1465C11.8296 112.419 20.1247 124.447 24.2723 133.571C27.5904 140.871 54.9644 144.632 68.2366 145.599C72.3842 151.821 90.4676 165.674 129.621 171.314C168.774 176.955 183.816 142.42 186.442 124.447C185.198 112.28 183.456 85.8742 186.442 77.5791C189.429 69.2839 174.138 53.9379 166.119 47.3018C166.119 41.357 163.05 26.8131 150.773 16.1953Z" fill="#1B9E96" fill-opacity="0.72"/>
+</g>
+<defs>
+<filter id="filter0_f_0_616" x="1.89767e-08" y="9.29651e-08" width="200.096" height="185.202" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="6.63612" result="effect1_foregroundBlur_0_616"/>
+</filter>
+</defs>
+</svg>

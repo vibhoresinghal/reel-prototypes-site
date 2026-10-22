@@ -1,0 +1,54 @@
+{
+  "fileKey": "GwT8JER6Gimi5kdAsZsn1I",
+  "colorsFrom": "788:96758 and 788:60036 instance fill overrides",
+  "icons": {
+    "bank": {
+      "original": "b6b1e.svg",
+      "fill": "#EF775D",
+      "pathsUnchanged": true
+    },
+    "wallet": {
+      "original": "27876.svg",
+      "fill": "#5DBBEF",
+      "pathsUnchanged": true
+    },
+    "card": {
+      "original": "c8d7d.svg",
+      "fill": "#5CA7FE",
+      "pathsUnchanged": true
+    },
+    "biller": {
+      "original": "bd628.svg",
+      "fill": "#28AF61",
+      "pathsUnchanged": true
+    },
+    "merchant": {
+      "original": "88451.svg",
+      "fill": "#3CBF59",
+      "pathsUnchanged": true
+    },
+    "smartbuy": {
+      "original": "54c02.svg",
+      "fill": "#E63636",
+      "pathsUnchanged": true
+    },
+    "scan": {
+      "original": "fa2e9.svg",
+      "fill": "#1F5CAF",
+      "pathsUnchanged": true
+    },
+    "locked": {
+      "original": "f30fb.svg",
+      "fill": "#999A9A",
+      "pathsUnchanged": true
+    }
+  },
+  "icon-upi.svg": {
+    "node": "546:14453",
+    "note": "Original UPI component SVG; code-context export wrongly returned Bell"
+  },
+  "banner-lettering.svg": {
+    "node": "1572:76720",
+    "note": "Original glyph paths; outside stroke rendered via paint-order rather than 1.65MB expanded stroke."
+  }
+}

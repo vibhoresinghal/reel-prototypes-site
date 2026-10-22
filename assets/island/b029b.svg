@@ -1,0 +1,22 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="360" height="350" viewBox="0 0 360 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="BG">
+<mask id="mask0_0_267" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="360" height="350">
+<rect id="Rectangle 25455" width="360" height="350" fill="url(#paint0_radial_0_267)"/>
+</mask>
+<g mask="url(#mask0_0_267)">
+<rect id="Rectangle 25454" y="-18" width="360" height="393" fill="url(#paint1_radial_0_267)"/>
+<path id="Vector 103" opacity="0.05" d="M258 56L306.5 -7L320 -25H390V46L382.5 148.5L427 130.5L392 260.5L311 350.5H212L291 208L231.5 224.5L339.5 29.5L258 56Z" fill="white"/>
+<path id="Vector 104" opacity="0.05" d="M-105 56L-56.5 -7L-43 -25H107H151L49.5 148.5L94 130.5L-32 350.5H-71L-72 208L-131.5 224.5L-23.5 29.5L-105 56Z" fill="white"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_267" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(180) rotate(90) scale(289.174 288.69)">
+<stop stop-color="#2D6FC4"/>
+<stop offset="1" stop-color="#013380"/>
+</radialGradient>
+<radialGradient id="paint1_radial_0_267" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(180 -18) rotate(90) scale(324.701 288.69)">
+<stop stop-color="#2D6FC4"/>
+<stop offset="1" stop-color="#013380"/>
+</radialGradient>
+</defs>
+</svg>
