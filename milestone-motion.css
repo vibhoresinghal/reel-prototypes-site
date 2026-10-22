@@ -55,12 +55,13 @@
 .map-world.travelling{will-change:transform}
 .map-world.dragging{transition:none}
 
-/* Ripple the original Figma halo layers, leaving the coin and number rigid. */
-.marker.active .halo-outer,.marker.active .active-ripple-outer{animation:markerRippleOuter 2.801s .4s infinite both;transform-box:fill-box;transform-origin:center}
-.marker.active .halo-mid,.marker.active .active-ripple-mid{animation:markerRippleMid 2.801s .4s infinite both;transform-box:fill-box;transform-origin:center}
+/* Ripple the original Figma halo layers, leaving the coin and number rigid.
+   Both start transparent and keep the same clock after .activating is removed. */
+.marker.active .halo-outer,.marker.active .active-ripple-outer{animation:markerRippleOuter 2.801s .65s ease-in-out infinite both;transform-box:fill-box;transform-origin:center}
+.marker.active .halo-mid,.marker.active .active-ripple-mid{animation:markerRippleMid 2.801s .65s ease-in-out infinite both;transform-box:fill-box;transform-origin:center}
 .marker.active .halo-inner{animation:none}
 @keyframes markerRippleOuter{0%{opacity:0;transform:scale(.65)}14%{opacity:1}72%,100%{opacity:0;transform:scale(1.12)}}
-@keyframes markerRippleMid{0%,10%{opacity:.65;transform:scale(.85)}30%{opacity:1}82%,100%{opacity:0;transform:scale(1.3)}}
+@keyframes markerRippleMid{0%,10%{opacity:0;transform:scale(.85)}30%{opacity:1}82%,100%{opacity:0;transform:scale(1.3)}}
 .screen-content[inert] *{animation-play-state:paused!important}
 
 /* Keep screen arrivals and the reward invitation from competing for attention. */
@@ -209,8 +210,7 @@
 .marker.active .regular-orb-active{opacity:1}
 .marker.active .regular-orb-idle{opacity:0}
 .marker .orb-number{transition:color .5s ease-out}
-.marker.activating .halo-inner{animation:activeTileGrow .6s cubic-bezier(.22,.85,.26,1) both;transform-origin:50% 58%}
-.marker.activating .halo-outer,.marker.activating .halo-mid{animation-delay:.65s}
+.marker.activating .halo-inner{animation:activeTileGrow .6s cubic-bezier(.4,0,.2,1) both;transform-origin:50% 58%}
 .marker.activating .current-pointer{animation:activePointerArrive .55s .18s cubic-bezier(.22,.85,.26,1) both,figmaPointer 2.801s .85s infinite}
 .marker.activating .active-pointer{animation:activePointerArrive .55s .18s cubic-bezier(.22,.85,.26,1) both}
 @keyframes activeTileGrow{from{opacity:0;transform:scale(.64);border-radius:50%}to{opacity:1;transform:scale(1)}}
@@ -234,3 +234,12 @@
 .reward-impact .reveal-coin{animation:rewardTapImpact .22s cubic-bezier(.22,.85,.26,1) both;transform-origin:center}
 @keyframes rewardTapImpact{0%{transform:scale(1)}32%{transform:scale(.98)}72%{transform:scale(1.018)}100%{transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.reward-impact .reveal-coin{animation:none}}
+
+/* Keep the original title, landscape, vertical travel and late controls together.
+   Only the reverse road drawing and marker arrivals are added to that opening. */
+.cinematic .marker{opacity:0;transform:translateY(8px) scale(.4);transform-origin:75px 75px}
+.cinematic:not(.ready) .map-window,.cinematic:not(.ready) .marker:after{pointer-events:none}
+.cinematic:not(.ready) .map-entry-track{will-change:transform}
+@media(prefers-reduced-motion:reduce){
+ .cinematic .marker{opacity:1;transform:none}
+}
