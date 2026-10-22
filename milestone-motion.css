@@ -19,8 +19,9 @@
 .opening:not(.ready) .map-toolbar,.opening:not(.ready) .map-footer{pointer-events:none}
 @keyframes introTitleTravel{
   0%,4.1667%{opacity:0;transform:translateY(24px);animation-timing-function:cubic-bezier(.4,0,.2,1)}
-  20.8333%{opacity:1;transform:none}
-  33.3333%{opacity:1;transform:none;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  8.3333%{opacity:.45;transform:translateY(28px);animation-timing-function:cubic-bezier(.22,.85,.26,1)}
+  20.8333%,29.1667%{opacity:1;transform:none}
+  33.3333%{opacity:1;transform:translateX(-5px);animation-timing-function:cubic-bezier(.4,0,.2,1)}
   83.3333%,100%{opacity:1;transform:translateX(1159px)}
 }
 @keyframes introLandscape{
@@ -165,3 +166,22 @@
  ::view-transition-new(root){animation:none}
 }
 
+
+/* The user's camera is frame-driven; scripted journey motion stays separate. */
+.map-window{touch-action:none;user-select:none;-webkit-user-select:none}
+.map-window img{-webkit-user-drag:none}
+.map-world[data-panning]{transition:none;will-change:transform}
+.map-window[data-dragging],.map-window[data-dragging] button{cursor:grabbing}
+
+/* A stable full-size reel: only its transform changes during playback. */
+.number-ticker{display:block;position:relative;--ticker-height:43.03px}
+.ticker-window{display:block;position:absolute;top:-7px;left:-4px;right:-4px;height:calc(var(--ticker-height) + 14px);overflow:hidden;clip-path:inset(0)}
+.ticker-track{display:block;position:absolute;top:7px;left:4px;right:4px;height:var(--ticker-height);will-change:transform}
+.ticker-row{display:flex;position:absolute;left:0;align-items:center;justify-content:center;gap:0;height:var(--ticker-height);width:100%;padding:0}
+.ticker-row>img{position:static!important;display:block;flex:0 0 auto;height:var(--ticker-height);width:auto;max-width:none!important;object-fit:contain}
+.ticker-original>.glyph,.ticker-original>.lettering{width:100%;height:100%;display:block}
+.number-ticker.settled .ticker-track{will-change:auto}
+.intro-title>.intro-ticker{position:absolute;left:157px;top:308px;width:84px;height:58px;--ticker-height:58px}
+.intro-ticker .ticker-original>.lettering{position:absolute;top:-20px;height:89px}
+.counting.earned .title-art>.number-ticker{animation:none}
+.counting.earned .denominator{transition:none}
