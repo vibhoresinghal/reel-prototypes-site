@@ -79,62 +79,6 @@
     ]
   },
   {
-    "id": "island-adventure",
-    "title": "Island Adventure",
-    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
-    "source": "figma",
-    "layout": "mobile",
-    "entry": "island.html",
-    "width": 412,
-    "height": 915,
-    "tags": [
-      "PayZapp",
-      "Islands",
-      "Adventure",
-      "Rewards"
-    ],
-    "logo": "assets/473-17470-9dd33.svg",
-    "thumbnail": "assets/island-preview.png",
-    "scenarios": [
-      {
-        "id": "first",
-        "title": "First visit",
-        "description": "Choose a boat and start exploring.",
-        "entry": "island.html?scene=first"
-      },
-      {
-        "id": "boats",
-        "title": "Choose a boat",
-        "description": "Explore five original boats.",
-        "entry": "island.html?scene=boats"
-      },
-      {
-        "id": "map",
-        "title": "Explore the islands",
-        "description": "Discover the tasks and your first relic piece.",
-        "entry": "island.html?scene=map"
-      },
-      {
-        "id": "returning",
-        "title": "Continue the journey",
-        "description": "Three relic pieces found. More islands await.",
-        "entry": "island.html?scene=returning"
-      },
-      {
-        "id": "last-piece",
-        "title": "The final piece",
-        "description": "Scan and pay to complete the relic.",
-        "entry": "island.html?scene=last-piece"
-      },
-      {
-        "id": "completed",
-        "title": "Adventure complete",
-        "description": "A complete relic and ₹50 cashback.",
-        "entry": "island.html?scene=completed"
-      }
-    ]
-  },
-  {
     "id": "ipl-payzapp",
     "title": "IPL on PayZapp",
     "description": "A cricket-season takeover, from the first splash to the winning runs.",
@@ -406,5 +350,61 @@
       }
     ],
     "thumbnail": "prototypes/payzapp-recap/thumbnail.png"
+  },
+  {
+    "id": "island-adventure",
+    "title": "Island Adventure",
+    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "island.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Islands",
+      "Adventure",
+      "Rewards"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/island-preview.png",
+    "scenarios": [
+      {
+        "id": "first",
+        "title": "First visit",
+        "description": "Choose a boat and start exploring.",
+        "entry": "island.html?scene=first"
+      },
+      {
+        "id": "boats",
+        "title": "Choose a boat",
+        "description": "Explore five original boats.",
+        "entry": "island.html?scene=boats"
+      },
+      {
+        "id": "map",
+        "title": "Explore the islands",
+        "description": "Discover the tasks and your first relic piece.",
+        "entry": "island.html?scene=map"
+      },
+      {
+        "id": "returning",
+        "title": "Continue the journey",
+        "description": "Three relic pieces found. More islands await.",
+        "entry": "island.html?scene=returning"
+      },
+      {
+        "id": "last-piece",
+        "title": "The final piece",
+        "description": "Scan and pay to complete the relic.",
+        "entry": "island.html?scene=last-piece"
+      },
+      {
+        "id": "completed",
+        "title": "Adventure complete",
+        "description": "A complete relic and ₹50 cashback.",
+        "entry": "island.html?scene=completed"
+      }
+    ]
   }
 ]

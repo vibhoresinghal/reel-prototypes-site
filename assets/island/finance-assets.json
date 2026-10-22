@@ -1,0 +1,94 @@
+{
+  "fileKey": "GwT8JER6Gimi5kdAsZsn1I",
+  "captured": "2026-10-22",
+  "note": "Original raw GIFs and Piped Gas SVG, bytes unmodified. Original Figma .png aliases contain GIF bytes; build remaps those aliases to correct extensions. Reduced-motion PNGs are extracted original frames without resizing or redrawing.",
+  "assets": [
+    {
+      "file": "payment-processing.gif",
+      "node": "1973:315313",
+      "exportReplacement": "16e5a.png",
+      "bytes": 176868,
+      "sha256": "f5e9a3008922acbbb7a3423187f8102fb04ff0d67d38b447a4d2b05ff124f26d",
+      "still": "payment-processing-still.png",
+      "stillFrame": 11,
+      "stillSha256": "4c0e62ce16a83bb887a0023a408ea15b03d51948c533f35501e3ffdc9c915bdb"
+    },
+    {
+      "file": "card-processing.gif",
+      "node": "546:14738",
+      "exportReplacement": "86325.png",
+      "bytes": 213765,
+      "sha256": "41713286df608cf870a6c1022b6d6d32e5078ec42a84536ba1340b47470588c9",
+      "still": "card-processing-still.png",
+      "stillFrame": 30,
+      "stillSha256": "0f5e4daea103523782a5c4aa03484338396e2d3fc8f09472851dc54c03e0c805"
+    },
+    {
+      "file": "payment-success.gif",
+      "node": "633:93655",
+      "exportReplacement": "6930c.png",
+      "bytes": 6171709,
+      "sha256": "40fdfd54dc49623ee6c7bd41790b11e6b44bc69d6d88f18eb8adce8282468749",
+      "still": "payment-success-still.png",
+      "stillFrame": 89,
+      "stillSha256": "0638f62b0d53fb62f5145bf4539b6241d1f1c76c38ef7030037451d2b0a803b0"
+    },
+    {
+      "file": "account-success.gif",
+      "node": "410:36111",
+      "exportReplacement": "3a217.png",
+      "bytes": 5038061,
+      "sha256": "125841b80ef99e01a1ee8d2770ecbb4ae5afca1b5f13cde4e4ad0e224e64880e",
+      "still": "account-success-still.png",
+      "stillFrame": 23,
+      "stillSha256": "0a227abf75cbd2dc417e255a64dc5be68859133a588c517d21ee51d4f0b9c2a3"
+    },
+    {
+      "file": "smartbuy-success.gif",
+      "node": "410:36113",
+      "exportReplacement": "5818c.png",
+      "bytes": 3535246,
+      "sha256": "56b8ea2d98ff96e33e1ac9fca65f8771e881dc57fbc991f486b92e0e2a03e070",
+      "still": "smartbuy-success-still.png",
+      "stillFrame": 23,
+      "stillSha256": "a809ecd136fa468db33212c42cd1af42c8bf39be2f546b41d7c081ed68b3bb49"
+    },
+    {
+      "file": "receipt-ship.gif",
+      "node": "611:52050",
+      "exportReplacement": "8d3c2.png",
+      "bytes": 3123662,
+      "sha256": "aa559f4dbfb9d89c5c30dfcf0ae424ee4476f4b0c83a2790165b38d3d0b8769f",
+      "still": "receipt-ship-still.png",
+      "stillFrame": 26,
+      "stillSha256": "b229d963192ca0b6a6fdda621e789a8e4684692679d6dc3af2ffd665f8e8727f"
+    },
+    {
+      "file": "biller-linking.gif",
+      "node": "1980:100795",
+      "exportReplacement": "16d5d.png",
+      "bytes": 878909,
+      "sha256": "3f6f261339bedecc3e4780e0ec242376b5fa3149f7a629a1cc92bf42e267f053",
+      "still": "biller-linking-still.png",
+      "stillFrame": 72,
+      "stillSha256": "77106c1ec57aacf5be6573812bd0edafce36b360dafecd61f927cb0180ab19d0"
+    },
+    {
+      "file": "autopay-reward.gif",
+      "node": "1982:102067",
+      "exportReplacement": "024c0.png",
+      "bytes": 251081,
+      "sha256": "fb42bb939c4bf12223779e774c360e0e2e7d8a222bc045fb9cc8ffaa5b2ee6d5",
+      "still": "autopay-reward-still.png",
+      "stillFrame": 35,
+      "stillSha256": "8dfb6f8d09a4dab7f8d8740dad7866c5560735779787ec89ad3446cec341350c"
+    },
+    {
+      "file": "icon-piped-gas.svg",
+      "node": "1980:100677",
+      "exportReplacement": "9f1f4.svg",
+      "bytes": 1627,
+      "sha256": "74f9c8f4cc7ec6e5d128ec69b5fc7f450c598997ed4b1f08e92a5cb082cdcbd9"
+    }
+  ]
+}
