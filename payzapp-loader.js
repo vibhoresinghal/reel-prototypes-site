@@ -4,6 +4,13 @@ window.prototypeAssets={"images":["assets/473-16816-0befa.png","assets/473-16816
  const label=document.querySelector('#loader-label');
  const progress=document.querySelector('#loader-progress');
  const retry=document.querySelector('#loader-retry');
+ const surface=document.querySelector('#prototype-loader');
+ let starting=false,reloadOnRetry=false;
+ function fail(message){
+  starting=false;label.textContent=message;retry.hidden=false;
+  surface.setAttribute('data-state','error');
+  retry.focus({preventScroll:true});
+ }
  // Retain decoded images for later screens, rather than only warming HTTP cache.
  const retained=[];
  const loaded=new Set();
@@ -21,19 +28,27 @@ window.prototypeAssets={"images":["assets/473-16816-0befa.png","assets/473-16816
   retained.push(img);loaded.add(url);
  }
  async function start(){
-  retry.hidden=true;label.textContent='Loading prototype';
+  if(starting)return;
+  starting=true;
+  // Failed FontFace promises and module fetches can remain rejected for this
+  // document. A user-triggered reload creates a fresh loader and font set.
+  if(reloadOnRetry){window.location.reload();return;}
+  retry.hidden=true;label.textContent='Loading prototype';progress.value=0;
+  surface.removeAttribute('data-state');
   let cursor=0,failed=false;
   const fonts=[...document.fonts];
-  const jobs=[...config.images.map(url=>()=>image(url)),...fonts.map(font=>()=>timeout(font.load()))];
+  const jobs=[...config.images.map(url=>()=>image(url)),...fonts.map(font=>async()=>{
+   try{await timeout(font.load());}catch(error){reloadOnRetry=true;throw error;}
+  })];
   let done=0;
   await Promise.all(Array.from({length:8},async()=>{
    while(cursor<jobs.length){const job=jobs[cursor++];try{await job();}catch(error){failed=true;console.warn('Prototype preload:',error);}done++;progress.value=done/jobs.length*100;}
   }));
-  if(failed){label.textContent='Some assets couldn’t load';retry.hidden=false;return;}
+  if(failed){fail('Some assets couldn’t load');return;}
   const script=document.createElement('script');
   if(config.module)script.type='module';
   script.src=config.script;
-  script.onerror=()=>{script.remove();label.textContent='Prototype couldn’t start';retry.hidden=false;};
+  script.onerror=()=>{script.remove();reloadOnRetry=true;fail('Prototype couldn’t start');};
   script.onload=()=>{
    // Let React commit and layout before removing the loading surface.
    requestAnimationFrame(()=>requestAnimationFrame(()=>{
