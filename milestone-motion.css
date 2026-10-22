@@ -150,7 +150,8 @@
 @supports not (view-transition-name:prototype-screen){.stage[data-screen="loader"]>.screen-content{animation:spotlightLoaderEnter .55s ease-in-out both}}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 
-::view-transition-group(prototype-screen){overflow:hidden;isolation:isolate}
+/* Transition snapshots live outside .phone, so repeat its actual clip here. */
+::view-transition-group(prototype-screen),::view-transition-image-pair(prototype-screen){border-radius:var(--prototype-transition-radius,0px);overflow:hidden;clip-path:inset(0 round var(--prototype-transition-radius,0px));isolation:isolate}
 .stage[data-modal-closing="true"] .overlay{animation:popupBackdropExit .24s ease-in both;pointer-events:none}
 .stage[data-modal-closing="true"] .popup{animation:popupClose .24s cubic-bezier(.4,0,1,1) both}
 @keyframes popupBackdropExit{from{opacity:1}to{opacity:0}}
@@ -185,3 +186,51 @@
 .intro-ticker .ticker-original>.lettering{position:absolute;top:-20px;height:89px}
 .counting.earned .title-art>.number-ticker{animation:none}
 .counting.earned .denominator{transition:none}
+
+/* Reward reveal stays under the viewer's control; the earned coin persists. */
+.reward-sequence .reveal-coin{transition:opacity .3s ease-out}
+.reward-sequence:not(.reward-waiting):not(.reward-impact) .reveal-coin{opacity:0}
+.reward-sequence .announce-heading{transition:opacity .22s ease-out,transform .35s cubic-bezier(.22,.85,.26,1)}
+.reward-sequence:not(.reward-waiting):not(.reward-impact) .announce-heading{opacity:0;transform:translateY(10px)}
+.reward-sequence .flash-number{animation:rewardCoinAppear .3s ease-out both;transition:transform .55s cubic-bezier(.22,.85,.26,1),opacity .4s ease-out}
+.reward-sequence .flash-reel{animation:originalCounter 1.4s .12s linear forwards}
+.reward-sequence.reward-settling .flash-number,.reward-sequence.reward-ready .flash-number,.reward-sequence.reward-leaving .flash-number{transform:translateY(-18px)}
+.reward-sequence .reveal-copy{opacity:0;transform:translateY(16px);transition:opacity .45s .08s ease-out,transform .55s cubic-bezier(.22,.85,.26,1)}
+.reward-sequence.reward-settling .reveal-copy,.reward-sequence.reward-ready .reveal-copy,.reward-sequence.reward-leaving .reveal-copy{opacity:1;transform:none}
+.reward-tap-area{position:absolute;inset:145px 16px 115px;z-index:5;border-radius:24px;touch-action:manipulation}
+.reward-tap-area:disabled{cursor:default}
+.reward-sequence.reward-leaving{pointer-events:none;animation:rewardToMap .65s cubic-bezier(.4,0,.2,1) both}
+@keyframes rewardCoinAppear{from{opacity:0}to{opacity:1}}
+@keyframes rewardToMap{0%,12%{opacity:1}100%{opacity:0}}
+
+/* Keep the numeral anchored while the next payment becomes an active tile. */
+.regular-orb-idle,.regular-orb-active{transition:opacity .5s ease-out}
+.regular-orb-active{opacity:0}
+.marker.active .regular-orb-active{opacity:1}
+.marker.active .regular-orb-idle{opacity:0}
+.marker .orb-number{transition:color .5s ease-out}
+.marker.activating .halo-inner{animation:activeTileGrow .6s cubic-bezier(.22,.85,.26,1) both;transform-origin:50% 58%}
+.marker.activating .halo-outer,.marker.activating .halo-mid{animation-delay:.65s}
+.marker.activating .current-pointer{animation:activePointerArrive .55s .18s cubic-bezier(.22,.85,.26,1) both,figmaPointer 2.801s .85s infinite}
+.marker.activating .active-pointer{animation:activePointerArrive .55s .18s cubic-bezier(.22,.85,.26,1) both}
+@keyframes activeTileGrow{from{opacity:0;transform:scale(.64);border-radius:50%}to{opacity:1;transform:scale(1)}}
+@keyframes activePointerArrive{from{opacity:0;translate:0 -8px}to{opacity:1;translate:0 0}}
+@media(prefers-reduced-motion:reduce){
+ .reward-sequence .flash-reel{animation:none;transform:translateY(2px)}
+ .reward-sequence .flash-number,.reward-sequence .reveal-copy,.regular-orb-idle,.regular-orb-active,.marker .orb-number{transition:none}
+ .reward-sequence.reward-leaving{animation:none;opacity:0}
+ .marker.activating .halo-inner,.marker.activating .current-pointer,.marker.activating .active-pointer{animation:none;opacity:1;transform:none}
+}
+
+.map-screen.refreshing{animation:mapReturnEnter .35s ease-out both}
+@keyframes mapReturnEnter{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}
+
+/* Quiet invitation through the existing light, without caption typography. */
+.reward-waiting .reward-halo{animation:rewardInviteGlow 2.4s ease-in-out infinite}
+@keyframes rewardInviteGlow{0%,100%{opacity:.65}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.reward-waiting .reward-halo{animation:none;opacity:1}}
+
+/* Respond to the tap before counting; the coin stays circular throughout. */
+.reward-impact .reveal-coin{animation:rewardTapImpact .22s cubic-bezier(.22,.85,.26,1) both;transform-origin:center}
+@keyframes rewardTapImpact{0%{transform:scale(1)}32%{transform:scale(.98)}72%{transform:scale(1.018)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.reward-impact .reveal-coin{animation:none}}

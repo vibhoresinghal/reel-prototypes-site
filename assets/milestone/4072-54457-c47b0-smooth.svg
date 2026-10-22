@@ -1,0 +1,34 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="154" height="66" viewBox="0 0 154 66" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Group 219912433" filter="url(#filter0_d_0_40)">
+<g id="Rectangle 2628431" filter="url(#filter1_d_0_40)">
+<use xlink:href="#stroke0_0_40" fill="white"/>
+<mask id="stroke1_0_40" fill="white">
+<use xlink:href="#stroke0_0_40"/>
+</mask>
+<path d="M26 44H128C132.418 44 136 40.4183 136 36L136 22C136 17.5817 132.418 14 128 14H26.0008C21.5827 14 18.0011 17.5814 18.0008 21.9995L18 35.9995C17.9997 40.418 21.5815 44 26 44Z" stroke-width="2" stroke="white" mask="url(#stroke1_0_40)"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_0_40" x="8.9992e-07" y="0" width="154" height="66" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="9"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0862745 0 0 0 0 0.105882 0 0 0 0 0.129412 0 0 0 0.04 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_40"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_40" result="shape"/>
+</filter>
+<filter id="filter1_d_0_40" x="14" y="14" width="126" height="38" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_40"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_40" result="shape"/>
+</filter>
+<path id="stroke0_0_40" d="M18.0008 21.9995C18.0011 17.5814 21.5827 14 26.0008 14H128C132.418 14 136 17.5817 136 22L136 36C136 40.4183 132.418 44 128 44H26C21.5815 44 17.9997 40.418 18 35.9995L18.0008 21.9995Z"/>
+</defs>
+</svg>
