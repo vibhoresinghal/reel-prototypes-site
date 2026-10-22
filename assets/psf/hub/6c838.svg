@@ -1,0 +1,22 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Cancel">
+<g id="Ellipse 5156" filter="url(#filter0_f_0_20)">
+<circle cx="33" cy="33" r="16" fill="#2A4371"/>
+</g>
+<g id="cancel">
+<g clip-path="url(#clip0_0_20)">
+<path id="Vector" d="M40.0711 25.929C39.4545 25.3124 38.4548 25.3124 37.8381 25.929L34.4143 29.3529C33.6332 30.1339 32.3669 30.1339 31.5858 29.3529L28.1619 25.929C27.5453 25.3124 26.5456 25.3124 25.929 25.929C25.3124 26.5456 25.3124 27.5453 25.929 28.1619L29.3529 31.5858C30.1339 32.3669 30.1339 33.6332 29.3529 34.4143L25.929 37.8381C25.3124 38.4548 25.3124 39.4545 25.929 40.0711C26.5456 40.6877 27.5453 40.6877 28.1619 40.0711L31.5858 36.6472C32.3669 35.8662 33.6332 35.8662 34.4143 36.6472L37.8381 40.0711C38.4548 40.6877 39.4545 40.6877 40.0711 40.0711C40.6877 39.4545 40.6877 38.4548 40.0711 37.8381L36.6472 34.4143C35.8662 33.6332 35.8662 32.3669 36.6472 31.5858L40.0711 28.1619C40.6877 27.5453 40.6877 26.5456 40.0711 25.929Z" fill="white"/>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_0_20" x="0" y="0" width="66" height="66" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="8.5" result="effect1_foregroundBlur_0_20"/>
+</filter>
+<clipPath id="clip0_0_20">
+<rect x="21" y="21" width="24" height="24" rx="12" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -469,5 +469,68 @@
         "entry": "fto.html?scene=success"
       }
     ]
+  },
+  {
+    "id": "psf",
+    "title": "Product Setup Framework",
+    "description": "A simpler start to PayZapp. Set up UPI, cards, and your wallet in any order.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "psf.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Onboarding",
+      "UPI",
+      "Cards",
+      "Wallet"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/psf/preview.png",
+    "scenarios": [
+      {
+        "id": "simple",
+        "title": "Simple onboarding",
+        "description": "Meet PayZapp, then choose which product to set up first.",
+        "entry": "psf.html?scene=simple"
+      },
+      {
+        "id": "regular",
+        "title": "Regular onboarding",
+        "description": "Explore the original full onboarding journey.",
+        "entry": "psf.html?scene=regular"
+      },
+      {
+        "id": "hub",
+        "title": "Choose a product",
+        "description": "Swipe between UPI, cards, and wallet setup.",
+        "entry": "psf.html?scene=hub"
+      },
+      {
+        "id": "upi",
+        "title": "Set up UPI",
+        "description": "Link a bank account and return to your success card.",
+        "entry": "psf.html?scene=upi"
+      },
+      {
+        "id": "cards",
+        "title": "Add HDFC Bank cards",
+        "description": "Add your cards and continue with the remaining products.",
+        "entry": "psf.html?scene=cards"
+      },
+      {
+        "id": "wallet",
+        "title": "Set up your wallet",
+        "description": "Complete wallet setup and return to the product cards.",
+        "entry": "psf.html?scene=wallet"
+      },
+      {
+        "id": "completed",
+        "title": "All set",
+        "description": "Explore the completed product setup experience.",
+        "entry": "psf.html?scene=completed"
+      }
+    ]
   }
 ]

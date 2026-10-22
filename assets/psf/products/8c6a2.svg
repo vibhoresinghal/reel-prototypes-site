@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="380" height="712" viewBox="0 0 380 712" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Bottom Sheet" filter="url(#filter0_d_0_2234)">
+<path d="M10 24C10 12.9543 18.9543 4 30 4H350C361.046 4 370 12.9543 370 24V696H10V24Z" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_d_0_2234" x="0" y="0" width="380" height="712" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="6"/>
+<feGaussianBlur stdDeviation="5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_2234"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_2234" result="shape"/>
+</filter>
+</defs>
+</svg>

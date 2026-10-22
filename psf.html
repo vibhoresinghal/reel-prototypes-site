@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><style>body.prototype-loading > :not(#prototype-loader){visibility:hidden!important;pointer-events:none!important}
+body.prototype-loading > :not(#prototype-loader),body.prototype-loading > :not(#prototype-loader) *{animation-play-state:paused!important}
+#prototype-loader{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#fafafa;color:#262626;font:14px/1.5 system-ui,sans-serif}
+#prototype-loader .loader-content{display:flex;flex-direction:column;align-items:center;gap:18px}
+#prototype-loader p{margin:0;font:inherit}
+#prototype-loader progress{width:132px;height:3px;border:0;border-radius:4px;overflow:hidden;accent-color:#333;background:#e5e5e5}
+#prototype-loader progress::-webkit-progress-bar{background:#e5e5e5}
+#prototype-loader progress::-webkit-progress-value{background:#333}
+#prototype-loader button{font:inherit;padding:8px 20px;border:1px solid #ddd;border-radius:24px;background:white;color:#262626;cursor:pointer}
+#prototype-loader .loader-spinner{width:22px;height:22px;border:2px solid #e0e0e0;border-top-color:#333;border-radius:50%;animation:prototype-spin .8s linear infinite}
+@keyframes prototype-spin{to{transform:rotate(360deg)}}
+#prototype-loader[data-state="error"] .loader-spinner{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){#prototype-loader .loader-spinner{animation:none}}
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><meta name="description" content="Product Setup Framework: PayZapp onboarding, UPI, cards and wallet. An interactive design prototype by Vibhore Singhal."><title>Product Setup Framework · PayZapp</title><link rel="icon" href="assets/app-icon.svg"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png"><link rel="stylesheet" href="psf-art.css?v=67e7f219c1f1"><link rel="stylesheet" href="psf.css?v=b7191711587d"></head><body class="prototype-loading"><div id="prototype-loader" role="status" aria-live="polite"><div class="loader-content"><span class="loader-spinner" aria-hidden="true"></span><p id="loader-label">Loading prototype</p><progress id="loader-progress" max="100" value="0" aria-label="Loading assets"></progress><button id="loader-retry" hidden>Try again</button></div></div><div id="root"></div><script src="psf-loader.js?v=64e49e5b12b7" defer></script><script src="pwa-register.js?v=64547d83a3ee" defer></script><script type="module" src="design-select.js"></script></body></html>

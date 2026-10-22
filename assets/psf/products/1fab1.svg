@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="747" height="1196.89" viewBox="0 0 747 1196.89" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="BG">
+<path id="Vector 92" d="M45.7752 348.241C-132.489 254.146 255.008 325.207 435.922 23.1428C613.447 81.0608 814.504 686.972 725.002 858.053C613.125 1071.9 426.675 1230.77 240.829 1190.68C54.9833 1150.58 268.605 465.859 45.7752 348.241Z" fill="#1A84FF"/>
+<ellipse id="Ellipse 340" cx="528.001" cy="221.895" rx="169.727" ry="221.895" fill="#917BFF"/>
+<ellipse id="Ellipse 341" cx="240" cy="519.393" rx="119" ry="148.75" fill="#55E1EE"/>
+<foreignObject x="71" y="85.3928" width="668" height="1108"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(77px);clip-path:url(#bgblur_0_0_54_clip_path);height:100%;width:100%"></div></foreignObject><rect id="Rectangle 25457" data-figma-bg-blur-radius="154" x="225" y="239.393" width="360" height="800" fill="#1431AD" fill-opacity="0.4"/>
+<rect id="Rectangle 2627911" x="225" y="239.393" width="360" height="60" fill="url(#paint0_linear_0_54)"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_0_54_clip_path" transform="translate(-71 -85.3928)"><rect x="225" y="239.393" width="360" height="800"/>
+</clipPath><linearGradient id="paint0_linear_0_54" x1="405" y1="239.393" x2="405" y2="299.393" gradientUnits="userSpaceOnUse">
+<stop stop-color="#4F5FDE"/>
+<stop offset="1" stop-color="#4F5FDE" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>
