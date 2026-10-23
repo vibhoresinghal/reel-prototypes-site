@@ -32,3 +32,6 @@
 .spotlight-composition>.spot{height:calc(66.667cqw + var(--hero-extra));object-fit:contain;object-position:center bottom;background:white}
 .spotlight-header{position:absolute;inset:0 0 auto;height:22.222cqw;overflow:hidden;pointer-events:none}
 .spotlight-header img{width:100%;display:block}
+
+.scanner-controls{clip-path:inset(10% 0 0)}
+.scanner-header{position:absolute;top:max(12px,env(safe-area-inset-top));left:0;width:100%;height:20cqw;overflow:hidden}

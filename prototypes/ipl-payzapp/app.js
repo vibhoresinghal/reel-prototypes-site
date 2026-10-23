@@ -21,7 +21,7 @@ function show(id,update=true,autoOpen=false){reset();id=({'leaderboard-new':'lea
  hotspot('Open PayZapp',[25,84,25,16],start);if(autoOpen)start();
  }
  else if(active==='promo'){media=el('video','');media.src=asset('promo video.mp4');media.muted=true;media.playsInline=true;media.controls=!matchMedia('(max-width:760px)').matches&&!embedded;media.onclick=()=>{if(!media.controls){if(media.paused)media.play().catch(()=>{});else media.pause();}};media.autoplay=!reduced;media.addEventListener('ended',()=>show('leaderboard'));media.addEventListener('error',()=>{const b=el('button','');b.textContent='Retry video';b.onclick=()=>media.load();});}
- else if(active==='scan'){art('scan-qr-bg.png','layer full');disposeCamera=mountScannerCamera(stage,data.get('assets/lottie/scanqrIPL.json'));animate('scanqrIPL.json','',{loop:true,ratio:'xMidYMin slice',still:250});art('scan-qr-overlay.png','layer bottom');hotspot('Back to PayZapp',[0,0,16,10],()=>show('spotlight-1'));}
+ else if(active==='scan'){art('scan-qr-bg.png','layer full');disposeCamera=mountScannerCamera(stage,data.get('assets/lottie/scanqrIPL.json'));animate('scanqrIPL.json','',{loop:true,ratio:'xMidYMin slice',still:250});art('scan-qr-overlay.png','layer bottom scanner-controls');const header=el('div','scanner-header');const headerArt=art('scan-qr-overlay.png','layer');header.append(headerArt);hotspot('Back to PayZapp',[0,0,20,100],()=>show('spotlight-1'),header);}
  else if(active==='success'){
  const receipt=art('Transacrtion Success.png','layer success-receipt');
  const actions=el('div','success-actions');const buttons=art('Transacrtion Success.png','success-button-art');actions.append(buttons);
