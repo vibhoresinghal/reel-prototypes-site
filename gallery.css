@@ -75,3 +75,15 @@ body.flow-open{overflow:hidden}body.flow-open>main{visibility:hidden}#active-flo
  .toolbar #fill-screen{font-size:11px;padding:10px;min-height:44px}
  .toolbar .device{padding:0 5px 5px}
 }
+
+/* Keep mobile actions in their own row, clear of the artwork. */
+@media(max-width:600px){
+ .project .card-bottom{padding:10px 8px;gap:6px;border-top:1px solid #edf0e9}
+ .project .card-tools .thumbnail-copy{position:static;inset:auto;border:0;background:transparent;box-shadow:none;order:-1;z-index:auto}
+ .project .card-tools{gap:0}
+}
+@media(max-width:380px){
+ .project .card-tools .quiet-action{width:40px;flex-basis:40px}
+ .project .primary-actions .open-flow{font-size:12px;padding:0 9px;gap:5px}
+ .project .primary-actions .choose-scenes{width:36px;flex-basis:36px}
+}
