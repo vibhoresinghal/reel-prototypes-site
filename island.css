@@ -136,18 +136,20 @@
 .arrival-boats>.boat-picker{pointer-events:auto}
 .arrival-boats[inert]>.boat-picker{pointer-events:none}
 .arrival-landscape{position:absolute;inset:0;pointer-events:none;z-index:3}
-.arrival-map{position:absolute;left:-107px;top:-652px;width:575.182px;height:629px;animation:islandMapSweep 3.6s cubic-bezier(.66,-.24,.585,1.195) .4s both}
-.arrival-landscape .arrival-title{left:65.48px;top:276px;transform:scale(1.286);transform-origin:0 0;animation:islandIntroSweep 3.6s cubic-bezier(.66,-.24,.585,1.195) .4s both}
-.boat-arriving .arrival-boats,.boat-arriving>.shore{animation:islandBoatSweep 3.6s cubic-bezier(.66,-.24,.585,1.195) .4s both}
-.boat-arriving>.island-title,.boat-arriving>.boat-copy{animation:islandPickerSettle .6s cubic-bezier(.68,-.55,.265,1.55) 4.6s both;transform-origin:50% 50%}
-.boat-arriving>.dock-button{animation:islandDockSettle .6s cubic-bezier(.68,-.55,.265,1.55) 4.6s both;opacity:1}
-.boat-arriving .boat-picker-prev,.boat-arriving .boat-picker-next,.boat-arriving .boat-picker-glow{animation:islandControlsSettle .6s ease 4.6s both}
+.arrival-map{position:absolute;left:-107px;top:-652px;width:575.182px;height:629px;animation:islandMapSweep 4.2s cubic-bezier(.42,0,.58,1) .25s both}
+.arrival-landscape .arrival-title{left:65.48px;top:276px;transform:scale(1.286);transform-origin:0 0;animation:islandIntroSweep 4.2s cubic-bezier(.42,0,.58,1) .25s both}
+.boat-arriving .arrival-boats,.boat-arriving>.shore{animation:islandBoatSweep 4.2s cubic-bezier(.42,0,.58,1) .25s both}
+.boat-arriving>.island-title,.boat-arriving>.boat-copy{animation:islandPickerSettle .8s cubic-bezier(.22,1,.36,1) 4.05s both;transform-origin:50% 50%}
+.boat-arriving>.dock-button{animation:islandDockSettle .8s cubic-bezier(.22,1,.36,1) 4.05s both;opacity:1}
+.boat-arriving .boat-picker-prev,.boat-arriving .boat-picker-next,.boat-arriving .boat-picker-glow{animation:islandControlsSettle .8s ease-out 4.05s both}
 .boat-arriving .boat-picker-float{animation-play-state:paused}
 .boat-arriving .back{z-index:10}
 @keyframes islandMapSweep{from{translate:0 calc(var(--arrival-map-start) + 652px)}to{translate:0 0}}
 @keyframes islandIntroSweep{to{translate:0 -990px}}
 @keyframes islandBoatSweep{from{translate:0 var(--arrival-travel)}to{translate:0 0}}
-@keyframes islandPickerSettle{from{opacity:0;transform:translateY(64px) scale(.458)}to{opacity:1;transform:none}}
-@keyframes islandDockSettle{from{translate:0 160px}to{translate:0 0}}
+@keyframes islandPickerSettle{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes islandDockSettle{from{translate:0 90px}to{translate:0 0}}
 @keyframes islandControlsSettle{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.arrival-landscape{display:none}.boat-arriving *{animation:none!important}.arrival-boats[inert]>.boat-picker{pointer-events:auto}}
+
+.boat-arriving .arrival-map,.boat-arriving .arrival-title,.boat-arriving .arrival-boats,.boat-arriving>.shore,.boat-arriving>.dock-button{will-change:translate}
