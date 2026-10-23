@@ -145,7 +145,7 @@
 .boat-arriving .boat-picker-float{animation-play-state:paused}
 .boat-arriving .back{z-index:10}
 @keyframes islandMapSweep{from{translate:0 calc(var(--arrival-map-start) + 652px)}to{translate:0 0}}
-@keyframes islandIntroSweep{to{translate:0 -990px}}
+@keyframes islandIntroSweep{0%{translate:0 0;animation-timing-function:cubic-bezier(.3,0,.4,1)}12%{translate:0 14px;animation-timing-function:cubic-bezier(.42,0,.58,1)}100%{translate:0 -990px}}
 @keyframes islandBoatSweep{from{translate:0 var(--arrival-travel)}to{translate:0 0}}
 @keyframes islandPickerSettle{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
 @keyframes islandDockSettle{from{translate:0 90px}to{translate:0 0}}
