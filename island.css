@@ -154,23 +154,32 @@
 
 .boat-arriving .arrival-map,.boat-arriving .arrival-title,.boat-arriving .arrival-boats,.boat-arriving>.shore,.boat-arriving>.dock-button{will-change:translate}
 
-/* Move the water independently of the fixed beach; original Figma silhouettes. */
+/* Water advances gently onto the fixed beach, then drains back more slowly. */
 .boat-page .shore [data-node-id="815:62992"],
 .boat-page .shore [data-node-id="815:62994"]{animation:none}
-.boat-page .shore [data-node-id="815:62996"]{animation:islandSurfRoll 5.6s ease-in-out -1.4s infinite}
-.boat-page .shore [data-node-id="815:62997"]{animation:islandSurfRoll 7.2s ease-in-out -4.8s infinite reverse}
+.boat-page .shore [data-node-id="815:62996"]{animation:islandSurfRoll 6.8s linear -1.7s infinite;transform-origin:50% 100%}
+.boat-page .shore [data-node-id="815:62997"]{animation:islandSurfRoll 8.4s linear -5.8s infinite;transform-origin:50% 100%}
 @keyframes islandSurfRoll{
-  0%,100%{translate:-8px 8px}
-  50%{translate:8px -10px}
+  0%,100%{translate:-6px -10px;scale:1.04 1;opacity:.8;animation-timing-function:cubic-bezier(.32,0,.4,1)}
+  42%{translate:7px 13px;scale:1.07 1.06;opacity:1;animation-timing-function:cubic-bezier(.3,0,.35,1)}
 }
-.upper-swell{position:absolute;left:0;right:0;top:190px;height:150px;pointer-events:none;z-index:0;opacity:1;transition:opacity .8s ease}
-.upper-swell i{position:absolute;left:-35px;right:-35px;top:0;height:110px;
- background:linear-gradient(to bottom,rgba(195,242,244,.16) 0%,rgba(195,242,244,.10) 25%,transparent 85%);
+/* A soft travelling crest, fading out before the next cycle (no visible reset). */
+.upper-swell{position:absolute;left:0;right:0;top:178px;height:190px;pointer-events:none;z-index:0;opacity:1;transition:opacity 1.2s ease;
+ mask-image:linear-gradient(transparent,black 15%,black 70%,transparent)}
+.upper-swell i{position:absolute;left:-45px;right:-45px;top:0;height:90px;
+ background:linear-gradient(to bottom,rgba(195,242,244,.2),rgba(195,242,244,.07) 22%,transparent 75%);
  mask:url('assets/island/26b0c.svg') center/100% 100% no-repeat;
- rotate:180deg;animation:islandUpperSwell 8s ease-in-out -2s infinite}
-.upper-swell i+i{top:30px;opacity:.45;animation-duration:10s;animation-delay:-6s}
+ filter:blur(2px);rotate:180deg;opacity:0;
+ animation:islandUpperSwell 8s linear -2s infinite}
+.upper-swell i+i{top:0;animation-delay:-6s}
 .boat-arriving .upper-swell{opacity:0}
-@keyframes islandUpperSwell{0%,100%{translate:-10px -8px;scale:1 1}50%{translate:10px 12px;scale:1.04 1.08}}
+@keyframes islandUpperSwell{
+  0%{translate:-14px -25px;scale:1 1;opacity:0}
+  22%{opacity:.65}
+  65%{opacity:.45}
+  100%{translate:14px 92px;scale:1.06 1.12;opacity:0}
+}
 @media(prefers-reduced-motion:reduce){
  .boat-page .shore [data-node-id],.upper-swell i{animation:none!important}
+ .upper-swell i{opacity:.25}
 }
