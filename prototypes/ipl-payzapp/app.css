@@ -29,6 +29,6 @@
 #stage[data-scene^="spotlight-"]{container-type:size}
 .spotlight-composition{--hero-extra:max(0px,calc(100cqh - 207.222cqw))}
 .spotlight-composition>.art{transform:translateY(var(--hero-extra));clip-path:inset(10.725% 0 29.14% 0)!important}
-.spotlight-composition>.spot{height:calc(66.667cqw + var(--hero-extra))}
+.spotlight-composition>.spot{height:calc(66.667cqw + var(--hero-extra));object-fit:contain;object-position:center bottom;background:white}
 .spotlight-header{position:absolute;inset:0 0 auto;height:22.222cqw;overflow:hidden;pointer-events:none}
 .spotlight-header img{width:100%;display:block}
