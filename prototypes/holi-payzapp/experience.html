@@ -21,6 +21,10 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
 @media(prefers-reduced-motion:reduce){[data-home-press-visual]{transition:none!important}}
 
 .fto-home-offer:active .fto-home-offer-art{transform:none!important}
+
+/* Home offers settle on card edges for touch and shared mouse dragging. */
+[data-node-id="423:15372"]{scroll-snap-type:x mandatory;scroll-padding-inline:24px}
+[data-node-id="423:15373"]>div{scroll-snap-align:start;scroll-snap-stop:always}
 </style><script>(()=>{
  const editable=target=>{
   const element=target?.nodeType===3?target.parentElement:target;
@@ -76,12 +80,19 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
 
 (()=>{
  const roots='#phone,.attention-stage,.psf-home,.fto-home,.home';
- let held=null;
- function release(){if(held)held.removeAttribute('data-home-pressed');held=null;}
- function press(visual){release();if(!visual)return;visual.setAttribute('data-home-press-visual','');getComputedStyle(visual).scale;visual.setAttribute('data-home-pressed','');held=visual;}
+ let held=null,pressedAt=0,releaseTimer;
+ function release(immediate=false){clearTimeout(releaseTimer);const remaining=100-(performance.now()-pressedAt);if(!immediate&&held&&remaining>0){releaseTimer=setTimeout(()=>release(true),remaining);return;}if(held)held.removeAttribute('data-home-pressed');held=null;}
+ function press(visual){release(true);if(!visual)return;visual.setAttribute('data-home-press-visual','');getComputedStyle(visual).scale;visual.setAttribute('data-home-pressed','');held=visual;pressedAt=performance.now();}
  function at(node,x,y,padX=0,padBottom=0){if(!node)return false;const r=node.getBoundingClientRect();return r.width&&r.height&&x>=r.left-padX&&x<=r.right+padX&&y>=r.top-5&&y<=r.bottom+padBottom;}
  function visualFor(event){const root=event.target.closest?.(roots);if(!root||root.closest('[inert]'))return null;
+  // Spotlights stay fixed while their original click actions and authored motion run.
+  if(root.matches('.home')&&event.target.closest('.hero-hit'))return null;
+  if(event.target.closest('[data-node-id="294:13867"]'))return null;
   const {clientX:x,clientY:y}=event;
+  if(event.target.closest('.christmas-spotlight,.rakhi-overlay,.psf-home-spotlight'))return null;
+  if(root.matches('.attention-stage')&&at(root.querySelector('[data-node-id="423:14701"]'),x,y))return null;
+  if(root.matches('.psf-home')&&at(root.querySelector('.psf-home-spotlight'),x,y))return null;
+  if(root.matches('.fto-home')&&event.target.closest('[aria-label="Make a Payment"],[aria-label="Explore Cashpoints"]'))return null;
   const ipl=root.querySelector('#stage[data-scene^="spotlight-"]');
   if(ipl){
    const base=ipl.querySelector('img.art');
@@ -94,36 +105,35 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
    }
    if(event.target.closest('[aria-label="Open stadium scanner"]'))return ipl.querySelector('.ipl-home-tile');
    const tile=[...ipl.querySelectorAll('.ipl-home-tile')].find(node=>at(node,x,y,10,40));if(tile)return tile;
-   if(event.target.closest('[aria-label="Explore IPL season"]'))return [...ipl.querySelectorAll('.spot')].find(node=>node.style.opacity==='1');
+   if(event.target.closest('[aria-label="Explore IPL season"]'))return null;
   }
 
   // Original Figma tile boxes, exported composite tiles, and FTO replacement icons.
   // Labels are separate siblings and are deliberately excluded from the animated box.
   const tiles=[...root.querySelectorAll('[data-source-home-tile],[data-fto-icon],[data-node-id],[id]')].filter(node=>{
    const s=getComputedStyle(node),w=parseFloat(s.width),h=parseFloat(s.height);
-   return s.display!=='contents'&&s.display!=='none'&&s.visibility==='visible'&&((Math.abs(w-48)<.5&&Math.abs(h-48)<.5)||(node.matches('[data-fto-icon]')&&Math.abs(w-56)<.5&&Math.abs(h-56)<.5))&&!node.querySelector('p');
+   return s.display!=='contents'&&s.display!=='none'&&s.visibility==='visible'&&(([48,52].some(size=>Math.abs(w-size)<.5&&Math.abs(h-size)<.5))||(node.matches('[data-fto-icon]')&&Math.abs(w-56)<.5&&Math.abs(h-56)<.5))&&!node.querySelector('p');
   });
   const tile=tiles.find(node=>!tiles.some(other=>other!==node&&other.contains(node))&&at(node,x,y,12,40));if(tile)return tile;
   const reminder=event.target.closest('[data-reminder]');if(reminder&&!event.target.closest('.reminder-close'))return reminder;
   const hit=event.target.closest('button,[role="button"]');
   if(root.matches('.home')){
-   if(hit?.matches('.hero-hit'))return root.querySelector('.home-hero > .art');
    if(hit?.matches('.offer-banner-hit'))return root.querySelector('[data-node-id="473:16818"]');
   }
   if(root.matches('.fto-home')){
    if(hit?.getAttribute('aria-label')==='Zoomcar offer')return root.querySelector('[data-node-id="6898:24802"], [data-node-id="6797:46196"]');
    if(hit?.classList.contains('fto-home-offer'))return hit;
   }
-  if(root.matches('.psf-home')&&at(root.querySelector('.psf-home-spotlight'),x,y))return root.querySelector('.psf-home-spotlight');
   if(root.matches('.attention-stage')){
-   for(const id of ['14910','14701']){const art=root.querySelector('[data-node-id="423:'+id+'"]');if(art&&at(art,x,y))return art;}
+   for(const id of ['14910']){const art=root.querySelector('[data-node-id="423:'+id+'"]');if(art&&at(art,x,y))return art;}
   }
   return hit&&getComputedStyle(hit).display!=='contents'?hit:null;
  }
  document.addEventListener('pointerdown',event=>{if(event.button!==0)return;press(visualFor(event));},true);
- for(const type of ['pointerup','pointercancel'])document.addEventListener(type,release,true);
- window.addEventListener('blur',release);
- document.addEventListener('visibilitychange',()=>{if(document.hidden)release();});
+ document.addEventListener('pointerup',()=>release(),true);
+ document.addEventListener('pointercancel',()=>release(true),true);
+ window.addEventListener('blur',()=>release(true));
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)release(true);});
 })();
 </script><!--/prototype-interaction-guard--></head>
 

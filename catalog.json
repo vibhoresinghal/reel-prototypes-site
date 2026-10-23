@@ -27,14 +27,9 @@
         "title": "Needs attention",
         "description": "The updated home, with bill reminders and a swipeable attention strip.",
         "entry": "attention.html"
-      },
-      {
-        "id": "dismissed",
-        "title": "After dismissing a reminder",
-        "description": "See how the remaining cards settle into place.",
-        "entry": "attention.html?scene=dismissed"
       }
-    ]
+    ],
+    "accentColor": "#1d86ff"
   },
   {
     "id": "milestone-rewards",
@@ -96,7 +91,8 @@
         "description": "Return to your rewards and the finished journey.",
         "entry": "milestone.html?scene=completed"
       }
-    ]
+    ],
+    "accentColor": "#7dc66b"
   },
   {
     "id": "ipl-payzapp",
@@ -177,7 +173,8 @@
         "description": "Tap the gift to view the season promo.",
         "entry": "prototypes/ipl-payzapp/index.html?scene=sheet-alt"
       }
-    ]
+    ],
+    "accentColor": "#319340"
   },
   {
     "id": "island-adventure",
@@ -233,7 +230,8 @@
         "description": "A complete relic and ₹50 cashback.",
         "entry": "island.html?scene=completed"
       }
-    ]
+    ],
+    "accentColor": "#218ba4"
   },
   {
     "id": "valentine-payzapp",
@@ -289,7 +287,8 @@
         "entry": "prototypes/valentine-payzapp/index.html?scene=le"
       }
     ],
-    "thumbnail": "prototypes/valentine-payzapp/thumbnail.png"
+    "thumbnail": "prototypes/valentine-payzapp/thumbnail.png",
+    "accentColor": "#d65b9e"
   },
   {
     "id": "holi-payzapp",
@@ -345,7 +344,8 @@
         "entry": "prototypes/holi-payzapp/index.html?scene=card-shop"
       }
     ],
-    "thumbnail": "prototypes/holi-payzapp/thumbnail.png"
+    "thumbnail": "prototypes/holi-payzapp/thumbnail.png",
+    "accentColor": "#682ca4"
   },
   {
     "id": "payzapp-recap",
@@ -395,7 +395,8 @@
         "entry": "prototypes/payzapp-recap/index.html?scene=summary"
       }
     ],
-    "thumbnail": "prototypes/payzapp-recap/thumbnail.png"
+    "thumbnail": "prototypes/payzapp-recap/thumbnail.png",
+    "accentColor": "#305b94"
   },
   {
     "id": "psf",
@@ -458,52 +459,8 @@
         "description": "Explore the completed product setup experience.",
         "entry": "psf.html?scene=completed"
       }
-    ]
-  },
-  {
-    "id": "festive",
-    "title": "Festive themification",
-    "description": "A little celebration, every time the season changes.",
-    "source": "figma",
-    "layout": "mobile",
-    "entry": "festive.html",
-    "width": 412,
-    "height": 915,
-    "tags": [
-      "Festivals",
-      "Rakhi",
-      "PayZapp",
-      "Ganesh Chaturthi",
-      "Christmas",
-      "Diwali"
     ],
-    "thumbnail": "assets/payzapp-preview.png",
-    "scenarios": [
-      {
-        "id": "rakhi",
-        "title": "Raksha Bandhan",
-        "description": "A Rakhi greeting welcomes you home.",
-        "entry": "festive.html?scene=rakhi"
-      },
-      {
-        "id": "ganesh",
-        "title": "Ganesh Chaturthi",
-        "description": "A Ganesh Chaturthi greeting welcomes you home.",
-        "entry": "festive.html?scene=ganesh"
-      },
-      {
-        "id": "christmas",
-        "title": "Christmas",
-        "description": "An animated Christmas spotlight on PayZapp home.",
-        "entry": "festive.html?scene=christmas"
-      },
-      {
-        "id": "diwali",
-        "title": "Diwali",
-        "description": "A Diwali spotlight and festive camera scanner.",
-        "entry": "festive.html?scene=diwali"
-      }
-    ]
+    "accentColor": "#2368d4"
   },
   {
     "id": "fto",
@@ -566,7 +523,54 @@
         "description": "See the payment confirmation and the ₹20 cashback reveal.",
         "entry": "fto.html?scene=success"
       }
-    ]
+    ],
+    "accentColor": "#efaa3d"
+  },
+  {
+    "id": "festive",
+    "title": "Festive themification",
+    "description": "A little celebration, every time the season changes.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "festive.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "Festivals",
+      "Rakhi",
+      "PayZapp",
+      "Ganesh Chaturthi",
+      "Christmas",
+      "Diwali"
+    ],
+    "thumbnail": "assets/payzapp-preview.png",
+    "scenarios": [
+      {
+        "id": "rakhi",
+        "title": "Raksha Bandhan",
+        "description": "A Rakhi greeting welcomes you home.",
+        "entry": "festive.html?scene=rakhi"
+      },
+      {
+        "id": "ganesh",
+        "title": "Ganesh Chaturthi",
+        "description": "A Ganesh Chaturthi greeting welcomes you home.",
+        "entry": "festive.html?scene=ganesh"
+      },
+      {
+        "id": "christmas",
+        "title": "Christmas",
+        "description": "An animated Christmas spotlight on PayZapp home.",
+        "entry": "festive.html?scene=christmas"
+      },
+      {
+        "id": "diwali",
+        "title": "Diwali",
+        "description": "A Diwali spotlight and festive camera scanner.",
+        "entry": "festive.html?scene=diwali"
+      }
+    ],
+    "accentColor": "#1d86ff"
   },
   {
     "id": "rive-box",
@@ -597,6 +601,7 @@
         "entry": "rive-box.html?scene=offer"
       }
     ],
-    "thumbnail": "assets/rive-box/preview.png"
+    "thumbnail": "assets/rive-box/preview.png",
+    "accentColor": "#8f542b"
   }
 ]

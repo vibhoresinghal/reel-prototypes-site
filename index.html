@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover">
   <title>Flows · Vibhore Singhal</title><meta name="description" content="A collection of interactive design work by Vibhore Singhal.">
-  <link rel="icon" href="assets/app-icon.svg"><link rel="stylesheet" href="gallery.css?v=9db988016f4f"><link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/app-icon.svg"><link rel="stylesheet" href="gallery.css?v=baa46342fabf"><link rel="manifest" href="manifest.webmanifest">
   <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png">
   <style>html,body{touch-action:pan-x pan-y}</style>
 </head>
 <body>
 <a class="skip-link" href="#projects">Skip to flows</a>
 <main>
-  <nav class="masthead" aria-label="Collection"><a class="identity" href="./"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Vibhore Singhal<span class="slash">/</span><span class="muted">Design</span></a><span class="mast-note">Prototypes</span></nav>
-  <header><div class="title-line"><h1>Flows</h1><span id="total" class="total"></span><button id="fill-screen" class="button" type="button" hidden>Fill screen</button></div><p>Open a flow, or choose where to begin.</p></header>
+  <nav class="masthead" aria-label="Collection"><a class="identity" href="./"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Vibhore Singhal<span class="slash">/</span><span class="muted">Design</span></a></nav>
+  <header class="library-header"><div class="title-line"><h1>Flows</h1><span id="count" class="count" role="status" aria-live="polite">Loading…</span></div><p>Interactive prototypes, ready to explore.</p></header>
   <div class="toolbar">
     <div class="search"><span data-icon="search"></span><label class="sr-only" for="search">Search flows</label><input id="search" type="search" placeholder="Search flows…" autocomplete="off" maxlength="200"><button id="clear-search" class="icon-button" aria-label="Clear search" hidden><span data-icon="close"></span></button></div>
     <label class="device"><span class="sr-only">Device</span><select id="layout"><option value="">All devices</option><option value="mobile">Mobile</option><option value="desktop">Desktop</option><option value="responsive">Any screen</option></select></label>
-    <span id="count" class="count" role="status" aria-live="polite">Loading flows…</span>
+    <button id="fill-screen" class="button" type="button" hidden><span data-icon="fullscreen"></span>Fill screen</button>
   </div>
   <div id="projects" class="grid" tabindex="-1" aria-label="Flow library"></div>
   <div id="empty" hidden><h2>No flows found</h2><p>Try a different name or clear your search.</p><button id="reset" class="button">Clear filters</button></div>
@@ -37,5 +37,5 @@
 </dialog>
 <dialog id="copy-dialog" aria-labelledby="copy-title"><div class="dialog-header"><button class="close icon-button" aria-label="Close copy panel"><span data-icon="close"></span></button><h2 id="copy-title">Copy your link</h2><p>Automatic copying isn’t available here. Select and copy the text below.</p></div><div class="dialog-body"><label><span class="sr-only">Text to copy</span><textarea id="copy-value" readonly rows="4"></textarea></label></div></dialog>
 <div id="toast" role="status" aria-live="polite"></div>
-<script type="module" src="gallery.js?v=bec1e1e94ff9"></script><script src="pwa-register.js?v=64547d83a3ee" defer></script><script type="module" src="design-select.js"></script>
+<script type="module" src="gallery.js?v=8a36b6bd54c6"></script><script src="pwa-register.js?v=ef0461fd8db5" defer></script><script type="module" src="design-select.js"></script>
 </body></html>

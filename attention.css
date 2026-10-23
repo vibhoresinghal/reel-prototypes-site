@@ -47,3 +47,5 @@
 @keyframes christmas-scanner-enter{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.christmas-scanner{animation:none}}
 .diwali-spotlight{height:243px}
+
+.christmas-scanner.camera-preparing{visibility:hidden;pointer-events:none;animation:none}
