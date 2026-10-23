@@ -14,7 +14,27 @@
       "Banking"
     ],
     "reference": "payzapp.html?reference=1",
-    "thumbnail": "assets/payzapp-preview.png"
+    "thumbnail": "assets/payzapp-preview.png",
+    "scenarios": [
+      {
+        "id": "original",
+        "title": "Original home",
+        "description": "Payments, bills, and everyday banking.",
+        "entry": "attention.html?scene=original"
+      },
+      {
+        "id": "attention",
+        "title": "Needs attention",
+        "description": "The updated home, with bill reminders and a swipeable attention strip.",
+        "entry": "attention.html"
+      },
+      {
+        "id": "dismissed",
+        "title": "After dismissing a reminder",
+        "description": "See how the remaining cards settle into place.",
+        "entry": "attention.html?scene=dismissed"
+      }
+    ]
   },
   {
     "id": "milestone-rewards",

@@ -12,4 +12,107 @@ body.prototype-loading > :not(#prototype-loader),body.prototype-loading > :not(#
 @keyframes prototype-spin{to{transform:rotate(360deg)}}
 #prototype-loader[data-state="error"] .loader-spinner{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){#prototype-loader .loader-spinner{animation:none}}
-</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><meta name="description" content="First Transaction Offer Handholding: a guided first PayZapp payment and cashback reveal. An interactive prototype by Vibhore Singhal."><title>First Transaction Offer · PayZapp</title><link rel="icon" href="assets/app-icon.svg"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png"><link rel="stylesheet" href="fto-art.css?v=ff794fe97895"><link rel="stylesheet" href="fto.css?v=42eff1eac39b"></head><body class="prototype-loading"><div id="prototype-loader" role="status" aria-live="polite"><div class="loader-content"><span class="loader-spinner" aria-hidden="true"></span><p id="loader-label">Loading prototype</p><progress id="loader-progress" max="100" value="0" aria-label="Loading assets"></progress><button id="loader-retry" hidden>Try again</button></div></div><div id="root"></div><script src="fto-loader.js?v=3b6aa4f674dd" defer></script><script src="pwa-register.js?v=64547d83a3ee" defer></script><script type="module" src="design-select.js"></script></body></html>
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><meta name="description" content="First Transaction Offer Handholding: a guided first PayZapp payment and cashback reveal. An interactive prototype by Vibhore Singhal."><title>First Transaction Offer · PayZapp</title><link rel="icon" href="assets/app-icon.svg"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png"><link rel="stylesheet" href="fto-art.css?v=ff794fe97895"><link rel="stylesheet" href="fto.css?v=42eff1eac39b"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
+html body,html body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
+html body img,html body svg,html body a{-webkit-user-drag:none}
+html body input,html body textarea,html body [contenteditable]:not([contenteditable="false"]),html body [contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
+/* Reused home controls share one press treatment. Positioning transforms stay intact. */
+#phone :is(button,[role="button"]){scale:1}
+:is(.home,.fto-home,.psf-home,.attention-stage) button:active,#phone [role="button"]:active{filter:none}
+.fto-home-target:active,.home .home-anchors>button:active,.home .home-secondary>button:active{background:transparent!important}
+[data-home-press-visual]{scale:1!important;transform-origin:center;transition:scale 180ms cubic-bezier(.2,.8,.2,1)!important;-webkit-tap-highlight-color:transparent}
+[data-home-press-visual][data-home-pressed]{scale:.97!important;transition-duration:110ms!important}
+@media(prefers-reduced-motion:reduce){[data-home-press-visual]{transition:none!important}}
+
+.fto-home-offer:active .fto-home-offer-art{transform:none!important}
+</style><script>(()=>{
+ const editable=target=>{
+  const element=target?.nodeType===3?target.parentElement:target;
+  return Boolean(element?.isContentEditable||element?.closest?.('input,textarea'));
+ };
+ for(const type of ['selectstart','dragstart'])document.addEventListener(type,event=>{
+  if(!editable(event.target))event.preventDefault();
+ },true);
+ document.addEventListener('keydown',event=>{
+  if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='a'&&!editable(event.target))event.preventDefault();
+ },true);
+})();
+(()=>{
+ let drag=null,blockClick=false;
+ const skip='input,textarea,select,[contenteditable="true"],[role="slider"],.attention-strip,.map-page,.swipe-button,[data-mouse-drag="off"]';
+ document.addEventListener('pointerdown',e=>{
+  blockClick=false;if(e.pointerType!=='mouse'||e.button!==0||e.target.closest(skip))return;
+  const candidates=[];for(let el=e.target;el;el=el.parentElement){const css=getComputedStyle(el);const doc=el===document.scrollingElement;
+   const x=el.scrollWidth>el.clientWidth+1&&/auto|scroll/.test(css.overflowX),y=el.scrollHeight>el.clientHeight+1&&(doc?!/hidden|clip/.test(css.overflowY):/auto|scroll/.test(css.overflowY));
+   if(x||y)candidates.push({el,x,y});
+  }
+  if(candidates.length)drag={id:e.pointerId,target:e.target,x:e.clientX,y:e.clientY,candidates,chosen:null};
+ });
+ window.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.chosen){if(Math.hypot(dx,dy)<5)return;
+   // Existing map, slider and sheet gestures retain ownership.
+   for(let el=drag.target;el;el=el.parentElement)if(el.hasPointerCapture?.(e.pointerId)){drag=null;return;}
+   const axis=Math.abs(dx)>Math.abs(dy)?'x':'y',c=drag.candidates.find(c=>c[axis]);if(!c){drag=null;return;}
+   drag.chosen=c.el;drag.axis=axis;drag.left=c.el.scrollLeft;drag.top=c.el.scrollTop;
+   drag.scale=c.el===document.scrollingElement?1:c.el.getBoundingClientRect().width/c.el.offsetWidth||1;
+   drag.target.setPointerCapture(e.pointerId);blockClick=true;
+  }
+  e.preventDefault();if(drag.axis==='x')drag.chosen.scrollLeft=drag.left-dx/drag.scale;else drag.chosen.scrollTop=drag.top-dy/drag.scale;
+ },{passive:false});
+ const release=()=>{drag=null;};window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
+ document.addEventListener('click',e=>{if(blockClick){blockClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
+})();
+(()=>{
+ const roots='#phone,.attention-stage,.psf-home,.fto-home,.home';
+ let held=null;
+ function release(){if(held)held.removeAttribute('data-home-pressed');held=null;}
+ function press(visual){release();if(!visual)return;visual.setAttribute('data-home-press-visual','');getComputedStyle(visual).scale;visual.setAttribute('data-home-pressed','');held=visual;}
+ function at(node,x,y,padX=0,padBottom=0){if(!node)return false;const r=node.getBoundingClientRect();return r.width&&r.height&&x>=r.left-padX&&x<=r.right+padX&&y>=r.top-5&&y<=r.bottom+padBottom;}
+ function visualFor(event){const root=event.target.closest?.(roots);if(!root||root.closest('[inert]'))return null;
+  const {clientX:x,clientY:y}=event;
+  const ipl=root.querySelector('#stage[data-scene^="spotlight-"]');
+  if(ipl){
+   const base=ipl.querySelector('img.art');
+   if(base?.naturalWidth&&!ipl.querySelector('.ipl-home-tile')){
+    for(let i=0;i<8;i++){const sx=30+(i%4)*132,sy=i<4?366:615;
+     const cover=document.createElement('div');cover.className='ipl-home-tile-cover';Object.assign(cover.style,{position:'absolute',left:(sx/540*100)+'%',top:(sy/540*100)+'cqw',width:(84/540*100)+'cqw',height:(84/540*100)+'cqw',background:'white',pointerEvents:'none'});
+     const visual=document.createElement('div');visual.className='ipl-home-tile';Object.assign(visual.style,{position:'absolute',inset:'0',overflow:'hidden'});
+     const image=base.cloneNode();image.removeAttribute('class');Object.assign(image.style,{position:'absolute',width:(540/84*100)+'%',maxWidth:'none',height:'auto',left:(-sx/84*100)+'%',top:(-sy/84*100)+'%',clipPath:'none'});visual.append(image);cover.append(visual);base.parentElement.append(cover);
+    }
+   }
+   if(event.target.closest('[aria-label="Open stadium scanner"]'))return ipl.querySelector('.ipl-home-tile');
+   const tile=[...ipl.querySelectorAll('.ipl-home-tile')].find(node=>at(node,x,y,10,40));if(tile)return tile;
+   if(event.target.closest('[aria-label="Explore IPL season"]'))return [...ipl.querySelectorAll('.spot')].find(node=>node.style.opacity==='1');
+  }
+
+  // Original Figma tile boxes, exported composite tiles, and FTO replacement icons.
+  // Labels are separate siblings and are deliberately excluded from the animated box.
+  const tiles=[...root.querySelectorAll('[data-source-home-tile],[data-fto-icon],[data-node-id],[id]')].filter(node=>{
+   const s=getComputedStyle(node),w=parseFloat(s.width),h=parseFloat(s.height);
+   return s.display!=='contents'&&s.display!=='none'&&s.visibility==='visible'&&((Math.abs(w-48)<.5&&Math.abs(h-48)<.5)||(node.matches('[data-fto-icon]')&&Math.abs(w-56)<.5&&Math.abs(h-56)<.5))&&!node.querySelector('p');
+  });
+  const tile=tiles.find(node=>!tiles.some(other=>other!==node&&other.contains(node))&&at(node,x,y,12,40));if(tile)return tile;
+  const reminder=event.target.closest('[data-reminder]');if(reminder&&!event.target.closest('.reminder-close'))return reminder;
+  const hit=event.target.closest('button,[role="button"]');
+  if(root.matches('.home')){
+   if(hit?.matches('.hero-hit'))return root.querySelector('.home-hero > .art');
+   if(hit?.matches('.offer-banner-hit'))return root.querySelector('[data-node-id="473:16818"]');
+  }
+  if(root.matches('.fto-home')){
+   if(hit?.getAttribute('aria-label')==='Zoomcar offer')return root.querySelector('[data-node-id="6898:24802"], [data-node-id="6797:46196"]');
+   if(hit?.classList.contains('fto-home-offer'))return hit;
+  }
+  if(root.matches('.psf-home')&&at(root.querySelector('.psf-home-spotlight'),x,y))return root.querySelector('.psf-home-spotlight');
+  if(root.matches('.attention-stage')){
+   for(const id of ['14910','14701']){const art=root.querySelector('[data-node-id="423:'+id+'"]');if(art&&at(art,x,y))return art;}
+  }
+  return hit&&getComputedStyle(hit).display!=='contents'?hit:null;
+ }
+ document.addEventListener('pointerdown',event=>{if(event.button!==0)return;press(visualFor(event));},true);
+ for(const type of ['pointerup','pointercancel'])document.addEventListener(type,release,true);
+ window.addEventListener('blur',release);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)release();});
+})();
+</script><!--/prototype-interaction-guard--></head><body class="prototype-loading"><div id="prototype-loader" role="status" aria-live="polite"><div class="loader-content"><span class="loader-spinner" aria-hidden="true"></span><p id="loader-label">Loading prototype</p><progress id="loader-progress" max="100" value="0" aria-label="Loading assets"></progress><button id="loader-retry" hidden>Try again</button></div></div><div id="root"></div><script src="fto-loader.js?v=3b6aa4f674dd" defer></script><script src="pwa-register.js?v=64547d83a3ee" defer></script><script type="module" src="design-select.js"></script></body></html>
