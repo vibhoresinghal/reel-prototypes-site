@@ -11,3 +11,9 @@
  body:not(.embedded){padding:32px}
  body:not(.embedded) #phone{width:min(360px,calc((100dvh - 64px)*.45));height:min(800px,calc(100dvh - 64px));min-height:0;flex:0 0 auto;border-radius:28px}
 }
+
+/* Ease the original crowd artwork and its caption into the success screen together. */
+.runs-celebration{opacity:0;transform:translateY(28px);transition:opacity 800ms cubic-bezier(.22,1,.36,1),transform 1100ms cubic-bezier(.22,1,.36,1);will-change:transform,opacity}
+.runs-celebration.is-visible{opacity:1;transform:translateY(0)}
+.runs{transform:translateY(18px);transition:opacity 700ms cubic-bezier(.22,1,.36,1),transform 1000ms cubic-bezier(.22,1,.36,1)}
+.runs.is-visible{opacity:1;transform:translateY(0);transition-delay:120ms}
