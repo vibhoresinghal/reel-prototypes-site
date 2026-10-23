@@ -86,6 +86,12 @@
 .map-art{isolation:isolate}
 .map-art::before{content:"";position:absolute;inset:-600px -600px 0;background:#2087a1;z-index:-1;pointer-events:none}
 
+/* Original Figma 633:84587 animated pan guidance, including its blend/rotation. */
+.map-pan-hint{position:absolute;left:103px;top:min(230px,calc(100% - 360px));width:181.407px;height:181.407px;display:grid;place-items:center;z-index:8;pointer-events:none;mix-blend-mode:luminosity;opacity:1;transition:opacity .8s ease-in}
+.map-pan-hint img{width:130.522px;height:130.522px;transform:rotate(-34.35deg);object-fit:contain}
+.map-pan-hint.fading{opacity:0}
+@media(prefers-reduced-motion:reduce){.map-pan-hint{display:none}}
+
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
 .finance-v2{background:white;color:#222;animation:finance-page-in .3s ease-out both}
