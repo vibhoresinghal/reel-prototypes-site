@@ -461,6 +461,51 @@
     ]
   },
   {
+    "id": "festive",
+    "title": "Festive themification",
+    "description": "A little celebration, every time the season changes.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "festive.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "Festivals",
+      "Rakhi",
+      "PayZapp",
+      "Ganesh Chaturthi",
+      "Christmas",
+      "Diwali"
+    ],
+    "thumbnail": "assets/payzapp-preview.png",
+    "scenarios": [
+      {
+        "id": "rakhi",
+        "title": "Raksha Bandhan",
+        "description": "A Rakhi greeting welcomes you home.",
+        "entry": "festive.html?scene=rakhi"
+      },
+      {
+        "id": "ganesh",
+        "title": "Ganesh Chaturthi",
+        "description": "A Ganesh Chaturthi greeting welcomes you home.",
+        "entry": "festive.html?scene=ganesh"
+      },
+      {
+        "id": "christmas",
+        "title": "Christmas",
+        "description": "An animated Christmas spotlight on PayZapp home.",
+        "entry": "festive.html?scene=christmas"
+      },
+      {
+        "id": "diwali",
+        "title": "Diwali",
+        "description": "A Diwali spotlight and festive camera scanner.",
+        "entry": "festive.html?scene=diwali"
+      }
+    ]
+  },
+  {
     "id": "fto",
     "title": "First Transaction Offer",
     "description": "A guided first payment, from the home-screen offer to ₹20 cashback.",
@@ -520,51 +565,6 @@
         "title": "Cashback earned",
         "description": "See the payment confirmation and the ₹20 cashback reveal.",
         "entry": "fto.html?scene=success"
-      }
-    ]
-  },
-  {
-    "id": "festive",
-    "title": "Festive themification",
-    "description": "A little celebration, every time the season changes.",
-    "source": "figma",
-    "layout": "mobile",
-    "entry": "festive.html",
-    "width": 412,
-    "height": 915,
-    "tags": [
-      "Festivals",
-      "Rakhi",
-      "PayZapp",
-      "Ganesh Chaturthi",
-      "Christmas",
-      "Diwali"
-    ],
-    "thumbnail": "assets/payzapp-preview.png",
-    "scenarios": [
-      {
-        "id": "rakhi",
-        "title": "Raksha Bandhan",
-        "description": "A Rakhi greeting welcomes you home.",
-        "entry": "festive.html?scene=rakhi"
-      },
-      {
-        "id": "ganesh",
-        "title": "Ganesh Chaturthi",
-        "description": "A Ganesh Chaturthi greeting welcomes you home.",
-        "entry": "festive.html?scene=ganesh"
-      },
-      {
-        "id": "christmas",
-        "title": "Christmas",
-        "description": "An animated Christmas spotlight on PayZapp home.",
-        "entry": "festive.html?scene=christmas"
-      },
-      {
-        "id": "diwali",
-        "title": "Diwali",
-        "description": "A Diwali spotlight and festive camera scanner.",
-        "entry": "festive.html?scene=diwali"
       }
     ]
   }

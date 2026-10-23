@@ -60,6 +60,15 @@
  .fto-art img[src$="ca2dbd6a6a03aee080378632eacbf58a7a20dc0c7ca5a09f43614923b9dbd4c1.gif"]{content:url("assets/fto/shared/ca2dbd6a6a03aee080378632eacbf58a7a20dc0c7ca5a09f43614923b9dbd4c1-still.png")}
  .fto-art img[src$="d88637e2cf4d14fcd73c6ba1da1e2c4b816ad84fcb9458a0609fa189ac668d9d.gif"]{content:url("assets/fto/shared/d88637e2cf4d14fcd73c6ba1da1e2c4b816ad84fcb9458a0609fa189ac668d9d-still.png")}
 }
+/* Reuse the send-money coin loop within the success card; keep the value badge and copy fixed. */
+.fto-payment-success [data-node-id="6795:12657"]{inset:auto;left:calc(50% - 52px);top:-9px;width:104px;height:104px}
+.fto-payment-success [data-node-id="6795:12657"]>div{inset:0}
+.fto-payment-success [data-node-id="6795:12657"] img{content:url("assets/fto/shared/d88637e2cf4d14fcd73c6ba1da1e2c4b816ad84fcb9458a0609fa189ac668d9d.gif");width:100%;height:100%;object-fit:contain}
+@media(prefers-reduced-motion:reduce){.fto-payment-success [data-node-id="6795:12657"] img{content:url("assets/fto/shared/d88637e2cf4d14fcd73c6ba1da1e2c4b816ad84fcb9458a0609fa189ac668d9d-still.png")}}
+/* Rotate the original sunbursts behind every offer coin, without moving their positioning wrappers. */
+.fto-art img:is([src$="abf2afec711f852e801661c0ce2e31f0737e8e93781646f8d09aa94649871356.png"],[src$="80ad19118a176646ff673ef28f5b683002a2b1a65f23779d2a5acdf1bfa474a6.png"]){transform-origin:50% 50%;animation:fto-cashback-rays 45s linear infinite}
+@keyframes fto-cashback-rays{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.fto-art img:is([src$="abf2afec711f852e801661c0ce2e31f0737e8e93781646f8d09aa94649871356.png"],[src$="80ad19118a176646ff673ef28f5b683002a2b1a65f23779d2a5acdf1bfa474a6.png"]){animation:none}}
 
 .fto-payment{position:absolute;inset:0;width:360px;height:var(--fto-height,800px);overflow:clip;background:white;outline:0;isolation:isolate;font-family:Inter,sans-serif;--fto-success-lift:clamp(0px,calc((800px - var(--fto-height,800px)) * .5),80px)}
 .fto-payment .fto-payment-art{position:absolute;inset:0;width:360px;height:100%;pointer-events:none}
