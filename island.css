@@ -75,8 +75,8 @@
 .pin-callout.locked strong{top:12px;min-height:0;height:21px;color:#4b4747}
 .pin-callout small{position:absolute;left:63px;top:32px;width:203px;height:18px;font-size:12px;line-height:1.4;font-weight:500;color:#fff;white-space:nowrap}
 .pin-callout.closing{animation:pin-callout-out .22s ease forwards;pointer-events:none}
-.map-pin.selected>.art,.map-pin.selected>
-.map-pin>.art{transition:opacity .2s}
+.map-pin.selected{visibility:hidden;pointer-events:none}
+.map-pin.selected>.art{animation-play-state:paused}
 @keyframes pin-callout-in{from{opacity:0;transform:translateY(4px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes pin-callout-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(3px) scale(.97)}}
 .reduced-motion .pin-callout{animation:none}.reduced-motion .pin-callout.closing{opacity:0}
