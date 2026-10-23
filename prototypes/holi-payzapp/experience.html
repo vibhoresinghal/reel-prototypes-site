@@ -98,7 +98,7 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
    const base=ipl.querySelector('img.art');
    if(base?.naturalWidth&&!ipl.querySelector('.ipl-home-tile')){
     for(let i=0;i<8;i++){const sx=30+(i%4)*132,sy=i<4?366:615;
-     const cover=document.createElement('div');cover.className='ipl-home-tile-cover';Object.assign(cover.style,{position:'absolute',left:(sx/540*100)+'%',top:(sy/540*100)+'cqw',width:(84/540*100)+'cqw',height:(84/540*100)+'cqw',background:'white',pointerEvents:'none'});
+     const cover=document.createElement('div');cover.className='ipl-home-tile-cover';Object.assign(cover.style,{position:'absolute',left:(sx/540*100)+'%',top:'calc('+(sy/540*100)+'cqw + var(--hero-extra, 0px))',width:(84/540*100)+'cqw',height:(84/540*100)+'cqw',background:'white',pointerEvents:'none'});
      const visual=document.createElement('div');visual.className='ipl-home-tile';Object.assign(visual.style,{position:'absolute',inset:'0',overflow:'hidden'});
      const image=base.cloneNode();image.removeAttribute('class');Object.assign(image.style,{position:'absolute',width:(540/84*100)+'%',maxWidth:'none',height:'auto',left:(-sx/84*100)+'%',top:(-sy/84*100)+'%',clipPath:'none'});visual.append(image);cover.append(visual);base.parentElement.append(cover);
     }
