@@ -190,3 +190,7 @@
  background:linear-gradient(to bottom,rgba(195,242,244,.26),rgba(195,242,244,.09) 24%,transparent 78%)}
 .boat-water i+i{top:26px;animation-delay:-4.8s}
 .boat-picker.is-reduced .boat-water i{animation:none;opacity:.25}
+
+/* Source beach SVG has a sloped bottom edge: extend solid sand past the crop,
+   including the 7px arrival overshoot, without moving the shoreline. */
+.boat-page .shore::after{content:"";position:absolute;left:-24px;right:-24px;top:260px;bottom:-48px;background:#f8d89b;pointer-events:none}
