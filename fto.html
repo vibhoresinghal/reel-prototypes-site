@@ -38,13 +38,13 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
  },true);
 })();
 (()=>{
- let drag=null,blockClick=false;
+ let drag=null,blockClick=false;const settling=new Map();
  const skip='input,textarea,select,[contenteditable="true"],[role="slider"],.attention-strip,.map-page,.swipe-button,[data-mouse-drag="off"]';
  document.addEventListener('pointerdown',e=>{
   blockClick=false;if(e.pointerType!=='mouse'||e.button!==0||e.target.closest(skip))return;
   const candidates=[];for(let el=e.target;el;el=el.parentElement){const css=getComputedStyle(el);const doc=el===document.scrollingElement;
    const x=el.scrollWidth>el.clientWidth+1&&/auto|scroll/.test(css.overflowX),y=el.scrollHeight>el.clientHeight+1&&(doc?!/hidden|clip/.test(css.overflowY):/auto|scroll/.test(css.overflowY));
-   if(x||y)candidates.push({el,x,y});
+   if(x||y){const stop=settling.get(el);if(stop)stop();candidates.push({el,x,y});}
   }
   if(candidates.length)drag={id:e.pointerId,target:e.target,x:e.clientX,y:e.clientY,candidates,chosen:null};
  });
@@ -57,13 +57,27 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
    const axis=Math.abs(dx)>Math.abs(dy)?'x':'y',c=drag.candidates.find(c=>c[axis]);if(!c){drag=null;return;}
    drag.chosen=c.el;drag.axis=axis;drag.left=c.el.scrollLeft;drag.top=c.el.scrollTop;
    drag.scale=c.el===document.scrollingElement?1:c.el.getBoundingClientRect().width/c.el.offsetWidth||1;
+   if(axis==='x'&&getComputedStyle(c.el).scrollSnapType!=='none'){drag.snap=c.el.style.scrollSnapType;c.el.style.scrollSnapType='none';}
    drag.target.setPointerCapture(e.pointerId);blockClick=true;
   }
   e.preventDefault();if(drag.axis==='x')drag.chosen.scrollLeft=drag.left-dx/drag.scale;else drag.chosen.scrollTop=drag.top-dy/drag.scale;
  },{passive:false});
- const release=()=>{drag=null;};window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
+ const release=()=>{
+  const ended=drag;drag=null;
+  if(!ended?.chosen||ended.snap===undefined)return;
+  const el=ended.chosen,scale=ended.scale,padding=parseFloat(getComputedStyle(el).scrollPaddingLeft)||0;
+  const points=[...el.querySelectorAll('*')].filter(n=>getComputedStyle(n).scrollSnapAlign!=='none').map(n=>Math.max(0,Math.min(el.scrollWidth-el.clientWidth,el.scrollLeft+(n.getBoundingClientRect().left-el.getBoundingClientRect().left)/scale-padding)));
+  const target=points.sort((a,b)=>Math.abs(a-el.scrollLeft)-Math.abs(b-el.scrollLeft))[0];
+  const from=el.scrollLeft,start=performance.now();let frame;
+  const stop=()=>{cancelAnimationFrame(frame);el.style.scrollSnapType=ended.snap;settling.delete(el);};
+  if(target===undefined){stop();return;}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.scrollLeft=target;stop();return;}
+  const tick=now=>{const t=Math.min(1,(now-start)/360);el.scrollLeft=from+(target-from)*(1-Math.pow(1-t,3));if(t<1)frame=requestAnimationFrame(tick);else stop();};
+  settling.set(el,stop);frame=requestAnimationFrame(tick);
+ };window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
  document.addEventListener('click',e=>{if(blockClick){blockClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
 })();
+
 (()=>{
  const roots='#phone,.attention-stage,.psf-home,.fto-home,.home';
  let held=null;

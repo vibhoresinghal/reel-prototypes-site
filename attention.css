@@ -22,3 +22,4 @@
 .attention-scroll,.short-phone .attention-scroll{overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain}.attention-content,.short-phone .attention-content{position:relative;height:2576px;overflow:hidden}.attention-scroll::-webkit-scrollbar{display:none}[data-node-id="423:15097"],[data-node-id="423:15372"]{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;touch-action:pan-x pan-y}
 .attention-content{background:linear-gradient(to bottom,#fff 0,#fff 2533px,#102d46 2533px,#102d46 100%)}
 
+[data-node-id="423:15097"]{scroll-snap-type:x mandatory;scroll-padding-left:23px}[data-node-id="423:15098"]>div{scroll-snap-align:start}

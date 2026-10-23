@@ -12,7 +12,7 @@ body.prototype-loading > :not(#prototype-loader),body.prototype-loading > :not(#
 @keyframes prototype-spin{to{transform:rotate(360deg)}}
 #prototype-loader[data-state="error"] .loader-spinner{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){#prototype-loader .loader-spinner{animation:none}}
-</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><meta name="description" content="The updated PayZapp home with Needs Attention. An interactive prototype by Vibhore Singhal."><title>Needs attention · PayZapp</title><link rel="icon" href="assets/app-icon.svg"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png"><link rel="stylesheet" href="attention-art.css?v=0250e0ab2277"><link rel="stylesheet" href="attention.css?v=0813ffae16ac"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
+</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><meta name="description" content="The updated PayZapp home with Needs Attention. An interactive prototype by Vibhore Singhal."><title>Needs attention · PayZapp</title><link rel="icon" href="assets/app-icon.svg"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="apple-touch-icon" href="assets/flows-192.png"><link rel="stylesheet" href="attention-art.css?v=0250e0ab2277"><link rel="stylesheet" href="attention.css?v=1221acb2a53e"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
 html body,html body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
 html body img,html body svg,html body a{-webkit-user-drag:none}
 html body input,html body textarea,html body [contenteditable]:not([contenteditable="false"]),html body [contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
@@ -38,13 +38,13 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
  },true);
 })();
 (()=>{
- let drag=null,blockClick=false;
+ let drag=null,blockClick=false;const settling=new Map();
  const skip='input,textarea,select,[contenteditable="true"],[role="slider"],.attention-strip,.map-page,.swipe-button,[data-mouse-drag="off"]';
  document.addEventListener('pointerdown',e=>{
   blockClick=false;if(e.pointerType!=='mouse'||e.button!==0||e.target.closest(skip))return;
   const candidates=[];for(let el=e.target;el;el=el.parentElement){const css=getComputedStyle(el);const doc=el===document.scrollingElement;
    const x=el.scrollWidth>el.clientWidth+1&&/auto|scroll/.test(css.overflowX),y=el.scrollHeight>el.clientHeight+1&&(doc?!/hidden|clip/.test(css.overflowY):/auto|scroll/.test(css.overflowY));
-   if(x||y)candidates.push({el,x,y});
+   if(x||y){const stop=settling.get(el);if(stop)stop();candidates.push({el,x,y});}
   }
   if(candidates.length)drag={id:e.pointerId,target:e.target,x:e.clientX,y:e.clientY,candidates,chosen:null};
  });
@@ -57,13 +57,27 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
    const axis=Math.abs(dx)>Math.abs(dy)?'x':'y',c=drag.candidates.find(c=>c[axis]);if(!c){drag=null;return;}
    drag.chosen=c.el;drag.axis=axis;drag.left=c.el.scrollLeft;drag.top=c.el.scrollTop;
    drag.scale=c.el===document.scrollingElement?1:c.el.getBoundingClientRect().width/c.el.offsetWidth||1;
+   if(axis==='x'&&getComputedStyle(c.el).scrollSnapType!=='none'){drag.snap=c.el.style.scrollSnapType;c.el.style.scrollSnapType='none';}
    drag.target.setPointerCapture(e.pointerId);blockClick=true;
   }
   e.preventDefault();if(drag.axis==='x')drag.chosen.scrollLeft=drag.left-dx/drag.scale;else drag.chosen.scrollTop=drag.top-dy/drag.scale;
  },{passive:false});
- const release=()=>{drag=null;};window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
+ const release=()=>{
+  const ended=drag;drag=null;
+  if(!ended?.chosen||ended.snap===undefined)return;
+  const el=ended.chosen,scale=ended.scale,padding=parseFloat(getComputedStyle(el).scrollPaddingLeft)||0;
+  const points=[...el.querySelectorAll('*')].filter(n=>getComputedStyle(n).scrollSnapAlign!=='none').map(n=>Math.max(0,Math.min(el.scrollWidth-el.clientWidth,el.scrollLeft+(n.getBoundingClientRect().left-el.getBoundingClientRect().left)/scale-padding)));
+  const target=points.sort((a,b)=>Math.abs(a-el.scrollLeft)-Math.abs(b-el.scrollLeft))[0];
+  const from=el.scrollLeft,start=performance.now();let frame;
+  const stop=()=>{cancelAnimationFrame(frame);el.style.scrollSnapType=ended.snap;settling.delete(el);};
+  if(target===undefined){stop();return;}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.scrollLeft=target;stop();return;}
+  const tick=now=>{const t=Math.min(1,(now-start)/360);el.scrollLeft=from+(target-from)*(1-Math.pow(1-t,3));if(t<1)frame=requestAnimationFrame(tick);else stop();};
+  settling.set(el,stop);frame=requestAnimationFrame(tick);
+ };window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
  document.addEventListener('click',e=>{if(blockClick){blockClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
 })();
+
 (()=>{
  const roots='#phone,.attention-stage,.psf-home,.fto-home,.home';
  let held=null;
@@ -115,4 +129,4 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
  window.addEventListener('blur',release);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)release();});
 })();
-</script><!--/prototype-interaction-guard--></head><body class="prototype-loading"><div id="prototype-loader" role="status" aria-live="polite"><div class="loader-content"><span class="loader-spinner" aria-hidden="true"></span><p id="loader-label">Loading prototype</p><progress id="loader-progress" max="100" value="0" aria-label="Loading assets"></progress><button id="loader-retry" hidden>Try again</button></div></div><div id="root"></div><script src="attention-loader.js?v=3fa680c9c07c" defer></script><script src="pwa-register.js" defer></script><script type="module" src="design-select.js"></script></body></html>
+</script><!--/prototype-interaction-guard--></head><body class="prototype-loading"><div id="prototype-loader" role="status" aria-live="polite"><div class="loader-content"><span class="loader-spinner" aria-hidden="true"></span><p id="loader-label">Loading prototype</p><progress id="loader-progress" max="100" value="0" aria-label="Loading assets"></progress><button id="loader-retry" hidden>Try again</button></div></div><div id="root"></div><script src="attention-loader.js?v=4673c0cec5f8" defer></script><script src="pwa-register.js" defer></script><script type="module" src="design-select.js"></script></body></html>

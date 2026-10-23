@@ -9,3 +9,8 @@
 :is(button,[role="button"]):active{scale:.97;transition-duration:110ms}
 @media(prefers-reduced-motion:reduce){:is(button,[role="button"]){transition:none}}
 
+
+/* Banking rail: retain original geometry and allow native touch/shared mouse dragging. */
+[data-node-id="473:17006"]{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;touch-action:pan-x pan-y;height:151px!important}
+[data-node-id="473:17006"]::-webkit-scrollbar{display:none}
+[data-node-id="473:17006"]{scroll-snap-type:x mandatory;scroll-padding-left:23px}[data-node-id="473:17007"]>div{scroll-snap-align:start}
