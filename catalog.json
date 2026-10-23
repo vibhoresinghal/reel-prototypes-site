@@ -567,5 +567,36 @@
         "entry": "fto.html?scene=success"
       }
     ]
+  },
+  {
+    "id": "rive-box",
+    "title": "Rive Box",
+    "description": "A little surprise. Tap a gift and watch your offer unfold.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "rive-box.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Rewards",
+      "Rive",
+      "Gift"
+    ],
+    "scenarios": [
+      {
+        "id": "gift",
+        "title": "A gift on home",
+        "description": "Open an animated gift on the existing PayZapp home.",
+        "entry": "rive-box.html?scene=gift"
+      },
+      {
+        "id": "offer",
+        "title": "Offer unlocked",
+        "description": "Your ₹20 first-payment offer, ready to use.",
+        "entry": "rive-box.html?scene=offer"
+      }
+    ],
+    "thumbnail": "assets/rive-box/preview.png"
   }
 ]
