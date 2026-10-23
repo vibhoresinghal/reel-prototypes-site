@@ -24,3 +24,11 @@
 .success-button-art{position:absolute;left:0;top:-182.222cqw;width:100%;height:auto;pointer-events:none}
 
 .spotlight-scroll{background:white}.spotlight-composition{min-height:100%;background:white}
+
+/* Give tall screens a taller hero rather than a blank gap below services. */
+#stage[data-scene^="spotlight-"]{container-type:size}
+.spotlight-composition{--hero-extra:max(0px,calc(100cqh - 207.222cqw))}
+.spotlight-composition>.art{transform:translateY(var(--hero-extra));clip-path:inset(10.725% 0 29.14% 0)!important}
+.spotlight-composition>.spot{height:calc(66.667cqw + var(--hero-extra))}
+.spotlight-header{position:absolute;inset:0 0 auto;height:22.222cqw;overflow:hidden;pointer-events:none}
+.spotlight-header img{width:100%;display:block}
