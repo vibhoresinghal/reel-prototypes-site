@@ -23,12 +23,15 @@ function show(id,update=true,autoOpen=false){reset();id=({'leaderboard-new':'lea
  else if(active==='promo'){media=el('video','');media.src=asset('promo video.mp4');media.muted=true;media.playsInline=true;media.controls=!matchMedia('(max-width:760px)').matches&&!embedded;media.onclick=()=>{if(!media.controls){if(media.paused)media.play().catch(()=>{});else media.pause();}};media.autoplay=!reduced;media.addEventListener('ended',()=>show('leaderboard'));media.addEventListener('error',()=>{const b=el('button','');b.textContent='Retry video';b.onclick=()=>media.load();});}
  else if(active==='scan'){art('scan-qr-bg.png','layer full');disposeCamera=mountScannerCamera(stage,data.get('assets/lottie/scanqrIPL.json'));animate('scanqrIPL.json','',{loop:true,ratio:'xMidYMin slice',still:250});art('scan-qr-overlay.png','layer bottom');hotspot('Back to PayZapp',[0,0,16,10],()=>show('spotlight-1'));}
  else if(active==='success'){
- art('Transacrtion Success.png');animate('payment success.json','success-anim',{ratio:'xMidYMin meet',loop:true});
+ const receipt=art('Transacrtion Success.png','layer success-receipt');
+ const actions=el('div','success-actions');const buttons=art('Transacrtion Success.png','success-button-art');actions.append(buttons);
+ hotspot('View PayZapp home',[52.22,0,41.11,100],()=>show('spotlight-1'),actions);
+ animate('payment success.json','success-anim',{ratio:'xMidYMin meet',loop:true});
  const overlay=animate('txnRuns.json','runs-celebration',{play:false});overlay.container.style.opacity='0';overlay.a.pause();
  const text=el('div','runs');text.innerHTML='<strong>6 Runs<br>Scored</strong><p>Book flights on PayZapp Shop, get 25 runs!</p>';
  later(4000,()=>{overlay.container.classList.add('is-visible');overlay.container.style.opacity='1';text.classList.add('is-visible');if(!reduced)overlay.a.goToAndPlay(0,true);});
  later(14000,()=>{overlay.container.classList.remove('is-visible');overlay.container.style.opacity='0';text.classList.remove('is-visible');});
- const home=hotspot('View PayZapp home',[48,85,48,15],()=>show('spotlight-1'));home.style.top='181cqw';home.style.height='16cqw';hotspot('Close success',[0,0,18,10],()=>show('spotlight-1'));
+ hotspot('Close success',[0,0,18,10],()=>show('spotlight-1'));
  }
  else if(active==='referral'){
  art('referral.png','layer bottom');const scrim=el('div','scrim');let endFrame=108;const ref=animate('User Referral/userReferral.json','',{ready:a=>{endFrame=a.totalFrames;if(!reduced)a.playSegments([0,15],true);}});const sheet=art('refrral bottom sheet.png','layer bottom');sheet.style.width='99%';sheet.style.opacity='0';sheet.style.transition='opacity .15s';scrim.style.opacity='1';

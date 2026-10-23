@@ -17,3 +17,8 @@
 .runs-celebration.is-visible{opacity:1;transform:translateY(0)}
 .runs{transform:translateY(18px);transition:opacity 700ms cubic-bezier(.22,1,.36,1),transform 1000ms cubic-bezier(.22,1,.36,1)}
 .runs.is-visible{opacity:1;transform:translateY(0);transition-delay:120ms}
+
+/* Keep original button artwork, positioned independently of receipt height. */
+.success-receipt{clip-path:inset(0 0 12% 0)}
+.success-actions{position:absolute;left:0;bottom:max(24px,env(safe-area-inset-bottom));width:100%;height:14.445cqw;overflow:hidden}
+.success-button-art{position:absolute;left:0;top:-182.222cqw;width:100%;height:auto;pointer-events:none}
