@@ -194,3 +194,19 @@
 /* Source beach SVG has a sloped bottom edge: extend solid sand past the crop,
    including the 7px arrival overshoot, without moving the shoreline. */
 .boat-page .shore::after{content:"";position:absolute;left:-24px;right:-24px;top:260px;bottom:-48px;background:#f8d89b;pointer-events:none}
+
+/* The selected picker boat stays mounted until it matches the map boat exactly. */
+.boat-departing{background:transparent;z-index:6;pointer-events:none;overflow:clip}
+.boat-departing>.back{pointer-events:auto}
+.boat-departing .boat-picker{pointer-events:none!important;cursor:default;top:var(--departure-top)!important;transform:scale(var(--departure-scale))!important}
+.boat-departing .boat-picker-card.is-selected{transform:translate3d(0,0,0) scale(1)!important;opacity:1!important;transition:transform .2s ease-out}
+.boat-departing .boat-picker-float{animation:none;transition:transform .25s ease-out}
+.boat-departing .boat-picker-card:not(.is-selected),
+.boat-departing .boat-picker-prev,.boat-departing .boat-picker-next,
+.boat-departing>.island-title,.boat-departing>.boat-copy,
+.boat-departing .upper-swell{animation:departureFade .35s ease-out both}
+.boat-departing>.shore,.boat-departing>.dock-button{animation:departureBeach .65s cubic-bezier(.4,0,.6,1) both}
+.map-departure .map-world{transform-origin:0 0;transform:translate3d(-32px,-461.6px,0) scale(.597827)}
+.map-departure .ship-position,.map-departure .map-controls{visibility:hidden}
+@keyframes departureFade{to{opacity:0}}
+@keyframes departureBeach{to{translate:0 330px;opacity:0}}
