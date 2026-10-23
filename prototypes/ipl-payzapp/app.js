@@ -1,5 +1,5 @@
 import {mountScannerCamera} from './camera.js';
-import {scenes} from './scenes.js';
+import {scenes} from './scenes.js?v=e916f6510fa9';
 const $=s=>document.querySelector(s),stage=$('#stage'),select=$('#scene'),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const params=new URLSearchParams(location.search),embedded=params.get('embed')==='1'||(parent!==window&&params.get('hosted')!=='1');
 if(embedded)document.body.classList.add('embedded');
@@ -13,8 +13,8 @@ function art(name,cls='layer'){const e=el('img',cls);e.src=asset(name);e.alt='';
 function hotspot(label,rect,fn,parentNode=stage){const b=el('button','hotspot',parentNode);b.setAttribute('aria-label',label);['left','top','width','height'].forEach((key,i)=>b.style[key]=rect[i]+'%');b.onclick=fn;return b;}
 function animate(name,cls='',options={}){const container=el('div','anim '+cls);const a=lottie.loadAnimation({container,renderer:'svg',loop:false,autoplay:false,animationData:structuredClone(data.get('assets/lottie/'+name)),assetsPath:name.startsWith('User Referral/')?asset('lottie/User Referral/images/'):undefined,rendererSettings:{preserveAspectRatio:options.ratio||'xMidYMax meet'}});animations.push(a);a.addEventListener('DOMLoaded',()=>{if(reduced)a.goToAndStop(options.still??Math.max(0,a.totalFrames-1),true);else if(!document.hidden&&options.play!==false)a.play();options.ready?.(a);});a.loop=options.loop&&!reduced;return {a,container};}
 function reset(){disposeCamera?.();disposeCamera=null;cancelAnimationFrame(frame);animations.forEach(a=>a.destroy());animations=[];jobs=[];elapsed=0;last=0;media?.pause();media=null;stage.replaceChildren();}
-function show(id,update=true,autoOpen=false){reset();active=scenes.some(s=>s[0]===id)?id:'splash';select.value=active;stage.dataset.scene=active;$('#hint').textContent=scenes.find(s=>s[0]===active)[2];if(update){const u=new URL(location.href);u.searchParams.set('scene',active);history.replaceState(null,'',u);}
- if(active==='leaderboard'||active==='leaderboard-new'){const sc=el('div','scroll');const image=art(active==='leaderboard'?'Leaderboard Page.png':'Leaderboard Page - Copy.png','art');sc.append(image);sc.tabIndex=0;sc.setAttribute('aria-label','Runs leaderboard, scroll to explore');}
+function show(id,update=true,autoOpen=false){reset();id=({'leaderboard-new':'leaderboard','success-alt':'success','spotlight-4':'spotlight-1','spotlight-5':'spotlight-1','sheet':'sheet-alt'})[id]||id;active=scenes.some(s=>s[0]===id)?id:'splash';select.value=active;stage.dataset.scene=active;$('#hint').textContent=scenes.find(s=>s[0]===active)[2];if(update){const u=new URL(location.href);u.searchParams.set('scene',active);history.replaceState(null,'',u);}
+ if(active==='leaderboard'){const sc=el('div','scroll');const image=art('Leaderboard Page.png','art');sc.append(image);sc.tabIndex=0;sc.setAttribute('aria-label','Runs leaderboard, scroll to explore');}
  else if(active==='splash'){
  art('Home Screen.png','layer full');let started=false;
  const start=()=>{if(started)return;started=true;const cover=el('div','splash');const a=animate('splash_screen_ipl_v2.json','',{ratio:'xMidYMid meet',ready:a=>{if(reduced)later(700,finish);else a.addEventListener('complete',finish);}});cover.append(a.container);function finish(){cover.style.opacity='0';later(250,()=>show('spotlight-1'));}};
@@ -22,9 +22,9 @@ function show(id,update=true,autoOpen=false){reset();active=scenes.some(s=>s[0]=
  }
  else if(active==='promo'){media=el('video','');media.src=asset('promo video.mp4');media.muted=true;media.playsInline=true;media.controls=!matchMedia('(max-width:760px)').matches&&!embedded;media.onclick=()=>{if(!media.controls){if(media.paused)media.play().catch(()=>{});else media.pause();}};media.autoplay=!reduced;media.addEventListener('ended',()=>show('leaderboard'));media.addEventListener('error',()=>{const b=el('button','');b.textContent='Retry video';b.onclick=()=>media.load();});}
  else if(active==='scan'){art('scan-qr-bg.png','layer full');disposeCamera=mountScannerCamera(stage,data.get('assets/lottie/scanqrIPL.json'));animate('scanqrIPL.json','',{loop:true,ratio:'xMidYMin slice',still:250});art('scan-qr-overlay.png','layer bottom');hotspot('Back to PayZapp',[0,0,16,10],()=>show('spotlight-1'));}
- else if(active==='success'||active==='success-alt'){
+ else if(active==='success'){
  art('Transacrtion Success.png');animate('payment success.json','success-anim',{ratio:'xMidYMin meet'});
- const overlay=animate(active==='success-alt'?'txn Overlay.json':'txnRuns.json','',{play:false});overlay.container.style.opacity='0';overlay.a.pause();
+ const overlay=animate('txnRuns.json','',{play:false});overlay.container.style.opacity='0';overlay.a.pause();
  const text=el('div','runs');text.innerHTML='<strong>6 Runs<br>Scored</strong><p>Book flights on PayZapp Shop, get 25 runs!</p>';
  later(4000,()=>{overlay.container.style.opacity='1';text.style.opacity='1';text.style.transform='none';if(!reduced)overlay.a.goToAndPlay(0,true);});
  later(14000,()=>{overlay.container.style.opacity='0';text.style.opacity='0';});
@@ -39,13 +39,13 @@ function show(id,update=true,autoOpen=false){reset();active=scenes.some(s=>s[0]=
  hotspot('Replay referral invitation',[27,31,46,12],()=>show('referral'));hotspot('Dismiss invitation',[0,0,100,28],exit);
  }
  else if(active.startsWith('spotlight-')){
- let idx=Number(active.split('-')[1])-1;const sc=el('div','scroll');const composition=el('div','',sc);composition.style.position='relative';const banners=[1,2,3,4,5].map(n=>{const im=art('spotlights/'+n+'.png','layer spot');im.style.opacity=n===idx+1?'1':'0';composition.append(im);return im;});const base=art('home spotlight.png','art');composition.append(base);base.style.position='relative';base.style.pointerEvents='none';base.style.clipPath='inset(0 0 10% 0)';const nav=el('div','home-nav');nav.setAttribute('aria-hidden','true');hotspot('Open stadium scanner from navigation',[40,0,20,100],()=>show('scan'),nav);
- const next=delta=>{banners[idx].style.opacity='0';idx=(idx+delta+5)%5;banners[idx].style.opacity='1';};
+ let idx=Number(active.split('-')[1])-1;const sc=el('div','scroll');const composition=el('div','',sc);composition.style.position='relative';const banners=[1,2,3].map(n=>{const im=art('spotlights/'+n+'.png','layer spot');im.style.opacity=n===idx+1?'1':'0';composition.append(im);return im;});const base=art('home spotlight.png','art');composition.append(base);base.style.position='relative';base.style.pointerEvents='none';base.style.clipPath='inset(0 0 10% 0)';const nav=el('div','home-nav');nav.setAttribute('aria-hidden','true');hotspot('Open stadium scanner from navigation',[40,0,20,100],()=>show('scan'),nav);
+ const next=delta=>{banners[idx].style.opacity='0';idx=(idx+delta+banners.length)%banners.length;banners[idx].style.opacity='1';};
  let x,moved=false;sc.addEventListener('pointerdown',e=>{x=e.clientX;moved=false;});sc.addEventListener('pointerup',e=>{if(Math.abs(e.clientX-x)>35){moved=true;next(e.clientX<x?1:-1);}});sc.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
  hotspot('Explore IPL season',[0,0,100,26],()=>show(idx===2?'leaderboard':'promo'),composition);hotspot('Open stadium scanner',[3,26,23,12],()=>show('scan'),composition);
  if(!reduced){const cycle=()=>{next(1);later(4000,cycle);};later(4000,cycle);}
  }
- else {art(active==='sheet'?'Bottom Sheets.png':'Bottom Sheet.png','layer bottom');hotspot('Open campaign gift',[0,53,100,47],()=>show('promo'));hotspot('Dismiss campaign invitation',[0,0,100,45],()=>show('spotlight-1'));}
+ else {art('Bottom Sheet.png','layer bottom');hotspot('Open campaign gift',[0,53,100,47],()=>show('promo'));hotspot('Dismiss campaign invitation',[0,0,100,45],()=>show('spotlight-1'));}
  frame=requestAnimationFrame(tick);
 }
 select.innerHTML=scenes.map(([id,title])=>`<option value="${id}">${title}</option>`).join('');select.onchange=()=>show(select.value);$('#replay').onclick=()=>show(active);

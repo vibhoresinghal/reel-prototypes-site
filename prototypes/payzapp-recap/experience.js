@@ -660,6 +660,7 @@ const topContent = document.getElementById('top-content');
 const introContentBelow = document.querySelector('.intro-content-below');
 const notepad = document.querySelector('.notepad');
 const stage = document.querySelector('.stage');
+const bookFrame = document.querySelector('.book-frame');
 const replayBtn = document.getElementById('replay-btn');
 
 // We have two physical cards in the DOM to create the infinite loop effect
@@ -674,6 +675,10 @@ pageFlipAudio.volume = 0.7; // Set volume to 70%
 let activeCard = card1;
 let nextCard = card2;
 
+let openingTimeline = null;
+let introEntranceTimeline = null;
+let introResetTimer = null;
+let isReturningToIntro = false;
 let peepTimeline;
 let bottomHalfNudgeTimeline;
 
@@ -766,6 +771,7 @@ const ASSETS_TO_PRELOAD = [
     'assets/logo.svg',
     'assets/logo.png',
     'assets/logo-plain.svg',
+    'assets/logo-horizontal.png',
     'assets/pz-logo.svg',
     'assets/flipbook-rings.svg',
     'assets/flipbook-preview.png',
@@ -849,6 +855,14 @@ const ASSETS_TO_PRELOAD = [
     'assets/users.svg'
 ];
 
+// Keep the first visible surfaces decoded while the opening is prepared.
+const preparedOpeningImages = [];
+const OPENING_ASSETS = new Set([
+    'assets/cover-bg.png', 'assets/illustration1.png', 'assets/currency-note.png',
+    'assets/illustration2.png', 'assets/smartphone.png', 'assets/logo.png',
+    'assets/flipbook-rings.svg', 'assets/pz-logo.svg', 'assets/logo-horizontal.png'
+]);
+
 function preloadAssets() {
     return new Promise((resolve) => {
         let loadedCount = 0;
@@ -862,11 +876,19 @@ function preloadAssets() {
 
         ASSETS_TO_PRELOAD.forEach((src) => {
             const img = new Image();
-            img.onload = img.onerror = () => {
+            const finish = () => {
                 loadedCount++;
                 if (loadedCount >= totalAssets) {
                     resolve();
                 }
+            };
+            img.onerror = finish;
+            img.onload = async () => {
+                if (OPENING_ASSETS.has(src)) {
+                    try { await img.decode(); } catch { /* A loaded image remains usable. */ }
+                    preparedOpeningImages.push(img);
+                }
+                finish();
             };
             img.src = src;
         });
@@ -1078,7 +1100,8 @@ function animateIntroElements() {
     gsap.set('.intro-below-anim', { opacity: 0, y: 20 });
 
     // Create timeline for gentle animations
-    const tl = gsap.timeline({ delay: 0.1 });
+    introEntranceTimeline?.kill();
+    const tl = introEntranceTimeline = gsap.timeline({ delay: 0.1 });
 
     // Animate notepad/flipbook as one unit - gentle fade and rise
     tl.to('.notepad-anim', {
@@ -1138,9 +1161,8 @@ async function init() {
     // Don't render Q1 on Top Static yet - wait for intro to finish
     // renderTopContent(questions[0]); // REMOVED
 
-    // 2. Render Q1 Illus on Card 1 Front
-    // 3. Render Q2 Question on Card 1 Back (The Reveal!)
-    // renderCard(activeCard, 0);
+    // Prepare the first illustration while hidden, before any cover movement.
+    renderCard(activeCard, 0);
 
     // 4. Render Q2 Illus on Card 2 Front (Underneath)
     // 5. Render Q3 Question on Card 2 Back
@@ -1169,186 +1191,79 @@ async function init() {
 
     // Function to start the quiz (extracted for reuse)
     function startQuiz() {
-        // Check if intro cover is visible (prevent starting if quiz is already active)
-        if (!introCover || introCover.style.display === 'none') {
-            return;
-        }
-
-        // Reset notepad rotation to 0 when starting quiz
-        if (notepad) {
-            gsap.to(notepad, {
-                rotation: 0,
-                duration: 0.4,
-                ease: "power2.out"
-            });
-        }
-
-        // Reset state variables when starting quiz
+        if (!introCover || introCover.style.display === 'none' || openingTimeline || isReturningToIntro) return;
+        isFlipping = true;
+        startBtn.disabled = true;
         currentQuestionIndex = 0;
         hasAnsweredCurrentQuestion = false;
-        isFlipping = false;
-        userAnswers = []; // Clear answer history
-        card1RevealTriggered = false; // Reset reveal state
-
-        // Hide snowfall animation
+        userAnswers = [];
+        card1RevealTriggered = false;
         hideSnowfall();
 
-        // Ensure topContent has the correct structure before starting
-        if (topContent) {
-            const questionSection = topContent.querySelector('.question-section');
-            if (!questionSection) {
-                // Restore question-section if missing
-                topContent.innerHTML = `
-                    <div class="question-section">
-                        <!-- Carousel Indicator -->
-                        <div class="carousel-indicator flex items-center justify-center gap-2 mb-6 opacity-0">
-                            <div class="carousel-dots flex items-center gap-2 relative">
-                                <!-- Dots will be dynamically generated -->
-                            </div>
-                        </div>
-                        <h2 class="question-text text-center mb-5 opacity-0 text-xl/7 font-medium mt-4">Loading...</h2>
-                        <div class="options-container flex flex-col gap-3"></div>
-                    </div>
-                `;
-            }
-        }
+        // Stop the entrance/peep at their current pose, including an early tap.
+        introEntranceTimeline?.kill();
+        peepTimeline?.kill();
+        gsap.killTweensOf([notepad, introCover]);
+        const oldTop = bookFrame.offsetTop;
+        const oldScale = parseFloat(getComputedStyle(bookFrame).scale) || 1;
+        const oldY = Number(gsap.getProperty(notepad, 'y')) || 0;
+        const oldX = Number(gsap.getProperty(notepad, 'x')) || 0;
 
-        // Ensure cards are cleared and reset
-        clearCard(activeCard);
-        clearCard(nextCard);
+        // Freeze the copy at its visible position while it fades, so switching
+        // to the quiz layout cannot send it back to the original fixed footer.
+        const copyRect = introContentBelow.getBoundingClientRect();
+        gsap.set(introContentBelow, {
+            position: 'fixed', top: copyRect.top, left: copyRect.left,
+            width: copyRect.width, height: copyRect.height, margin: 0,
+            transform: 'none', pointerEvents: 'none'
+        });
+        renderIntroBack(questions[0]);
         gsap.set(activeCard, { rotationX: 0, zIndex: 3 });
         gsap.set(nextCard, { rotationX: 0, zIndex: 2 });
+        gsap.set('.top-half, .bottom-half', { opacity: 0 });
+        gsap.set(introCover, { height: 320, top: 0, y: 0 });
 
-        // Show brand logo with subtle entry animation
+        // Settle layout once. The visible movement uses only transforms; the
+        // cover never follows a percentage of a changing-height parent.
+        notepad.classList.add('expanded');
+        stage.classList.add('expanded', 'opening');
+        const quizScale = parseFloat(getComputedStyle(bookFrame).scale) || 1;
+        gsap.set(notepad, {
+            opacity: 1,
+            y: (oldTop - bookFrame.offsetTop + oldY * oldScale) / quizScale,
+            x: oldX * oldScale / quizScale,
+            scale: oldScale / quizScale
+        });
         const brandLogo = document.getElementById('brand-logo');
-        if (brandLogo) {
-            // Reset initial state
-            gsap.set(brandLogo, {
-                opacity: 0,
-                y: -20
-            });
-            // Animate in with fade + slide down
-            gsap.to(brandLogo, {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "power2.out",
-                delay: 0.2 // Slight delay for smoother entry
-            });
-        }
+        gsap.set(brandLogo, { opacity: 0, y: -12 });
 
-        // Stop the peep animation
-        if (peepTimeline) peepTimeline.kill();
-        gsap.to(introCover, { rotationX: 0, duration: 0.3 }); // Reset to flat before flip
-
-        // Hide intro content below
-        if (introContentBelow) {
-            gsap.to(introContentBelow, {
-                opacity: 0,
-                duration: 0.3,
-                onComplete: () => {
-                    introContentBelow.style.display = 'none';
-                }
-            });
-        }
-
-        // Render first question on the back of intro cover
-        renderIntroBack(questions[0]);
-
-        // Lock intro cover height to current value BEFORE notepad expands
-        // This prevents height from changing during notepad expansion
-        const currentHeight = introCover.offsetHeight;
-
-        // Get current computed top position
-        const computedStyle = window.getComputedStyle(introCover);
-        const currentTop = computedStyle.top;
-
-        // Lock height and current position to prevent CSS from jumping
-        gsap.set(introCover, {
-            height: currentHeight + 'px',
-            top: currentTop // Use computed value to maintain current position
+        openingTimeline = gsap.timeline({
+            onComplete: () => {
+                introCover.style.display = 'none';
+                gsap.set('.top-half', { opacity: 1 });
+                renderTopContent(questions[0]);
+                triggerCardEntranceAnimation(0);
+                enableTopHalfSwipeBack();
+                stage.classList.remove('opening');
+                isFlipping = false;
+                openingTimeline = null;
+            }
         });
-
-        // Expand notepad height to full size
-        if (notepad) {
-            notepad.classList.add('expanded');
-        }
-        if (stage) {
-            stage.classList.add('expanded');
-        }
-
-        // Animate intro cover moving down smoothly (no elastic effect)
-        // Height is already locked, only animate position
-        // Use a small delay to ensure notepad expansion has started
-        gsap.to(introCover, {
-            top: '50%',
-            duration: 0.4,
-            ease: 'power2.out', // Smooth, no elastic bounce
-            delay: 0.01 // Tiny delay to ensure GSAP takes control before CSS
-        });
-
-        // Wait for intro cover animation to complete (0.6s) before starting flip
-        setTimeout(() => {
-            // Show the bottom-half immediately as flip starts
-            gsap.set('.bottom-half', { opacity: 1 });
-
-            // Play page flip sound with a slight delay
-            setTimeout(() => {
-                pageFlipAudio.currentTime = 0; // Reset to start
-                if (!document.hidden) pageFlipAudio.play().catch(() => { }); // Play sound
-            }, 400); // 400ms delay
-
-            // Animate Intro Cover Flip
-            gsap.to(introCover, {
-                duration: 0.8, // Reduced from 1.2s
-                rotationX: 180,
-                transformOrigin: "top center",
-                ease: "power2.inOut",
-                onComplete: () => {
-                    introCover.style.display = 'none'; // Remove immediately
-
-                    // Show the top-half and copy content from intro back
-                    gsap.to('.top-half', { opacity: 1, duration: 0 });
-
-                    // Ensure topContent has correct structure before rendering
-                    if (topContent) {
-                        const questionSection = topContent.querySelector('.question-section');
-                        if (!questionSection) {
-                            topContent.innerHTML = `
-                            <div class="question-section">
-                                <!-- Carousel Indicator -->
-                                <div class="carousel-indicator flex items-center justify-center gap-2 mb-6 opacity-0">
-                                    <div class="carousel-dots flex items-center gap-2 relative">
-                                        <!-- Dots will be dynamically generated -->
-                                    </div>
-                                </div>
-                                <h2 class="question-text text-center mb-5 opacity-0 text-xl/7 font-medium mt-4">Loading...</h2>
-                                <div class="options-container flex flex-col gap-3"></div>
-                            </div>
-                        `;
-                        }
-                    }
-
-                    // Clear activeCard first to remove any outro content
-                    clearCard(activeCard);
-
-                    // Render and animate the first question
-                    renderTopContent(questions[0]);
-
-                    // Render Q1 on activeCard
-                    renderCard(activeCard, 0);
-
-                    // Prepare nextCard with Q2 if it exists
-                    if (questions.length > 1) {
-                        clearCard(nextCard);
-                        renderCard(nextCard, 1);
-                    }
-
-                    // Enable swipe back gesture on top half
-                    enableTopHalfSwipeBack();
-                }
-            });
-        }, 800); // Wait for 0.8s (matching CSS transition duration)
+        openingTimeline
+            .to(introContentBelow, { opacity: 0, duration: 0.18,
+                onComplete: () => { introContentBelow.style.display = 'none'; } }, 0)
+            .to(notepad, { x: 0, y: 0, scale: 1, rotation: 0,
+                duration: 0.48, ease: 'power2.inOut' }, 0)
+            .to(introCover, { y: 320, rotationX: 0,
+                duration: 0.48, ease: 'power2.inOut' }, 0)
+            .to(brandLogo, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, 0.18)
+            .set('.bottom-half', { opacity: 1 }, 0.48)
+            .call(() => {
+                pageFlipAudio.currentTime = 0;
+                if (!document.hidden) pageFlipAudio.play().catch(() => {});
+            }, [], 0.7)
+            .to(introCover, { rotationX: 180, transformOrigin: 'top center',
+                duration: 0.8, ease: 'power2.inOut' }, 0.48);
     }
 
     // Add click handler to start button
@@ -3299,6 +3214,16 @@ function resetSwipeHint() {
 
 // Function to return to intro state
 function returnToIntro() {
+    openingTimeline?.kill();
+    openingTimeline = null;
+    introEntranceTimeline?.kill();
+    clearTimeout(introResetTimer);
+    isReturningToIntro = true;
+    startBtn.disabled = true;
+    gsap.killTweensOf([notepad, introCover, introContentBelow]);
+    stage.classList.remove('opening');
+    gsap.set(notepad, { x: -5.6, y: 0, scale: 1, rotation: -2, opacity: 1 });
+    gsap.set(introContentBelow, { clearProps: 'position,top,left,width,height,margin,transform,pointerEvents' });
 
     // Reset body background to --blue-dark
     gsap.set(document.body, {
@@ -3442,16 +3367,17 @@ function returnToIntro() {
         gsap.set(validationOverlay, { autoAlpha: 0 });
     }
 
-    // Wait for transitions, then show intro
-    setTimeout(() => {
+    // Complete reset before accepting another start.
+    introResetTimer = setTimeout(() => {
         // Show intro cover
         if (introCover) {
             introCover.style.display = 'block';
             gsap.set(introCover, {
                 rotationX: 0,
                 opacity: 0,
-                height: '100%',
-                top: '0'
+                height: 320,
+                top: 0,
+                y: 0
             });
             gsap.to(introCover, { opacity: 1, duration: 0.1 });
         }
@@ -3514,8 +3440,11 @@ function returnToIntro() {
         gsap.set(activeCard, { rotationX: 0, zIndex: 3 });
         gsap.set(nextCard, { rotationX: 0, zIndex: 2 });
 
-        // Don't render anything on cards yet - wait for quiz to start
-        // Cards will be rendered when the intro cover flips
+        // Prepare the hidden artwork for the next opening as well.
+        renderCard(activeCard, 0);
+        if (questions.length > 1) renderCard(nextCard, 1);
+        isReturningToIntro = false;
+        introResetTimer = null;
 
         // Ensure swipe hint is completely hidden until user answers a question
         const swipeHintEl = document.getElementById('swipe-hint');
@@ -4160,7 +4089,7 @@ const openDeepLink = () => showRecapDialog('Explore PayZapp', 'This is a design 
 // Start rotating loader messages immediately
 startLoaderMessages();
 
-Promise.all([preloadAssets(), minDisplayTime]).then(async () => {
+Promise.all([preloadAssets(), document.fonts.ready, minDisplayTime]).then(async () => {
     try {
         await init();
         hidePreloader();
@@ -4177,11 +4106,12 @@ Promise.all([preloadAssets(), minDisplayTime]).then(async () => {
 // Scene entry uses the same original renderers as the full flipbook journey.
 function mountRecapScene(scene) {
     if (peepTimeline) peepTimeline.kill();
-    gsap.killTweensOf(introCover);
+    introEntranceTimeline?.kill();
+    gsap.killTweensOf([notepad, introCover]);
     introCover.style.display = 'none';
     introContentBelow.style.display = 'none';
     gsap.set('.notepad-anim', { opacity: 1, y: 0 });
-    gsap.set('.notepad', { rotation: 0 });
+    gsap.set('.notepad', { x: 0, y: 0, scale: 1, rotation: 0 });
     notepad.classList.add('expanded');
     stage.classList.add('expanded');
     gsap.set('.top-half, .bottom-half, #brand-logo', { opacity: 1 });

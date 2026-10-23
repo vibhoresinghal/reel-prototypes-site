@@ -136,12 +136,6 @@
         "entry": "prototypes/ipl-payzapp/index.html?scene=leaderboard"
       },
       {
-        "id": "leaderboard-new",
-        "title": "Leaderboard · new player",
-        "description": "The alternate leaderboard supplied in the repository.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=leaderboard-new"
-      },
-      {
         "id": "scan",
         "title": "Stadium scanner",
         "description": "Enable the rear camera inside the original animated scanner. Camera preview only; no payment is initiated.",
@@ -160,52 +154,84 @@
         "entry": "prototypes/ipl-payzapp/index.html?scene=success"
       },
       {
-        "id": "success-alt",
-        "title": "Success · alternate overlay",
-        "description": "Alternate transaction overlay supplied in the repository.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=success-alt"
-      },
-      {
         "id": "spotlight-1",
         "title": "Spotlight 1",
-        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
         "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-1"
       },
       {
         "id": "spotlight-2",
         "title": "Spotlight 2",
-        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
         "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-2"
       },
       {
         "id": "spotlight-3",
         "title": "Spotlight 3",
-        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
+        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
         "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-3"
       },
       {
-        "id": "spotlight-4",
-        "title": "Spotlight 4",
-        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-4"
-      },
-      {
-        "id": "spotlight-5",
-        "title": "Spotlight 5",
-        "description": "Swipe between five original banners. Tap the banner to open the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-5"
-      },
-      {
-        "id": "sheet",
+        "id": "sheet-alt",
         "title": "Campaign invitation",
         "description": "Tap the gift to view the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=sheet"
+        "entry": "prototypes/ipl-payzapp/index.html?scene=sheet-alt"
+      }
+    ]
+  },
+  {
+    "id": "island-adventure",
+    "title": "Island Adventure",
+    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "island.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Islands",
+      "Adventure",
+      "Rewards"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/island-preview.png",
+    "scenarios": [
+      {
+        "id": "first",
+        "title": "First visit",
+        "description": "Choose a boat and start exploring.",
+        "entry": "island.html?scene=first"
       },
       {
-        "id": "sheet-alt",
-        "title": "Campaign invitation · alternate",
-        "description": "Alternate campaign artwork. Tap the gift to view the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=sheet-alt"
+        "id": "boats",
+        "title": "Choose a boat",
+        "description": "Explore five original boats.",
+        "entry": "island.html?scene=boats"
+      },
+      {
+        "id": "map",
+        "title": "Explore the islands",
+        "description": "Discover the tasks and your first relic piece.",
+        "entry": "island.html?scene=map"
+      },
+      {
+        "id": "returning",
+        "title": "Continue the journey",
+        "description": "Three relic pieces found. More islands await.",
+        "entry": "island.html?scene=returning"
+      },
+      {
+        "id": "last-piece",
+        "title": "The final piece",
+        "description": "Scan and pay to complete the relic.",
+        "entry": "island.html?scene=last-piece"
+      },
+      {
+        "id": "completed",
+        "title": "Adventure complete",
+        "description": "A complete relic and ₹50 cashback.",
+        "entry": "island.html?scene=completed"
       }
     ]
   },
@@ -372,58 +398,65 @@
     "thumbnail": "prototypes/payzapp-recap/thumbnail.png"
   },
   {
-    "id": "island-adventure",
-    "title": "Island Adventure",
-    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
+    "id": "psf",
+    "title": "Product Setup Framework",
+    "description": "A simpler start to PayZapp. Set up UPI, cards, and your wallet in any order.",
     "source": "figma",
     "layout": "mobile",
-    "entry": "island.html",
+    "entry": "psf.html",
     "width": 412,
     "height": 915,
     "tags": [
       "PayZapp",
-      "Islands",
-      "Adventure",
-      "Rewards"
+      "Onboarding",
+      "UPI",
+      "Cards",
+      "Wallet"
     ],
     "logo": "assets/473-17470-9dd33.svg",
-    "thumbnail": "assets/island-preview.png",
+    "thumbnail": "assets/psf/preview.png",
     "scenarios": [
       {
-        "id": "first",
-        "title": "First visit",
-        "description": "Choose a boat and start exploring.",
-        "entry": "island.html?scene=first"
+        "id": "simple",
+        "title": "Simple onboarding",
+        "description": "Meet PayZapp, then choose which product to set up first.",
+        "entry": "psf.html?scene=simple"
       },
       {
-        "id": "boats",
-        "title": "Choose a boat",
-        "description": "Explore five original boats.",
-        "entry": "island.html?scene=boats"
+        "id": "regular",
+        "title": "Regular onboarding",
+        "description": "Explore the original full onboarding journey.",
+        "entry": "psf.html?scene=regular"
       },
       {
-        "id": "map",
-        "title": "Explore the islands",
-        "description": "Discover the tasks and your first relic piece.",
-        "entry": "island.html?scene=map"
+        "id": "hub",
+        "title": "Choose a product",
+        "description": "Swipe between UPI, cards, and wallet setup.",
+        "entry": "psf.html?scene=hub"
       },
       {
-        "id": "returning",
-        "title": "Continue the journey",
-        "description": "Three relic pieces found. More islands await.",
-        "entry": "island.html?scene=returning"
+        "id": "upi",
+        "title": "Set up UPI",
+        "description": "Link a bank account and return to your success card.",
+        "entry": "psf.html?scene=upi"
       },
       {
-        "id": "last-piece",
-        "title": "The final piece",
-        "description": "Scan and pay to complete the relic.",
-        "entry": "island.html?scene=last-piece"
+        "id": "cards",
+        "title": "Add HDFC Bank cards",
+        "description": "Add your cards and continue with the remaining products.",
+        "entry": "psf.html?scene=cards"
+      },
+      {
+        "id": "wallet",
+        "title": "Set up your wallet",
+        "description": "Complete wallet setup and return to the product cards.",
+        "entry": "psf.html?scene=wallet"
       },
       {
         "id": "completed",
-        "title": "Adventure complete",
-        "description": "A complete relic and ₹50 cashback.",
-        "entry": "island.html?scene=completed"
+        "title": "All set",
+        "description": "Explore the completed product setup experience.",
+        "entry": "psf.html?scene=completed"
       }
     ]
   },
@@ -491,65 +524,47 @@
     ]
   },
   {
-    "id": "psf",
-    "title": "Product Setup Framework",
-    "description": "A simpler start to PayZapp. Set up UPI, cards, and your wallet in any order.",
+    "id": "festive",
+    "title": "Festive themification",
+    "description": "A little celebration, every time the season changes.",
     "source": "figma",
     "layout": "mobile",
-    "entry": "psf.html",
+    "entry": "festive.html",
     "width": 412,
     "height": 915,
     "tags": [
+      "Festivals",
+      "Rakhi",
       "PayZapp",
-      "Onboarding",
-      "UPI",
-      "Cards",
-      "Wallet"
+      "Ganesh Chaturthi",
+      "Christmas",
+      "Diwali"
     ],
-    "logo": "assets/473-17470-9dd33.svg",
-    "thumbnail": "assets/psf/preview.png",
+    "thumbnail": "assets/payzapp-preview.png",
     "scenarios": [
       {
-        "id": "simple",
-        "title": "Simple onboarding",
-        "description": "Meet PayZapp, then choose which product to set up first.",
-        "entry": "psf.html?scene=simple"
+        "id": "rakhi",
+        "title": "Raksha Bandhan",
+        "description": "A Rakhi greeting welcomes you home.",
+        "entry": "festive.html?scene=rakhi"
       },
       {
-        "id": "regular",
-        "title": "Regular onboarding",
-        "description": "Explore the original full onboarding journey.",
-        "entry": "psf.html?scene=regular"
+        "id": "ganesh",
+        "title": "Ganesh Chaturthi",
+        "description": "A Ganesh Chaturthi greeting welcomes you home.",
+        "entry": "festive.html?scene=ganesh"
       },
       {
-        "id": "hub",
-        "title": "Choose a product",
-        "description": "Swipe between UPI, cards, and wallet setup.",
-        "entry": "psf.html?scene=hub"
+        "id": "christmas",
+        "title": "Christmas",
+        "description": "An animated Christmas spotlight on PayZapp home.",
+        "entry": "festive.html?scene=christmas"
       },
       {
-        "id": "upi",
-        "title": "Set up UPI",
-        "description": "Link a bank account and return to your success card.",
-        "entry": "psf.html?scene=upi"
-      },
-      {
-        "id": "cards",
-        "title": "Add HDFC Bank cards",
-        "description": "Add your cards and continue with the remaining products.",
-        "entry": "psf.html?scene=cards"
-      },
-      {
-        "id": "wallet",
-        "title": "Set up your wallet",
-        "description": "Complete wallet setup and return to the product cards.",
-        "entry": "psf.html?scene=wallet"
-      },
-      {
-        "id": "completed",
-        "title": "All set",
-        "description": "Explore the completed product setup experience.",
-        "entry": "psf.html?scene=completed"
+        "id": "diwali",
+        "title": "Diwali",
+        "description": "A Diwali spotlight and festive camera scanner.",
+        "entry": "festive.html?scene=diwali"
       }
     ]
   }

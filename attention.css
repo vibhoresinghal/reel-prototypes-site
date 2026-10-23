@@ -23,3 +23,27 @@
 .attention-content{background:linear-gradient(to bottom,#fff 0,#fff 2533px,#102d46 2533px,#102d46 100%)}
 
 [data-node-id="423:15097"]{scroll-snap-type:x mandatory;scroll-padding-left:23px}[data-node-id="423:15098"]>div{scroll-snap-align:start}
+
+.rakhi-overlay{position:absolute;left:0;top:216px;width:360px;height:360px;z-index:3;pointer-events:none}.rakhi-overlay svg{display:block;width:100%;height:100%}
+
+.ganesh-overlay{width:792px;height:792px;left:-216px;top:-24px}
+
+.christmas-spotlight{position:absolute;left:0;top:0;width:360px;height:240px;overflow:hidden;pointer-events:none}.christmas-spotlight svg{display:block;width:100%;height:100%}
+.christmas-scroll-scan{position:absolute;left:24px;top:330px;width:70px;height:100px;z-index:5}.christmas-scan-nav{position:absolute;left:140px;bottom:45px;width:80px;height:80px;z-index:6}
+.christmas-scanner{position:absolute;inset:0;z-index:20;background:#080808;overflow:hidden;color:#252e39}
+.christmas-camera{position:absolute;inset:0 0 315px}.christmas-camera video,.gallery-preview{width:100%;height:100%;object-fit:cover}.gallery-preview{position:absolute;inset:0}.camera-shade{position:absolute;inset:0;background:linear-gradient(#0002,#0001 55%,#000e)}
+.christmas-scanner header{position:absolute;top:20px;left:24px;right:24px;display:flex;justify-content:space-between;z-index:4;color:white}.christmas-scanner header button{width:28px;height:28px;display:grid;place-items:center}
+.christmas-scanner-frame{position:absolute;width:min(270px,calc(var(--scan-height) - 185px));aspect-ratio:1;left:50%;transform:translateX(-50%);top:calc((var(--scan-height) - min(270px,var(--scan-height) - 185px) - 35px)/2);pointer-events:none;z-index:2}
+.christmas-torch{position:absolute;right:16px;top:calc(var(--scan-height)*.46 - 20px);border:2px solid #ffffff40;background:#ffffff26;color:white;border-radius:50%;width:40px;height:40px;display:grid;place-items:center;z-index:4}
+.christmas-gallery{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--scan-height) - 111px);height:34px;border-radius:30px;background:#f6fcff;display:flex;align-items:center;gap:4px;padding:0 14px;font-size:12px;font-weight:600;white-space:nowrap;z-index:4}
+.christmas-scan-caption{position:absolute;top:calc(var(--scan-height) - 32px);width:100%;text-align:center;color:#bfc2c4;font-size:14px}
+.christmas-scanner-art{position:absolute;inset:0;pointer-events:none}.christmas-scanner-art>div{width:100%;height:100%;background:transparent!important}.christmas-scanner-art [data-node-id="1793:15784"],.christmas-scanner-art [data-node-id="1793:15810"]{display:none}.christmas-scanner-art [data-node-id="1793:15840"]{visibility:hidden}
+.christmas-search{position:absolute;bottom:227px;left:66px;width:267px;height:56px;background:transparent;border:0;outline:0;font-size:16px;color:#708398;padding:0 8px 0 0}
+.christmas-camera-notice{position:absolute;top:calc(var(--scan-height)*.4);left:90px;width:180px;text-align:center;color:white;z-index:3;font-size:12px}.christmas-camera-notice button{background:white;color:#173a52;border-radius:20px;padding:9px 16px;margin-top:8px;font-weight:600}
+.christmas-scan-note{position:absolute;bottom:12px;left:16px;right:16px;background:#173a52;color:white;padding:12px;border-radius:12px;font-size:12px;z-index:5}
+
+.christmas-scanner-frame svg{display:block;width:100%;height:100%}
+.christmas-scanner{animation:christmas-scanner-enter 420ms cubic-bezier(.22,1,.36,1) both}
+@keyframes christmas-scanner-enter{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.christmas-scanner{animation:none}}
+.diwali-spotlight{height:243px}

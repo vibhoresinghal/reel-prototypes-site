@@ -18,3 +18,29 @@ textarea,.link-field{width:100%;border:1px solid var(--line);background:#f8faf6;
 @media(max-width:350px){main{padding-left:12px;padding-right:12px}.project{grid-template-columns:96px minmax(0,1fr)}.card-info{padding:12px}.count{font-size:10px}.search{min-width:150px}}
 @media(prefers-reduced-motion:no-preference){.project,.quiet-action,.button,.open-flow{transition:border-color .18s,background .18s}.preview-device{transition:transform .3s}.visual:hover .preview-device{transform:rotate(-2deg) translateY(-3px)}#toast{transition:opacity .2s,transform .2s}}
 body.flow-open{overflow:hidden}body.flow-open>main{visibility:hidden}#active-flow{position:fixed;inset:0;width:100%;height:100%;border:0;z-index:100;background:#fff;display:block}
+
+/* Compact inline card controls; touch devices retain full-size hit areas. */
+.project .card-bottom{padding:10px 12px 12px;gap:4px;flex-wrap:nowrap}
+.project .open-flow{min-height:34px;height:34px;padding:0 10px;font-size:12px;flex:0 0 auto;gap:6px}
+.project .card-tools{display:flex;align-items:center;gap:2px;margin-left:auto;padding:0;border:0}
+.project .card-tools .quiet-action,.project .choose-scenes,.project .view-design{width:34px;height:34px;min-height:34px;padding:0;flex:0 0 34px;margin:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:transparent;color:#607166}
+.project .choose-scenes,.project .view-design{margin-left:auto}
+.project .choose-scenes+.card-tools,.project .view-design+.card-tools{margin-left:0}
+.project .card-bottom svg{width:16px;height:16px}
+.project .card-bottom button:hover,.project .view-design:hover{background:#eef3eb;color:#345d46}
+@media(max-width:600px){.project{grid-template-rows:132px auto}.project .card-bottom{padding:6px 10px 8px;gap:2px}.project .open-flow{margin-right:auto}.project .card-tools{gap:0}.project .card-tools .quiet-action,.project .choose-scenes,.project .view-design{width:44px;height:44px;min-height:44px;flex-basis:44px}.project .choose-scenes,.project .view-design{margin-left:0}.project .open-flow{min-height:44px;height:44px}}
+
+.project{position:relative}
+.project .thumbnail-copy{position:absolute;top:10px;right:10px;width:34px;height:34px;min-height:34px;padding:0;border:1px solid #ffffffc9;border-radius:9px;background:#ffffffe6;color:#536b5c;box-shadow:0 2px 8px #243b2710;z-index:1}
+.project .thumbnail-copy:hover{background:#fff;color:#345d46}
+.primary-actions{display:flex;align-items:center;border-radius:8px;background:#eef3eb;border:1px solid #e5ecdf}
+.project .primary-actions .open-flow{border:0;background:transparent}
+.project .primary-actions .choose-scenes,.project .primary-actions .view-design{margin:0;border-left:1px solid #dce6d7;border-radius:0 7px 7px 0}
+.project .primary-actions+.card-tools{margin-left:auto}
+@media(max-width:600px){.project .thumbnail-copy{top:4px;left:60px;right:auto;width:44px;height:44px;min-height:44px}.project .primary-actions .open-flow{margin:0}.project .card-info{padding-left:14px}}
+@media(max-width:350px){.project .thumbnail-copy{left:48px}}
+
+.library-tooltip{position:fixed;z-index:90;max-width:min(240px,calc(100vw - 16px));padding:9px 12px;border:1px solid #45634f;border-radius:9px;background:#2e4937;color:#fffdf7;font:400 11px/1.45 Inter,Arial,sans-serif;box-shadow:0 5px 16px #1d332521;text-align:center;pointer-events:auto}
+.library-tooltip::after{content:"";position:absolute;left:var(--arrow-x);bottom:-4px;width:7px;height:7px;transform:translateX(-50%) rotate(45deg);background:#2e4937;border-right:1px solid #45634f;border-bottom:1px solid #45634f}
+.library-tooltip[data-side="below"]::after{top:-4px;bottom:auto;transform:translateX(-50%) rotate(225deg)}
+@media(prefers-reduced-motion:no-preference){.library-tooltip{animation:tooltip-appear .12s ease-out}@keyframes tooltip-appear{from{opacity:0}to{opacity:1}}}

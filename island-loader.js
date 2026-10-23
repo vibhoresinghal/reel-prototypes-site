@@ -51,7 +51,8 @@ window.prototypeAssets={"images":["assets/app-icon.svg","assets/flows-192.png","
   script.onerror=()=>{script.remove();reloadOnRetry=true;fail('Prototype couldn’t start');};
   script.onload=()=>{
    // Let React commit and layout before removing the loading surface.
-   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   requestAnimationFrame(()=>requestAnimationFrame(async()=>{
+    try{if(window.prototypeReady)await timeout(window.prototypeReady);}catch(error){reloadOnRetry=true;fail("Animation couldn’t load");return;}
     document.body.classList.remove('prototype-loading');
     document.querySelector('#prototype-loader').remove();
     window.prototypePreloadedImages=retained;
