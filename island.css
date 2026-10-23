@@ -80,6 +80,12 @@
 @keyframes pin-callout-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(3px) scale(.97)}}
 .reduced-motion .pin-callout{animation:none}.reduced-motion .pin-callout.closing{opacity:0}
 
+/* Figma's future islands use Luminosity against the sea. Map transforms create
+   a separate compositing group, so that backdrop must travel with the artwork.
+   Extend upward for the original off-map islands without changing their bounds. */
+.map-art{isolation:isolate}
+.map-art::before{content:"";position:absolute;inset:-600px -600px 0;background:#2087a1;z-index:-1;pointer-events:none}
+
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
 .finance-v2{background:white;color:#222;animation:finance-page-in .3s ease-out both}
