@@ -14,7 +14,10 @@
 .phase-opening .rb-intro,.phase-offer .rb-intro,.phase-action .rb-intro{opacity:0;transform:translateY(-12px);pointer-events:none}
 .rb-rive-position{position:absolute;width:515px;height:800px;left:50%;bottom:0;transform:translateX(-50%) scale(.7);transform-origin:50% 100%;transition:transform 1s cubic-bezier(.22,1,.36,1),bottom 1s cubic-bezier(.22,1,.36,1);pointer-events:none;z-index:3}
 .rb-box{display:block;width:515px;height:800px}
-.phase-opening .rb-rive-position,.phase-offer .rb-rive-position,.phase-action .rb-rive-position{transform:translateX(-50%) scale(var(--offer-scale));bottom:var(--canvas-bottom)}
+.phase-opening .rb-rive-position,.phase-offer .rb-rive-position,.phase-action .rb-rive-position{transform:translateX(-50%) scale(var(--offer-scale))}
+/* The authored box exits through the artboard's bottom edge. Keep that edge
+   at the screen boundary until the native state machine finishes the exit. */
+.phase-offer .rb-rive-position,.phase-action .rb-rive-position{bottom:var(--canvas-bottom)}
 .rb-open{position:absolute;z-index:5;left:80px;right:80px;bottom:0;height:180px;border-radius:28px}
 .rb-open:disabled{pointer-events:none}
 .rb-close{position:absolute;left:15px;top:15px;width:36px;height:36px;display:grid;place-items:center;z-index:7}
