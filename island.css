@@ -165,7 +165,7 @@
 .arrival-boats>.boat-picker{pointer-events:auto}
 .arrival-boats[inert]>.boat-picker{pointer-events:none}
 .arrival-landscape{position:absolute;inset:0;pointer-events:none;z-index:3}
-.arrival-map{position:absolute;left:-107px;top:-652px;width:575.182px;height:629px;animation:islandJourneySweep 4.6s linear .25s both,islandMapReveal 4.6s linear .25s both}
+.arrival-map{position:absolute;left:-107px;top:-652px;width:575.182px;height:629px;animation:islandJourneySweep 4.6s linear .25s both}
 .arrival-landscape .arrival-title{left:65.48px;top:calc(276px - var(--arrival-travel));transform:scale(1.286);transform-origin:0 0;animation:islandJourneySweep 4.6s linear .25s both}
 .boat-arriving .arrival-boats,.boat-arriving>.shore{animation:islandJourneySweep 4.6s linear .25s both}
 .boat-arriving>.island-title,.boat-arriving>.boat-copy{animation:islandPickerSettle .8s cubic-bezier(.22,1,.36,1) 4.05s both;transform-origin:50% 50%}
@@ -239,5 +239,6 @@
 @keyframes departureFade{to{opacity:0}}
 @keyframes departureBeach{to{translate:0 330px;opacity:0}}
 
-/* Keep the title-only opening clear through anticipation, then reveal the travelling map. */
-@keyframes islandMapReveal{0%,10.9565%{opacity:0}24%{opacity:1}100%{opacity:1}}
+/* Reveal opaque artwork from the bottom, without changing shared travel. */
+.arrival-map-window{position:absolute;inset:0;animation:islandMapWindow 4.6s linear .25s both}
+@keyframes islandMapWindow{0%,10.9565%{clip-path:inset(100% 0 0)}32%{clip-path:inset(0 0 0);animation-timing-function:linear}100%{clip-path:inset(0 0 0)}}
