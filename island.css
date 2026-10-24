@@ -102,6 +102,13 @@
 .reduced-motion .map-pin.available>.art{animation:none}
 @media(prefers-reduced-motion:reduce){.map-pin.available>.art{animation:none}}
 
+/* Keep the home screen behind the incoming adventure until navigation settles. */
+.adventure-entering{z-index:25;animation:adventure-slide-in 620ms cubic-bezier(.22,1,.36,1) both;pointer-events:none;box-shadow:-16px 0 38px #082d4233}
+.adventure-entering *{animation-play-state:paused!important}
+.home-exiting{animation:adventure-home-out 620ms cubic-bezier(.22,1,.36,1) both;pointer-events:none}
+@keyframes adventure-slide-in{from{transform:translate3d(100%,0,0)}to{transform:translate3d(0,0,0)}}
+@keyframes adventure-home-out{from{transform:translate3d(0,0,0);filter:brightness(1)}to{transform:translate3d(-18%,0,0);filter:brightness(.88)}}
+
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
 .finance-v2{background:white;color:#222;animation:finance-page-in .3s ease-out both}
