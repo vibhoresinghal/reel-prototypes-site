@@ -166,7 +166,7 @@
 .arrival-boats[inert]>.boat-picker{pointer-events:none}
 .arrival-landscape{position:absolute;inset:0;pointer-events:none;z-index:3}
 .arrival-map{position:absolute;left:-107px;top:-652px;width:575.182px;height:629px;animation:islandJourneySweep 4.6s linear .25s both}
-.arrival-landscape .arrival-title{left:65.48px;top:calc(276px - var(--arrival-travel));transform:scale(1.286);transform-origin:0 0;animation:islandJourneySweep 4.6s linear .25s both}
+.arrival-landscape .arrival-title{left:65.48px;top:276px;transform:scale(1.286);transform-origin:0 0;animation:islandTitleTravel 4.6s linear .25s both}
 .boat-arriving .arrival-boats,.boat-arriving>.shore{animation:islandJourneySweep 4.6s linear .25s both}
 .boat-arriving>.island-title,.boat-arriving>.boat-copy{animation:islandPickerSettle .8s cubic-bezier(.22,1,.36,1) 4.05s both;transform-origin:50% 50%}
 .boat-arriving>.dock-button{animation:islandDockSettle .8s cubic-bezier(.22,1,.36,1) 4.05s both;opacity:1}
@@ -239,6 +239,5 @@
 @keyframes departureFade{to{opacity:0}}
 @keyframes departureBeach{to{translate:0 330px;opacity:0}}
 
-/* Reveal opaque artwork from the bottom, without changing shared travel. */
-.arrival-map-window{position:absolute;inset:0;animation:islandMapWindow 4.6s linear .25s both}
-@keyframes islandMapWindow{0%,10.9565%{clip-path:inset(100% 0 0)}32%{clip-path:inset(0 0 0);animation-timing-function:linear}100%{clip-path:inset(0 0 0)}}
+/* The map begins physically below the viewport; only the viewport clips it. */
+@keyframes islandTitleTravel{0%{translate:0 0;animation-timing-function:cubic-bezier(.3,0,.4,1)}10.9565%{translate:0 14px;animation-timing-function:cubic-bezier(.42,0,.58,1)}91.304%{translate:0 -1327px;animation-timing-function:cubic-bezier(.35,0,.35,1)}100%{translate:0 -1320px}}
