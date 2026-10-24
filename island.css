@@ -173,8 +173,8 @@
 .boat-arriving .boat-picker-prev,.boat-arriving .boat-picker-next,.boat-arriving .boat-picker-glow{animation:islandControlsSettle .8s ease-out 4.05s both}
 .boat-arriving .boat-picker-float{animation-play-state:paused}
 .boat-arriving .back{z-index:10}
-@keyframes islandMapSweep{from{translate:0 calc(var(--arrival-map-start) + 652px)}to{translate:0 0}}
-@keyframes islandIntroSweep{0%{translate:0 0;animation-timing-function:cubic-bezier(.3,0,.4,1)}12%{translate:0 14px;animation-timing-function:cubic-bezier(.42,0,.58,1)}100%{translate:0 -990px}}
+@keyframes islandMapSweep{0%{translate:0 calc(var(--arrival-map-start) + 652px);animation-timing-function:cubic-bezier(.3,0,.4,1)}12%{translate:0 calc(var(--arrival-map-start) + 666px);animation-timing-function:cubic-bezier(.42,0,.58,1)}100%{translate:0 0}}
+@keyframes islandIntroSweep{0%{translate:0 0;animation-timing-function:cubic-bezier(.3,0,.4,1)}12%{translate:0 14px;animation-timing-function:cubic-bezier(.42,0,.58,1)}100%{translate:0 calc(-1 * (var(--arrival-map-start) + 652px))}}
 @keyframes islandBoatSweep{0%{translate:0 var(--arrival-travel);animation-timing-function:cubic-bezier(.42,0,.58,1)}91.304%{translate:0 -7px;animation-timing-function:cubic-bezier(.35,0,.35,1)}100%{translate:0 0}}
 @keyframes islandPickerSettle{0%{opacity:0;transform:translateY(18px) scale(.94)}75%{opacity:1;transform:translateY(-2px) scale(1.004);animation-timing-function:cubic-bezier(.35,0,.35,1)}100%{opacity:1;transform:none}}
 @keyframes islandDockSettle{0%{translate:0 90px}75%{translate:0 -3px;animation-timing-function:cubic-bezier(.35,0,.35,1)}100%{translate:0 0}}
