@@ -632,6 +632,12 @@
         "title": "Activation uplift",
         "description": "A 4% relative increase in activation.",
         "entry": "prototypes/mo-engage/index.html?scene=uplift"
+      },
+      {
+        "id": "campaign",
+        "title": "Create a campaign",
+        "description": "Upload creative assets, review and simulate a campaign launch.",
+        "entry": "prototypes/mo-engage/index.html?scene=campaign"
       }
     ]
   }

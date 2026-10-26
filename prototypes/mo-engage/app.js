@@ -1,8 +1,9 @@
+import {mountCampaign,leaveCampaign,resetCampaign} from './campaign.js';
 
 import {icons} from './icons.js';
 const content=document.querySelector('#content');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let scene=new URLSearchParams(location.search).get('scene')==='uplift'?'uplift':'decline';
+let scene=['uplift','campaign'].includes(new URLSearchParams(location.search).get('scene'))?new URLSearchParams(location.search).get('scene'):'decline';
 let audience='All app users',period='Last 30 days';
 const labels=['Day 1','Day 3','Day 7','Day 14','Day 21','Day 30'];
 const cohorts={
@@ -24,6 +25,17 @@ function chart(title,description,values,id,green=false){
  return '<article class="chart-card"><div class="chart-header"><div><h2>'+title+'</h2><p>'+description+'</p></div><span class="metric-chip">'+(green?'+4% uplift':'Lifetime trend')+'</span></div><div class="chart-summary"><strong>'+values.at(-1).toFixed(green?1:0)+'%</strong><span>'+ (green?'activation after rollout':'at day 30')+'</span></div><div class="graph"><svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+title+': '+values.map((v,i)=>labels[i]+' '+v+'%').join(', ')+'"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+color+'" stop-opacity=".22"/><stop offset="1" stop-color="'+color+'" stop-opacity=".015"/></linearGradient></defs>'+ticks.map(v=>{const y=top+(high-v)/(high-low)*(h-top-bottom);return '<line class="grid-line" x1="'+left+'" y1="'+y+'" x2="'+(w-right)+'" y2="'+y+'"/><text class="axis-text" x="'+(left-9)+'" y="'+(y+4)+'" text-anchor="end">'+v+'%</text>';}).join('')+'<path class="trend-area" d="'+area+'" fill="url(#'+id+')"/><path class="trend-line" d="'+path+'" pathLength="1" fill="none" stroke="'+color+'" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+points.map((p,i)=>'<g class="point" tabindex="0" role="button" aria-label="'+labels[i]+': '+values[i]+' percent" data-value="'+values[i]+'" data-day="'+labels[i]+'" style="animation-delay:'+(reduced?0:.25+i*.32)+'s"><circle cx="'+p[0]+'" cy="'+p[1]+'" r="13" fill="transparent" stroke="none"/><circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="white" stroke="'+color+'" stroke-width="2"/><text x="'+p[0]+'" y="'+(p[1]-14)+'" text-anchor="middle" fill="'+color+'" font-family="Inter" font-size="11" font-weight="600">'+values[i]+'%</text></g><text class="axis-text" x="'+p[0]+'" y="'+(h-16)+'" text-anchor="middle">'+labels[i]+'</text>').join('')+'</svg><div class="tooltip" hidden></div></div><div class="chart-foot"><span class="legend"><i></i>'+audience+'</span><span>User lifetime on app →</span></div></article>';
 }
 function render(){
+ leaveCampaign();
+ document.querySelector('.filter-bar').hidden=scene==='campaign';
+ document.querySelector('.filter-bar').style.display=scene==='campaign'?'none':'';
+ if(scene==='campaign'){
+ document.body.classList.remove('green');
+ document.querySelectorAll('[data-scene]').forEach(b=>{b.classList.toggle('active',b.dataset.scene===scene);b.setAttribute('aria-pressed',String(b.dataset.scene===scene));});
+ document.querySelector('#breadcrumb').textContent='Create campaign';
+ document.querySelector('#title').textContent='Your next great connection.';
+ document.querySelector('#subtitle').textContent='Build a campaign that brings your customers a little closer.';
+ mountCampaign(content);return;
+ }
  const original=cohorts[audience],shift=period==='Last 60 days'?2:period==='Last 90 days'?-2:0;
  const c={...original,base:original.base+shift,activation:original.activation.map(v=>v+shift),retention:original.retention.map(v=>v+shift),users:(Number(original.users.replace(',',''))*(period==='Last 60 days'?2:period==='Last 90 days'?3:1)).toLocaleString('en-US')},green=scene==='uplift';
  const end=+(c.base*1.04).toFixed(1);
@@ -47,7 +59,7 @@ function render(){
 function selectScene(next){scene=next;const url=new URL(location.href);url.searchParams.set('scene',scene);history.replaceState(null,'',url);render();}
 document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>selectScene(b.dataset.scene)));
 document.querySelector('#apply').addEventListener('click',()=>{audience=document.querySelector('#audience').value;period=document.querySelector('#period').value;render();});
-document.querySelector('#replay').addEventListener('click',render);
+document.querySelector('#replay').addEventListener('click',()=>{if(scene==='campaign')resetCampaign();render();});
 document.querySelector('#record').addEventListener('click',()=>document.body.classList.add('presentation'));
-document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='Escape')document.body.classList.remove('presentation');if(e.key.toLowerCase()==='r')render();if(e.key==='1')selectScene('decline');if(e.key==='2')selectScene('uplift');});
+document.addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='Escape')document.body.classList.remove('presentation');if(e.key.toLowerCase()==='r'){if(scene==='campaign')resetCampaign();render();}if(e.key==='1')selectScene('decline');if(e.key==='2')selectScene('uplift');if(e.key==='3')selectScene('campaign');});
 mountIcons();render();
