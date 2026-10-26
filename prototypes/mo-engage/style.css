@@ -65,3 +65,7 @@
 #content[data-campaign-step] .dropzone .button{margin:8px auto}
 #content[data-campaign-step] .campaign-panel{padding:16px 24px}
 }
+
+/* Endpoint uplift callout, revealed after the line completes. */
+.uplift-end-label{opacity:0;animation:fade .55s ease 2.1s forwards}
+@media(prefers-reduced-motion:reduce){.uplift-end-label{opacity:1;animation:none}}
