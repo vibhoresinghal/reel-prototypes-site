@@ -15,7 +15,7 @@ function icon(name){return icons[name]||'';}
 function mountIcons(){document.querySelectorAll('[data-icon]').forEach(e=>e.innerHTML=icon(e.dataset.icon));}
 function stat(label,value,note,trend='',glyph='activity'){return '<article class="stat"><div class="stat-label">'+label+icon(glyph)+'</div><strong>'+value+'</strong><small>'+ (trend?'<b class="'+(scene==='uplift'?'positive':'negative')+'">'+trend+'</b>':'')+note+'</small></article>';}
 function chart(title,description,values,id,green=false){
- const color=green?'#20a77d':'#df6876',w=540,h=270,left=42,right=20,top=35,bottom=40;
+ const color=green?'#20a77d':'#df6876',w=green?800:540,h=270,left=42,right=20,top=35,bottom=40;
  const low=green?Math.floor(values[0]/5)*5-5:0,high=green?low+15:100;
  const points=values.map((v,i)=>[left+i*(w-left-right)/5,top+(high-v)/(high-low)*(h-top-bottom)]);
  // Monotone linear segments use rounded joins, avoiding spline overshoot.
