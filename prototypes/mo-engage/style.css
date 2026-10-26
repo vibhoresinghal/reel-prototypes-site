@@ -168,3 +168,4 @@ h1{font-size:28px}
 .presentation.green .uplift-layout .graph svg{height:clamp(280px,calc(100svh - 410px),630px)}
 }
 @media(max-width:800px){.green .uplift-layout{grid-template-columns:1fr}.green .uplift-layout .graph svg{height:320px}}
+.heading-uplift{color:#168c70;font-weight:700;font-size:1em;letter-spacing:-.5px;white-space:nowrap}
