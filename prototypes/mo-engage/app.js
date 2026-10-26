@@ -32,7 +32,7 @@ function render(){
  document.body.classList.remove('green');
  document.querySelectorAll('[data-scene]').forEach(b=>{b.classList.toggle('active',b.dataset.scene===scene);b.setAttribute('aria-pressed',String(b.dataset.scene===scene));});
  document.querySelector('#breadcrumb').textContent='Create campaign';
- document.querySelector('#title').textContent='Your next great connection.';
+ document.querySelector('#title').textContent='Create a campaign';
  document.querySelector('#subtitle').textContent='Build a campaign that brings your customers a little closer.';
  mountCampaign(content);return;
  }
