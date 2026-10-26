@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mo-engage flows for video</title><link rel="stylesheet" href="style.css"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
+html body,html body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
+html body img,html body svg,html body a{-webkit-user-drag:none}
+html body input,html body textarea,html body [contenteditable]:not([contenteditable="false"]),html body [contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
+/* Reused home controls share one press treatment. Positioning transforms stay intact. */
+#phone :is(button,[role="button"]){scale:1}
+:is(.home,.fto-home,.psf-home,.attention-stage) button:active,#phone [role="button"]:active{filter:none}
+.fto-home-target:active,.home .home-anchors>button:active,.home .home-secondary>button:active{background:transparent!important}
+[data-home-press-visual]{scale:1!important;transform-origin:center;transition:scale 180ms cubic-bezier(.2,.8,.2,1)!important;-webkit-tap-highlight-color:transparent}
+[data-home-press-visual][data-home-pressed]{scale:.97!important;transition-duration:110ms!important}
+@media(prefers-reduced-motion:reduce){[data-home-press-visual]{transition:none!important}}
+
+.fto-home-offer:active .fto-home-offer-art{transform:none!important}
+
+/* Home offers settle on card edges for touch and shared mouse dragging. */
+[data-node-id="423:15372"]{scroll-snap-type:x mandatory;scroll-padding-inline:24px}
+[data-node-id="423:15373"]>div{scroll-snap-align:start;scroll-snap-stop:always}
+</style><script>(()=>{
+ const editable=target=>{
+  const element=target?.nodeType===3?target.parentElement:target;
+  return Boolean(element?.isContentEditable||element?.closest?.('input,textarea'));
+ };
+ for(const type of ['selectstart','dragstart'])document.addEventListener(type,event=>{
+  if(!editable(event.target))event.preventDefault();
+ },true);
+ document.addEventListener('keydown',event=>{
+  if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='a'&&!editable(event.target))event.preventDefault();
+ },true);
+})();
+(()=>{
+ let drag=null,blockClick=false;const settling=new Map();
+ const skip='input,textarea,select,[contenteditable="true"],[role="slider"],.attention-strip,.map-page,.swipe-button,[data-mouse-drag="off"]';
+ document.addEventListener('pointerdown',e=>{
+  blockClick=false;if(e.pointerType!=='mouse'||e.button!==0||e.target.closest(skip))return;
+  const candidates=[];for(let el=e.target;el;el=el.parentElement){const css=getComputedStyle(el);const doc=el===document.scrollingElement;
+   const x=el.scrollWidth>el.clientWidth+1&&/auto|scroll/.test(css.overflowX),y=el.scrollHeight>el.clientHeight+1&&(doc?!/hidden|clip/.test(css.overflowY):/auto|scroll/.test(css.overflowY));
+   if(x||y){const stop=settling.get(el);if(stop)stop();candidates.push({el,x,y});}
+  }
+  if(candidates.length)drag={id:e.pointerId,target:e.target,x:e.clientX,y:e.clientY,candidates,chosen:null};
+ });
+ window.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.chosen){if(Math.hypot(dx,dy)<5)return;
+   // Existing map, slider and sheet gestures retain ownership.
+   for(let el=drag.target;el;el=el.parentElement)if(el.hasPointerCapture?.(e.pointerId)){drag=null;return;}
+   const axis=Math.abs(dx)>Math.abs(dy)?'x':'y',c=drag.candidates.find(c=>c[axis]);if(!c){drag=null;return;}
+   drag.chosen=c.el;drag.axis=axis;drag.left=c.el.scrollLeft;drag.top=c.el.scrollTop;
+   drag.scale=c.el===document.scrollingElement?1:c.el.getBoundingClientRect().width/c.el.offsetWidth||1;
+   if(axis==='x'&&getComputedStyle(c.el).scrollSnapType!=='none'){drag.snap=c.el.style.scrollSnapType;c.el.style.scrollSnapType='none';}
+   drag.target.setPointerCapture(e.pointerId);blockClick=true;
+  }
+  e.preventDefault();if(drag.axis==='x')drag.chosen.scrollLeft=drag.left-dx/drag.scale;else drag.chosen.scrollTop=drag.top-dy/drag.scale;
+ },{passive:false});
+ const release=()=>{
+  const ended=drag;drag=null;
+  if(!ended?.chosen||ended.snap===undefined)return;
+  const el=ended.chosen,scale=ended.scale,padding=parseFloat(getComputedStyle(el).scrollPaddingLeft)||0;
+  const points=[...el.querySelectorAll('*')].filter(n=>getComputedStyle(n).scrollSnapAlign!=='none').map(n=>Math.max(0,Math.min(el.scrollWidth-el.clientWidth,el.scrollLeft+(n.getBoundingClientRect().left-el.getBoundingClientRect().left)/scale-padding)));
+  const target=points.sort((a,b)=>Math.abs(a-el.scrollLeft)-Math.abs(b-el.scrollLeft))[0];
+  const from=el.scrollLeft,start=performance.now();let frame;
+  const stop=()=>{cancelAnimationFrame(frame);el.style.scrollSnapType=ended.snap;settling.delete(el);};
+  if(target===undefined){stop();return;}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.scrollLeft=target;stop();return;}
+  const tick=now=>{const t=Math.min(1,(now-start)/360);el.scrollLeft=from+(target-from)*(1-Math.pow(1-t,3));if(t<1)frame=requestAnimationFrame(tick);else stop();};
+  settling.set(el,stop);frame=requestAnimationFrame(tick);
+ };window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
+ document.addEventListener('click',e=>{if(blockClick){blockClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
+})();
+
+(()=>{
+ const roots='#phone,.attention-stage,.psf-home,.fto-home,.home';
+ let held=null,pressedAt=0,releaseTimer;
+ function release(immediate=false){clearTimeout(releaseTimer);const remaining=100-(performance.now()-pressedAt);if(!immediate&&held&&remaining>0){releaseTimer=setTimeout(()=>release(true),remaining);return;}if(held)held.removeAttribute('data-home-pressed');held=null;}
+ function press(visual){release(true);if(!visual)return;visual.setAttribute('data-home-press-visual','');getComputedStyle(visual).scale;visual.setAttribute('data-home-pressed','');held=visual;pressedAt=performance.now();}
+ function at(node,x,y,padX=0,padBottom=0){if(!node)return false;const r=node.getBoundingClientRect();return r.width&&r.height&&x>=r.left-padX&&x<=r.right+padX&&y>=r.top-5&&y<=r.bottom+padBottom;}
+ function visualFor(event){const root=event.target.closest?.(roots);if(!root||root.closest('[inert]'))return null;
+  // Spotlights stay fixed while their original click actions and authored motion run.
+  if(root.matches('.home')&&event.target.closest('.hero-hit'))return null;
+  if(event.target.closest('[data-node-id="294:13867"]'))return null;
+  const {clientX:x,clientY:y}=event;
+  if(event.target.closest('.christmas-spotlight,.rakhi-overlay,.psf-home-spotlight'))return null;
+  if(root.matches('.attention-stage')&&at(root.querySelector('[data-node-id="423:14701"]'),x,y))return null;
+  if(root.matches('.psf-home')&&at(root.querySelector('.psf-home-spotlight'),x,y))return null;
+  if(root.matches('.fto-home')&&event.target.closest('[aria-label="Make a Payment"],[aria-label="Explore Cashpoints"]'))return null;
+  const ipl=root.querySelector('#stage[data-scene^="spotlight-"]');
+  if(ipl){
+   const base=ipl.querySelector('img.art');
+   if(base?.naturalWidth&&!ipl.querySelector('.ipl-home-tile')){
+    for(let i=0;i<8;i++){const sx=30+(i%4)*132,sy=i<4?366:615;
+     const cover=document.createElement('div');cover.className='ipl-home-tile-cover';Object.assign(cover.style,{position:'absolute',left:(sx/540*100)+'%',top:'calc('+(sy/540*100)+'cqw + var(--hero-extra, 0px))',width:(84/540*100)+'cqw',height:(84/540*100)+'cqw',background:'white',pointerEvents:'none'});
+     const visual=document.createElement('div');visual.className='ipl-home-tile';Object.assign(visual.style,{position:'absolute',inset:'0',overflow:'hidden'});
+     const image=base.cloneNode();image.removeAttribute('class');Object.assign(image.style,{position:'absolute',width:(540/84*100)+'%',maxWidth:'none',height:'auto',left:(-sx/84*100)+'%',top:(-sy/84*100)+'%',clipPath:'none'});visual.append(image);cover.append(visual);base.parentElement.append(cover);
+    }
+   }
+   if(event.target.closest('[aria-label="Open stadium scanner"]'))return ipl.querySelector('.ipl-home-tile');
+   const tile=[...ipl.querySelectorAll('.ipl-home-tile')].find(node=>at(node,x,y,10,40));if(tile)return tile;
+   if(event.target.closest('[aria-label="Explore IPL season"]'))return null;
+  }
+
+  // Original Figma tile boxes, exported composite tiles, and FTO replacement icons.
+  // Labels are separate siblings and are deliberately excluded from the animated box.
+  const tiles=[...root.querySelectorAll('[data-source-home-tile],[data-fto-icon],[data-node-id],[id]')].filter(node=>{
+   const s=getComputedStyle(node),w=parseFloat(s.width),h=parseFloat(s.height);
+   return s.display!=='contents'&&s.display!=='none'&&s.visibility==='visible'&&(([48,52].some(size=>Math.abs(w-size)<.5&&Math.abs(h-size)<.5))||(node.matches('[data-fto-icon]')&&Math.abs(w-56)<.5&&Math.abs(h-56)<.5))&&!node.querySelector('p');
+  });
+  const tile=tiles.find(node=>!tiles.some(other=>other!==node&&other.contains(node))&&at(node,x,y,12,40));if(tile)return tile;
+  const reminder=event.target.closest('[data-reminder]');if(reminder&&!event.target.closest('.reminder-close'))return reminder;
+  const hit=event.target.closest('button,[role="button"]');
+  if(root.matches('.home')){
+   if(hit?.matches('.offer-banner-hit'))return root.querySelector('[data-node-id="473:16818"]');
+  }
+  if(root.matches('.fto-home')){
+   if(hit?.getAttribute('aria-label')==='Zoomcar offer')return root.querySelector('[data-node-id="6898:24802"], [data-node-id="6797:46196"]');
+   if(hit?.classList.contains('fto-home-offer'))return hit;
+  }
+  if(root.matches('.attention-stage')){
+   for(const id of ['14910']){const art=root.querySelector('[data-node-id="423:'+id+'"]');if(art&&at(art,x,y))return art;}
+  }
+  return hit&&getComputedStyle(hit).display!=='contents'?hit:null;
+ }
+ document.addEventListener('pointerdown',event=>{if(event.button!==0)return;press(visualFor(event));},true);
+ document.addEventListener('pointerup',()=>release(),true);
+ document.addEventListener('pointercancel',()=>release(true),true);
+ window.addEventListener('blur',()=>release(true));
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)release(true);});
+})();
+</script><!--/prototype-interaction-guard--></head>
+<body><aside class="sidebar"><a class="brand" href="../../"><span class="brand-mark">m</span>moengage<span class="brand-dot"></span></a><div class="workspace"><span class="workspace-avatar">P</span><div>PayZapp<span>Growth workspace</span></div><i data-icon="chevrons-up-down"></i></div><div class="nav-label">WORKSPACE</div><div class="nav-active"><i data-icon="layout-dashboard"></i>Dashboards<span>2</span></div><div class="nav-label sub-label">YOUR DASHBOARDS</div><button class="nav-scene" data-scene="decline"><span class="nav-dot"></span>Lifecycle overview</button><button class="nav-scene" data-scene="uplift"><span class="nav-dot"></span>Activation uplift</button><div class="sidebar-note"><i data-icon="layers"></i><p>One view.<br>A clearer customer story.</p></div><a class="library" href="../../"><i data-icon="arrow-left"></i>Back to flows</a><div class="profile"><span>VS</span><div>Vibhore Singhal<small>Workspace admin</small></div><i data-icon="chevron-down"></i></div></aside>
+<div class="shell"><header><div class="crumb">Dashboards<i data-icon="chevron-right"></i><span id="breadcrumb">Lifecycle overview</span></div><div class="top-right"><span class="demo-dot"></span>Demo workspace<span class="divider"></span><span class="avatar">VS</span></div></header>
+<main><div class="page-heading"><div><div class="eyebrow">CUSTOMER INTELLIGENCE</div><h1 id="title">Every journey tells a story.</h1><p id="subtitle">Understand how activation and retention evolve across the customer lifecycle.</p></div><div class="heading-actions"><button id="replay" class="button"><i data-icon="rotate-ccw"></i>Replay</button><button id="record" class="button primary"><i data-icon="maximize"></i>Presentation</button></div></div>
+<div class="tabs"><button data-scene="decline">Lifecycle overview</button><button data-scene="uplift">Activation uplift</button><span class="updated">Illustrative data · Video prototype</span></div>
+<section class="filter-bar"><div><i data-icon="users"></i><label for="audience">Audience</label><select id="audience"><option>All app users</option><option>New users</option><option>Returning users</option></select></div><div><i data-icon="calendar-days"></i><label for="period">Cohort</label><select id="period"><option>Last 30 days</option><option>Last 60 days</option><option>Last 90 days</option></select></div><button class="button apply" id="apply">Apply filters<i data-icon="arrow-right"></i></button></section>
+<div id="content" aria-live="polite"></div>
+<footer><span><span class="demo-dot"></span>All systems operational</span><span>Illustrative dataset. No live customer data.</span><span>Growth analytics / PayZapp</span></footer>
+</main></div><div class="presentation-hint">Press Esc to exit · R to replay · 1 / 2 to change scene</div><script type="module" src="app.js"></script></body></html>
