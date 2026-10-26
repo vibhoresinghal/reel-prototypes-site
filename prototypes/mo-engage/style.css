@@ -147,3 +147,5 @@ h1{font-size:28px}
 .decline .graph svg{height:clamp(240px,calc(100svh - 540px),500px)}
 .presentation.decline .graph svg{height:clamp(280px,calc(100svh - 410px),630px)}
 }
+.decline .chart-header h2{display:flex;align-items:center;gap:10px}
+.decline-marker{width:18px;height:18px;flex:none;color:#df6876}
