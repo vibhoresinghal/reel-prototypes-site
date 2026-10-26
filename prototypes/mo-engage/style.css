@@ -69,3 +69,25 @@
 /* Endpoint uplift callout, revealed after the line completes. */
 .uplift-end-label{opacity:0;animation:fade .55s ease 2.1s forwards}
 @media(prefers-reduced-motion:reduce){.uplift-end-label{opacity:1;animation:none}}
+
+/* Uplift recording scene: a single large chart and one result. */
+.green .stats,.green .experiment,.green .insight,
+.green .chart-summary,.green .metric-chip{display:none}
+.green .uplift-layout{display:block}
+.green .chart-header{padding:24px 30px 0}
+.green .chart-header h2{font-size:20px}
+.green .chart-header p{font-size:12px}
+.green .graph{padding:8px 28px 0}
+.green .uplift-layout .graph svg{width:100%;height:clamp(240px,calc(100svh - 510px),560px);max-height:none}
+.green .chart-foot{margin:0 30px;font-size:10px}
+.green .axis-text{fill:#a6b2bd;font-size:9px}
+.green .grid-line{stroke:#f0f3f5}
+.green .trend-area{fill-opacity:.55}
+.green .chart-foot>span:last-child{font-size:0}
+.green .chart-foot>span:last-child:after{content:'Relative activation uplift';font-size:10px}
+.green .point:not(:first-of-type):not(:last-of-type)>circle:nth-child(2){r:3}
+.green .presentation-hint{pointer-events:none}
+.presentation.green .filter-bar,.presentation.green .tabs,.presentation.green footer{display:none!important}
+.presentation.green .uplift-layout .graph svg{height:clamp(280px,calc(100svh - 390px),680px)}
+.presentation.green .page-heading{margin-bottom:24px}
+@media(max-width:800px){.green .graph{padding-inline:10px}.green .chart-header{padding:20px}.green .uplift-layout .graph svg{height:300px}}
