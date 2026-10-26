@@ -91,3 +91,21 @@
 .presentation.green .uplift-layout .graph svg{height:clamp(280px,calc(100svh - 390px),680px)}
 .presentation.green .page-heading{margin-bottom:24px}
 @media(max-width:800px){.green .graph{padding-inline:10px}.green .chart-header{padding:20px}.green .uplift-layout .graph svg{height:300px}}
+
+/* Decline recording scene: two clear, equal-sized charts. */
+.decline .stats,.decline .insight,.decline .chart-summary,.decline .metric-chip{display:none}
+.decline .chart-grid{gap:24px}
+.decline .chart-header{padding:24px 26px 0}
+.decline .chart-header h2{font-size:23px}
+.decline .chart-header p{font-size:12px}
+.decline .graph{padding:12px 20px 0}
+.decline .graph svg{width:100%;height:clamp(260px,calc(100svh - 520px),520px)}
+.decline .axis-text{fill:#a6b2bd;font-size:10px}
+.decline .grid-line{stroke:#f0f3f5}
+.decline .trend-area{fill-opacity:.65}
+.decline .chart-foot{font-size:10px}
+.decline .chart-foot>span:last-child{display:none}
+.presentation.decline .filter-bar,.presentation.decline .tabs,.presentation.decline footer{display:none!important}
+.presentation.decline .page-heading{margin-bottom:24px}
+.presentation.decline .graph svg{height:clamp(300px,calc(100svh - 390px),650px)}
+@media(max-width:800px){.decline .chart-grid{grid-template-columns:1fr}.decline .graph svg{height:320px}}
