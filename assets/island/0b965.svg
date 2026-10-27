@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="126.778" height="103.16" viewBox="0 0 126.778 103.16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="UPI resistration complete" filter="url(#filter0_f_0_794)">
+<path d="M71.0991 73.1829C68.1128 68.5376 49.3934 71.2474 40.407 73.1829C35.5682 74.5654 24.4803 76.8327 18.8396 74.8417C11.7888 72.3531 9.71497 38.7578 22.9872 37.9284C36.2595 37.099 30.0381 14.702 33.7709 13.4578C37.5037 12.2135 39.1628 17.6053 42.4808 18.4348C45.7989 19.2644 58.2416 27.1446 61.9744 25.9004C65.7072 24.6561 71.0991 34.6103 78.5647 38.7578C84.5372 42.0759 91.837 43.1819 94.7403 43.3202C96.261 44.5644 100.962 49.2927 107.598 58.2514C114.234 67.2102 113.957 73.0445 112.99 74.8417C112.437 77.6068 111.331 83.9664 111.331 87.2845C111.331 91.432 97.6436 89.773 96.3993 88.114C95.4039 86.7868 89.6249 85.3489 86.8599 84.7959C82.8505 82.8605 74.0853 77.8282 71.0991 73.1829Z" fill="#1B9E96" fill-opacity="0.72"/>
+</g>
+<defs>
+<filter id="filter0_f_0_794" x="2.16932e-07" y="-5.81184e-09" width="126.778" height="103.16" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="6.63612" result="effect1_foregroundBlur_0_794"/>
+</filter>
+</defs>
+</svg>

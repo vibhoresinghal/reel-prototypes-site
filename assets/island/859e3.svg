@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="150.648" height="153.93" viewBox="0 0 150.648 153.93" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Link biller complete 1" filter="url(#filter0_f_0_684)">
+<path d="M63.9583 140.658C48.9695 140.658 44.4647 129.459 38.4189 125.312C33.5801 126.694 29.1283 108.409 23.4876 106.418C16.4367 103.93 3.8176 79.6881 24.9713 57.4771C34.1425 47.8475 34.6861 41.1156 38.4189 39.8714C42.1517 38.6271 40.3171 24.1111 43.6352 24.9407C46.9532 25.7702 50.2713 19.5489 54.0041 18.3046C57.7369 17.0603 66.0321 22.4522 73.4977 26.5997C79.4702 29.9178 90.7406 3.78818 118.705 17.06C138.851 18.3044 129.49 48.5183 136.126 57.4771C142.762 66.4358 120.956 89.8281 117.638 106.418C117.085 109.183 113.729 107.477 113.729 110.795C113.729 114.943 103.777 122.035 104.19 124.068C106.088 133.422 94.0974 136.649 91.3323 136.096C83.0372 139.414 70.5944 140.658 63.9583 140.658Z" fill="#1B9E96" fill-opacity="0.72"/>
+</g>
+<defs>
+<filter id="filter0_f_0_684" x="3.99582e-07" y="-1.1419e-07" width="150.648" height="153.93" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="6.63612" result="effect1_foregroundBlur_0_684"/>
+</filter>
+</defs>
+</svg>
