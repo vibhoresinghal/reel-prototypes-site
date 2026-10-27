@@ -121,7 +121,7 @@
 
 /* Original green completion regions sit above terrain and beneath clouds. */
 .island-completion{position:absolute;inset:0;width:709.235px;height:775.597px;overflow:visible;pointer-events:none}
-.island-completion-region{opacity:0;transition:opacity 600ms cubic-bezier(.22,.61,.36,1)}
+.island-completion-region{opacity:0}
 .island-completion-region[data-active="true"]{opacity:1}
 .reduced-motion .island-completion-region{transition:none}
 
