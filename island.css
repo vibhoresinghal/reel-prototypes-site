@@ -109,6 +109,16 @@
 @keyframes adventure-slide-in{from{transform:translate3d(100%,0,0)}to{transform:translate3d(0,0,0)}}
 @keyframes adventure-home-out{from{transform:translate3d(0,0,0);filter:brightness(1)}to{transform:translate3d(-18%,0,0);filter:brightness(.88)}}
 
+/* Task return uses the same boat and map throughout the camera pullback. */
+.map-world{transform-origin:0 0}
+.return-voyage .map-art{opacity:var(--return-land,0)}
+.return-voyage .map-pin{opacity:var(--return-pins,0);pointer-events:none}
+.return-voyage .map-counter{opacity:0;pointer-events:none}
+.return-voyage .map-pin.available>.art{animation-play-state:paused}
+.return-voyage .ship-wake{animation:none}
+.return-voyage .map-controls>.back{opacity:.7}
+.reduced-motion .return-voyage .map-art,.reduced-motion .return-voyage .map-pin{opacity:1}
+
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
 .finance-v2{background:white;color:#222;animation:finance-page-in .3s ease-out both}
