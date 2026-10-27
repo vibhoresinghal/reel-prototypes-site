@@ -6,7 +6,7 @@ import {fileError,canReview,escapeText as esc} from './campaign-model.js';
 
 const icon=n=>icons[n]||'';
 
-let root=null,step=0,name='A little nudge. A big first step.',channel='Email',audience='New users · Not activated',assets=[],errors=[],serial=0,launchTimer=null,launching=false;
+let root=null,step=0,name='Onboarding activation',channel='Email',audience='New users · Not activated',assets=[],errors=[],serial=0,launchTimer=null,launching=false;
 
 const timers=new Set();
 
@@ -82,7 +82,7 @@ function updateProgress(){
 
  row.querySelector('.asset-progress').setAttribute('aria-valuenow',a.progress);
 
- row.querySelector('.asset-ready').innerHTML=a.complete?icon('circle-check'):'';
+ if(row.classList.contains('complete')!==!!a.complete)row.querySelector('.asset-ready').innerHTML=a.complete?icon('circle-check'):'';
 
  row.classList.toggle('complete',!!a.complete);
 
@@ -92,11 +92,11 @@ function updateProgress(){
 
  const status=root.querySelector('#upload-status');
 
- if(status){status.textContent=complete?'Assets ready':'Uploading your assets';status.classList.toggle('positive',!!complete);}
+ if(status){status.textContent=complete?'Upload complete':'Uploading files';status.classList.toggle('positive',!!complete);}
 
  const next=root.querySelector('#campaign-next');
 
- if(next){next.disabled=!canReview(assets);next.firstChild.textContent=!assets.length?'Review campaign':complete&&!canReview(assets)?'Upload complete':canReview(assets)?'Review campaign':'Uploading...';}
+ if(next){next.disabled=!canReview(assets);next.firstChild.textContent='Review campaign';}
 
 }
 
@@ -104,19 +104,33 @@ function updateProgress(){
 
 export function leaveCampaign(){transition++;if(root){root.inert=false;root.getAnimations().forEach(a=>a.cancel());}root=null;if(launchTimer){clearTimeout(launchTimer);launchTimer=null;launching=false;}}
 
-export function resetCampaign(){transition++;if(root){root.inert=false;root.getAnimations().forEach(a=>a.cancel());}for(const a of assets)if(a.blob)URL.revokeObjectURL(a.url);for(const t of timers)clearTimeout(t);timers.clear();clearTimeout(launchTimer);launchTimer=null;assets=[];errors=[];step=0;launching=false;channel='Email';audience='New users · Not activated';name='A little nudge. A big first step.';}
+export function resetCampaign(){transition++;if(root){root.inert=false;root.getAnimations().forEach(a=>a.cancel());}for(const a of assets)if(a.blob)URL.revokeObjectURL(a.url);for(const t of timers)clearTimeout(t);timers.clear();clearTimeout(launchTimer);launchTimer=null;assets=[];errors=[];step=0;launching=false;channel='Email';audience='New users · Not activated';name='Onboarding activation';}
 
 export function mountCampaign(target){root=target;draw();}
 
 const bytes=n=>n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
 
-function add(files){errors=[];for(const f of files){const error=fileError(f,assets);if(error){errors.push(f.name+': '+error);continue;}const isImage=/\.(png|jpe?g|webp|gif)$/i.test(f.name);const a={id:++serial,name:f.name,size:f.size,image:isImage,url:URL.createObjectURL(f),blob:true,ready:false};assets.push(a);prepare(a);}draw();}
+function add(files){const previousHeight=root?.querySelector('#dropzone')?.getBoundingClientRect().height;errors=[];for(const f of files){const error=fileError(f,assets);if(error){errors.push(f.name+': '+error);continue;}const isImage=/\.(png|jpe?g|webp|gif)$/i.test(f.name);const a={id:++serial,name:f.name,size:f.size,image:isImage,url:URL.createObjectURL(f),blob:true,ready:false};assets.push(a);prepare(a);}drawUploadChange(previousHeight);}
 
-function sample(){errors=[];if(assets.some(a=>a.sample))return;if(assets.length>=8){errors=['You can add up to 8 assets.'];draw();return;}const a={id:++serial,name:'welcome-to-your-next.png',size:184320,image:true,url:'campaign-art.svg',sample:true,ready:false};assets.push(a);draw();prepare(a);}
+function sample(){const previousHeight=root?.querySelector('#dropzone')?.getBoundingClientRect().height;errors=[];if(assets.some(a=>a.sample))return;if(assets.length>=8){errors=['You can add up to 8 assets.'];draw();return;}const a={id:++serial,name:'welcome-to-your-next.png',size:184320,image:true,url:'campaign-art.svg',sample:true,ready:false};assets.push(a);drawUploadChange(previousHeight);prepare(a);}
 
-function preview(){const a=assets.find(a=>a.image&&a.ready);return '<div class="message-preview"><div class="message-brand"><span class="workspace-avatar">P</span><div>PayZapp<small>Your everyday, made rewarding.</small></div></div>'+(a?'<img class="creative-preview" src="'+esc(a.url)+'" alt="Selected campaign creative">':'<div class="creative-placeholder">'+icon('image')+'<span>Your creative goes here</span></div>')+'<div class="message-copy"><h3>A great start is just one tap away.</h3><p>Discover a simpler way to pay. Complete your setup and make your first moment count.</p><span class="preview-cta">Let’s get started '+icon('arrow-right')+'</span></div></div>';}
+function drawUploadChange(previousHeight){
+ const restoreFocus=root?.contains(document.activeElement)&&document.activeElement.matches('button:focus-visible');
+ draw();
+ const zone=root?.querySelector('#dropzone');
+ if(zone&&previousHeight&&!reduced()){
+  const height=zone.getBoundingClientRect().height;
+  if(Math.abs(previousHeight-height)>1){
+   zone.animate([{height:previousHeight+'px',overflow:'hidden'},{height:height+'px',overflow:'hidden'}],{duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
+   root.querySelector('.asset-list')?.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:320,easing:'ease-out'});
+  }
+ }
+ if(restoreFocus)root?.querySelector('#browse')?.focus({preventScroll:true});
+}
 
-function rows(){return assets.map(a=>'<div class="asset-row" data-asset="'+a.id+'"><div class="asset-thumb">'+(a.image?'<img src="'+esc(a.url)+'" alt="">':icon('file-text'))+'</div><div class="asset-info"><strong>'+esc(a.name)+'</strong><small>'+bytes(a.size)+' · '+(a.ready?'Ready to use':'Preparing local preview…')+'</small>'+'<div class="asset-progress" role="progressbar" aria-label="Asset upload" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(a.progress||0)+'"><span style="width:'+(a.progress||0)+'%"></span></div>'+'</div><span class="asset-ready">'+(a.ready?icon('circle-check'):'')+'</span><button class="remove-asset" data-remove="'+a.id+'" aria-label="Remove '+esc(a.name)+'">'+icon('x')+'</button></div>').join('');}
+function preview(){const a=assets.find(a=>a.image&&a.ready);return '<div class="message-preview"><div class="message-brand"><span class="workspace-avatar">P</span><div>PayZapp<small>Your everyday, made rewarding.</small></div></div>'+(a?'<img class="creative-preview" src="'+esc(a.url)+'" alt="Selected campaign creative">':'<div class="creative-placeholder">'+icon(assets.length?'file-text':'image')+'<span>'+(assets.length?assets.length+' document'+(assets.length===1?'':'s')+' attached':'Your creative goes here')+'</span></div>')+'<div class="message-copy"><h3>A great start is just one tap away.</h3><p>Discover a simpler way to pay. Complete your setup and make your first moment count.</p><span class="preview-cta">Let’s get started '+icon('arrow-right')+'</span></div></div>';}
+
+function rows(){return assets.map(a=>'<div class="asset-row" data-asset="'+a.id+'"><div class="asset-thumb">'+(a.image?'<img src="'+esc(a.url)+'" alt="">':icon('file-text'))+'</div><div class="asset-info"><strong title="'+esc(a.name)+'">'+esc(a.name)+'</strong><small>'+bytes(a.size)+' · '+(a.ready?'Ready to use':'Preparing local preview…')+'</small>'+'<div class="asset-progress" role="progressbar" aria-label="Asset upload" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(a.progress||0)+'"><span style="width:'+(a.progress||0)+'%"></span></div>'+'</div><span class="asset-ready">'+(a.ready?icon('circle-check'):'')+'</span><button class="remove-asset" data-remove="'+a.id+'" aria-label="Remove '+esc(a.name)+'">'+icon('x')+'</button></div>').join('');}
 
 function draw(){
 
@@ -124,29 +138,30 @@ function draw(){
 
  root.dataset.campaignStep=step;
 
- if(step===3){root.innerHTML='<section class="launch-success"><div class="success-orbit"><span>'+icon('check')+'</span><i></i><b></b></div><div class="eyebrow">Campaign complete</div><h2>Campaign launched</h2><p><strong>'+esc(name)+'</strong> is set up with '+assets.length+' creative asset'+(assets.length===1?'':'s')+'.</p><div class="success-receipt"><div><span>Channel</span><strong>'+esc(channel)+'</strong></div><div><span>Audience</span><strong>'+esc(audience)+'</strong></div><div><span>Status</span><strong class="positive">Demo launch complete</strong></div></div><p class="local-note">Simulation complete. No campaign was sent and no files left this device.</p><button class="button primary" id="new-campaign">'+icon('plus')+'Create another campaign</button><button class="text-button" id="back-review">Back to review</button></section>';root.querySelector('#new-campaign').onclick=()=>{resetCampaign();draw();};root.querySelector('#back-review').onclick=()=>{go(2);};return;}
+ if(step===3){root.innerHTML='<section class="launch-success"><div class="success-orbit"><span>'+icon('check')+'</span><i></i><b></b></div><h2 tabindex="-1">Campaign launched</h2><p class="launched-name">'+esc(name)+'</p><div class="success-receipt"><div><span>Channel</span><strong>'+esc(channel)+'</strong></div><div><span>Audience</span><strong>'+esc(audience)+'</strong></div><div><span>Creative assets</span><strong>'+assets.length+' ready</strong></div></div><p class="local-note">Preview only. No messages were sent.</p><button class="button primary" id="new-campaign">'+icon('plus')+'Create another campaign</button><button class="text-button" id="back-review">Back to review</button></section>';root.querySelector('#new-campaign').onclick=()=>{resetCampaign();draw();};root.querySelector('#back-review').onclick=()=>{go(2);};return;}
 
- root.innerHTML='<div class="campaign-steps">'+['Campaign details','Creative assets','Review & launch'].map((label,i)=>'<div class="'+(i===step?'current':i<step?'done':'')+'"><span>'+(i<step?icon('check'):i+1)+'</span>'+label+'</div>').join('')+'</div><div class="campaign-layout"><section class="campaign-panel">'+
+ root.innerHTML='<div class="campaign-steps">'+['Details','Upload','Review'].map((label,i)=>'<button type="button" data-step="'+i+'" class="'+(i===step?'current':i<step?'done':'')+'" '+(i===step?'aria-current="step" ':'')+(i>=step||launching?'disabled':'')+'><span>'+(i<step?icon('check'):i+1)+'</span>'+label+'</button>').join('')+'</div><div class="campaign-layout"><section class="campaign-panel">'+
 
- (step===0?'<div class="panel-heading"><span class="panel-icon">'+icon('megaphone')+'</span><div><h2>Create a campaign</h2><p>Choose a name, channel and audience.</p></div></div><div class="campaign-fields"><label for="campaign-name">Campaign name</label><input id="campaign-name" maxlength="90" value="'+esc(name)+'" placeholder="Give your campaign a name"><small>Only visible to your team.</small><label>Choose your channel</label><div class="channel-options">'+['Email','In-app message','Web push'].map(x=>'<button class="'+(channel===x?'selected':'')+'" data-channel="'+x+'">'+icon(x==='Email'?'mail':x==='Web push'?'send':'layers')+'<strong>'+x+'</strong><span>'+(x==='Email'?'Meet them in their inbox':x==='Web push'?'A timely reason to return':'Connect in the moment')+'</span></button>').join('')+'</div><label for="campaign-audience">Who would you like to reach?</label><select id="campaign-audience">'+['New users · Not activated','All active users','Returning users'].map(x=>'<option '+(x===audience?'selected':'')+'>'+x+'</option>').join('')+'</select></div>':
+ (step===0?'<div class="panel-heading"><span class="panel-icon">'+icon('megaphone')+'</span><div><h2>Campaign details</h2><p>Choose a name, channel and audience.</p></div></div><div class="campaign-fields"><label for="campaign-name">Campaign name</label><input id="campaign-name" maxlength="90" value="'+esc(name)+'" placeholder="Give your campaign a name"><small>Only visible to your team.</small><label id="channel-label">Channel</label><div class="channel-options" role="group" aria-labelledby="channel-label">'+['Email','In-app message','Web push'].map(x=>'<button class="'+(channel===x?'selected':'')+'" data-channel="'+x+'" aria-pressed="'+(channel===x)+'">'+icon(x==='Email'?'mail':x==='Web push'?'send':'layers')+'<strong>'+x+'</strong><span>'+(x==='Email'?'Meet them in their inbox':x==='Web push'?'A timely reason to return':'Connect in the moment')+'</span></button>').join('')+'</div><label for="campaign-audience">Audience</label><select id="campaign-audience">'+['New users · Not activated','All active users','Returning users'].map(x=>'<option '+(x===audience?'selected':'')+'>'+x+'</option>').join('')+'</select></div>':
 
- step===1?'<div class="panel-heading upload-heading"><h2>Creative assets</h2></div><div id="dropzone" class="dropzone"><span class="upload-icon" aria-hidden="true">'+icon('cloud-upload')+'</span><h3>Upload files</h3><button class="button primary" id="browse">Choose files</button><p id="upload-help">Images or documents · Up to 10 MB each</p><input type="file" id="asset-files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf,.doc,.docx" aria-describedby="upload-help" hidden></div><div class="upload-under"><span>'+icon('shield-check')+'Files stay on this device</span><button class="text-button" id="sample">'+icon('plus')+'Use a sample creative</button></div><div class="upload-errors" role="alert">'+errors.map(e=>'<p>'+esc(e)+'</p>').join('')+'</div>'+(assets.length?'<div class="assets-heading"><strong id="upload-status">Uploading your assets</strong><span>'+assets.length+' / 8 files</span></div><div class="asset-list">'+rows()+'</div>':''):
+ step===1?'<div class="panel-heading upload-heading"><h2>Creative assets</h2></div><div id="dropzone" class="dropzone"><span class="upload-icon" aria-hidden="true">'+icon('cloud-upload')+'</span><h3>Upload files</h3><button class="button primary" id="browse">Choose files</button><p id="upload-help">Images or documents · Up to 10 MB each</p><input type="file" id="asset-files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf,.doc,.docx" aria-describedby="upload-help" hidden></div><div class="upload-under"><span>'+icon('shield-check')+'Files stay on this device</span><button class="text-button" id="sample" '+(assets.some(a=>a.sample)?'disabled':'')+'>'+icon(assets.some(a=>a.sample)?'check':'plus')+(assets.some(a=>a.sample)?'Sample added':'Use sample creative')+'</button></div><div class="upload-errors" role="alert">'+errors.map(e=>'<p>'+esc(e)+'</p>').join('')+'</div>'+(assets.length?'<div class="assets-heading"><strong id="upload-status">Uploading files</strong><span>'+assets.length+' / 8 files</span></div><div class="asset-list">'+rows()+'</div>':''):
 
- '<div class="panel-heading"><span class="panel-icon">'+icon('rocket')+'</span><div><h2>Ready to launch?</h2><p>Review your campaign and creative.</p></div></div><div class="review-details"><div><span>Campaign name</span><strong>'+esc(name)+'</strong></div><div><span>Channel</span><strong>'+esc(channel)+'</strong></div><div><span>Audience</span><strong>'+esc(audience)+'</strong></div><div><span>Delivery</span><strong>Immediately · Demo only</strong></div></div><div class="assets-heading"><strong>Creative assets</strong><span>'+assets.length+' ready</span></div><div class="asset-list">'+rows()+'</div><div class="demo-callout">'+icon('shield-check')+'This launch is a simulation. Nothing will be sent to customers.</div>')+
+ '<div class="panel-heading"><span class="panel-icon">'+icon('rocket')+'</span><div><h2>Ready to launch?</h2><p>Review your campaign and creative.</p></div></div><div class="review-details"><div><span>Campaign name</span><strong>'+esc(name)+'</strong></div><div><span>Channel</span><strong>'+esc(channel)+'</strong></div><div><span>Audience</span><strong>'+esc(audience)+'</strong></div><div><span>Delivery</span><strong>Immediately · Demo only</strong></div></div><div class="assets-heading"><strong>Creative assets</strong><span>'+assets.length+' ready</span></div><div class="asset-list">'+rows()+'</div><div class="demo-callout">'+icon('shield-check')+'Preview only. No messages will be sent.</div>')+
 
- '<div class="campaign-actions"><button id="campaign-back" class="button" '+(step===0||launching?'disabled':'')+'>'+icon('arrow-left')+'Back</button><span>Step '+(step+1)+' of 3</span><button id="campaign-next" class="button primary" '+(step===1&&!canReview(assets)||launching?'disabled':'')+'>'+(launching?'Launching demo…':step===0?'Continue to assets':step===1?'Review campaign':'Launch demo campaign')+icon(step===2?'rocket':'arrow-right')+'</button></div></section><aside class="creative-sidebar"><div class="preview-label">'+icon('image')+'Creative preview<span>'+esc(channel)+'</span></div>'+preview()+'<div class="preview-advice">'+icon('sparkles')+'<div><strong>Good creative starts a conversation.</strong><p>Keep the message clear, the visual memorable, and the next step simple.</p></div></div><p class="local-note">Illustrative message preview. Documents are attached assets and are not rendered here.</p></aside></div>';
+ '<div class="campaign-actions"><button id="campaign-back" class="button" '+(step===0||launching?'disabled':'')+'>'+icon('arrow-left')+'Back</button><span class="action-spacer" aria-hidden="true"></span><button id="campaign-next" class="button primary" '+(step===1&&!canReview(assets)||launching?'disabled':'')+'>'+(launching?'Launching demo…':step===0?'Continue to assets':step===1?'Review campaign':'Launch demo campaign')+icon(step===2?'rocket':'arrow-right')+'</button></div></section><aside class="creative-sidebar"><div class="preview-label">'+icon('image')+'Creative preview<span>'+esc(channel)+'</span></div>'+preview()+'<div class="preview-advice">'+icon('sparkles')+'<div><strong>Good creative starts a conversation.</strong><p>Keep the message clear, the visual memorable, and the next step simple.</p></div></div><p class="local-note">Illustrative message preview. Documents are attached assets and are not rendered here.</p></aside></div>';
 
  root.querySelectorAll('h2').forEach(h=>h.tabIndex=-1);
 
  if(step===1){root.classList.toggle('has-assets',assets.length>0);updateProgress();}
 
+ root.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>go(+b.dataset.step));
  root.querySelector('#campaign-back').onclick=()=>{if(launching)return;errors=[];go(step-1);};
 
  root.querySelector('#campaign-next').onclick=()=>{if(step===0){const input=root.querySelector('#campaign-name');name=input.value.trim();if(!name){input.setCustomValidity('Enter a campaign name.');input.reportValidity();return;}go(1);}else if(step===1&&canReview(assets)){go(2);}else if(step===2&&!launching&&canReview(assets)){launching=true;draw();launchTimer=setTimeout(()=>{launching=false;launchTimer=null;go(3);},1800);}};
 
- root.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(launching)return;const a=assets.find(a=>a.id===+b.dataset.remove);if(a?.blob)URL.revokeObjectURL(a.url);assets=assets.filter(a=>a!==a);if(step===2&&!assets.length)step=1;draw();});
+ root.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(launching)return;errors=[];const previousHeight=root.querySelector('#dropzone')?.getBoundingClientRect().height;const a=assets.find(a=>a.id===+b.dataset.remove);if(a?.blob)URL.revokeObjectURL(a.url);assets=assets.filter(a=>a!==a);if(step===2&&!assets.length)step=1;if(step===1)drawUploadChange(previousHeight);else draw();});
 
- if(step===0){root.querySelector('#campaign-name').oninput=e=>{name=e.target.value;e.target.setCustomValidity('');};root.querySelector('#campaign-audience').onchange=e=>audience=e.target.value;root.querySelectorAll('[data-channel]').forEach(b=>b.onclick=()=>{channel=b.dataset.channel;draw();});}
+ if(step===0){root.querySelector('#campaign-name').oninput=e=>{name=e.target.value;e.target.setCustomValidity('');};root.querySelector('#campaign-audience').onchange=e=>audience=e.target.value;root.querySelectorAll('[data-channel]').forEach(b=>b.onclick=()=>{channel=b.dataset.channel;root.querySelectorAll('[data-channel]').forEach(option=>{const selected=option.dataset.channel===channel;option.classList.toggle('selected',selected);option.setAttribute('aria-pressed',String(selected));});});}
 
  if(step===1){const zone=root.querySelector('#dropzone'),input=root.querySelector('#asset-files');root.querySelector('#browse').onclick=()=>input.click();input.onchange=()=>add([...input.files]);root.querySelector('#sample').onclick=sample;let depth=0;zone.ondragenter=e=>{e.preventDefault();depth++;zone.classList.add('dragging');};zone.ondragover=e=>{e.preventDefault();e.dataTransfer.dropEffect='copy';};zone.ondragleave=()=>{if(--depth<=0)zone.classList.remove('dragging');};zone.ondrop=e=>{e.preventDefault();depth=0;zone.classList.remove('dragging');add([...e.dataTransfer.files]);};}
 

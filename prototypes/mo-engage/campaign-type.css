@@ -73,3 +73,49 @@ body.campaign{font-family:Campaign Inter,Inter,Arial,sans-serif;font-size:14px;l
  .campaign #content .success-receipt{margin:20px 0 12px;padding:14px 0}
  .campaign #content .launch-success .button{margin:16px auto 6px}
 }
+
+/* Campaign review polish: stable actions, compact step navigation and clean framing. */
+.campaign .sidebar-note{display:none}
+.campaign .page-heading p{max-width:520px}
+.campaign #content .campaign-steps{gap:40px}
+.campaign #content .campaign-steps>button{display:flex;align-items:center;gap:10px;border:0;background:none;padding:4px 0;color:#64748b;font:inherit;white-space:nowrap}
+.campaign #content .campaign-steps>button:disabled{cursor:default}
+.campaign #content .campaign-steps>button>span{display:grid;place-items:center;width:28px;height:28px;border:1px solid #d9e2eb;border-radius:50%;font-size:12px}
+.campaign #content .campaign-steps>button.current{color:#157e8b;font-weight:600}
+.campaign #content .campaign-steps>button.current>span{color:#fff;background:#2099a7;border-color:#2099a7;box-shadow:0 0 0 4px #2099a70c}
+.campaign #content .campaign-steps>button.done{color:#278f7c}
+.campaign #content .campaign-steps>button.done>span{background:#e6f5ef;border-color:#e6f5ef}
+.campaign #content .campaign-steps>button.done:hover{color:#176858}
+.campaign #content[data-campaign-step="0"] #campaign-back{visibility:hidden}
+.campaign #content .campaign-actions .action-spacer{flex:1;margin:0}
+.campaign #content #campaign-next{justify-content:center;min-width:180px}
+.campaign #content .channel-options button{transition:border-color .2s,background .2s,box-shadow .2s}
+.campaign #content .asset-info{min-width:0}
+.campaign #content .asset-info strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.campaign #content .asset-info small{font-variant-numeric:tabular-nums}
+.campaign #content .asset-ready{flex:none;display:grid;place-items:center}
+.campaign #content .asset-ready svg{animation:asset-check-in .3s ease-out both}
+.campaign #content .remove-asset{width:32px;height:32px;display:grid;place-items:center;border-radius:6px;flex:none}
+.campaign #content .remove-asset:hover{background:#edf2f6;color:#34465b}
+.campaign #content #sample:disabled{color:#64748b;cursor:default;opacity:.75}
+.campaign #content .launched-name{overflow-wrap:anywhere;max-width:620px;margin:auto}
+.campaign #content .launch-success .local-note{margin-top:10px}
+@keyframes asset-check-in{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+@media(max-width:650px){.campaign #content .campaign-steps{gap:22px}.campaign #content #campaign-next{min-width:0}.campaign #content .campaign-actions{gap:10px}}
+
+.campaign .library{margin-top:auto}
+@media(min-width:801px) and (max-height:800px){
+ .campaign #content.has-assets[data-campaign-step="1"] .campaign-panel,.campaign #content[data-campaign-step="2"] .campaign-panel{display:flex;flex-direction:column;max-height:calc(100svh - 284px)}
+ .campaign #content.has-assets[data-campaign-step="1"] .campaign-panel>*,.campaign #content[data-campaign-step="2"] .campaign-panel>*{flex-shrink:0}
+ .campaign #content.has-assets[data-campaign-step="1"] .asset-list,.campaign #content[data-campaign-step="2"] .asset-list{flex:0 1 auto;min-height:72px;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+ .campaign #content .asset-list .asset-row:last-child{margin-bottom:0}
+}
+
+.campaign #content .creative-placeholder{font-size:13px;color:#617084}
+
+@media(min-width:801px) and (max-height:800px){
+ .campaign #content[data-campaign-step="2"] .assets-heading{margin:10px 0 8px}
+ .campaign #content[data-campaign-step="2"] .demo-callout{margin:10px 0}
+ .campaign #content[data-campaign-step="2"] .campaign-actions{margin-top:6px;padding-top:8px}
+ .campaign #content[data-campaign-step="2"] .creative-placeholder{height:130px}
+}
