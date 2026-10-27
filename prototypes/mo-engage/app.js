@@ -26,6 +26,7 @@ function chart(title,description,values,id,green=false){
 }
 function render(){
  document.body.classList.toggle('decline',scene==='decline');
+ document.body.classList.toggle('campaign',scene==='campaign');
  leaveCampaign();
  document.querySelector('.filter-bar').hidden=scene==='campaign';
  document.querySelector('.filter-bar').style.display=scene==='campaign'?'none':'';
