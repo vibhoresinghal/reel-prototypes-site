@@ -125,6 +125,14 @@
 .island-completion-region[data-active="true"]{opacity:1}
 .reduced-motion .island-completion-region{transition:none}
 
+/* Reward arrives as one card, with a restrained upward overshoot. */
+.dialog-backdrop:not(.closing)>.reward-dialog{animation:reward-slide-up 620ms both}
+@keyframes reward-slide-up{
+ 0%{transform:translate3d(0,72px,0);opacity:0;animation-timing-function:cubic-bezier(.22,.75,.25,1)}
+ 72%{transform:translate3d(0,-5px,0);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+ 100%{transform:translate3d(0,0,0);opacity:1}
+}
+
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
 .finance-v2{background:white;color:#222;animation:finance-page-in .3s ease-out both}
