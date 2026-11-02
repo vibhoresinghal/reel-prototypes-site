@@ -95,6 +95,69 @@
     "accentColor": "#7dc66b"
   },
   {
+    "id": "milestone-desert",
+    "title": "Desert rewards",
+    "description": "A sunlit trail through dunes, palms and hidden oases.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "milestone-desert.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Payments",
+      "Rewards",
+      "Desert"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/milestone/desert/preview.svg",
+    "scenarios": [
+      {
+        "id": "first",
+        "title": "First visit",
+        "description": "Discover the offer and make your first payment.",
+        "entry": "milestone-desert.html?scene=first"
+      },
+      {
+        "id": "returning",
+        "title": "Returning to the offer",
+        "description": "Pick up your progress before payment seven.",
+        "entry": "milestone-desert.html?scene=returning"
+      },
+      {
+        "id": "reward",
+        "title": "Earning a reward",
+        "description": "Make payment four and reveal 15 Cashpoints.",
+        "entry": "milestone-desert.html?scene=reward"
+      },
+      {
+        "id": "no-reward",
+        "title": "Between milestones",
+        "description": "Payment three moves you closer to your next reward.",
+        "entry": "milestone-desert.html?scene=no-reward"
+      },
+      {
+        "id": "final",
+        "title": "The final payment",
+        "description": "Finish payment fifteen and collect all 60 Cashpoints.",
+        "entry": "milestone-desert.html?scene=final"
+      },
+      {
+        "id": "help",
+        "title": "How it works",
+        "description": "Explore the offer, milestones, and terms.",
+        "entry": "milestone-desert.html?scene=help"
+      },
+      {
+        "id": "completed",
+        "title": "Completed offer",
+        "description": "Return to your rewards and the finished journey.",
+        "entry": "milestone-desert.html?scene=completed"
+      }
+    ],
+    "accentColor": "#ab714c"
+  },
+  {
     "id": "ipl-payzapp",
     "title": "IPL on PayZapp",
     "description": "A cricket-season takeover, from the first splash to the winning runs.",
@@ -175,6 +238,63 @@
       }
     ],
     "accentColor": "#319340"
+  },
+  {
+    "id": "island-adventure",
+    "title": "Island Adventure",
+    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "island.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Islands",
+      "Adventure",
+      "Rewards"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/island-preview.png",
+    "scenarios": [
+      {
+        "id": "first",
+        "title": "First visit",
+        "description": "Choose a boat and start exploring.",
+        "entry": "island.html?scene=first"
+      },
+      {
+        "id": "boats",
+        "title": "Choose a boat",
+        "description": "Explore five original boats.",
+        "entry": "island.html?scene=boats"
+      },
+      {
+        "id": "map",
+        "title": "Explore the islands",
+        "description": "Discover the tasks and your first relic piece.",
+        "entry": "island.html?scene=map"
+      },
+      {
+        "id": "returning",
+        "title": "Continue the journey",
+        "description": "Three relic pieces found. More islands await.",
+        "entry": "island.html?scene=returning"
+      },
+      {
+        "id": "last-piece",
+        "title": "The final piece",
+        "description": "Scan and pay to complete the relic.",
+        "entry": "island.html?scene=last-piece"
+      },
+      {
+        "id": "completed",
+        "title": "Adventure complete",
+        "description": "A complete relic and ₹50 cashback.",
+        "entry": "island.html?scene=completed"
+      }
+    ],
+    "accentColor": "#218ba4"
   },
   {
     "id": "valentine-payzapp",
@@ -583,62 +703,5 @@
         "entry": "prototypes/mo-engage/index.html?scene=campaign"
       }
     ]
-  },
-  {
-    "id": "island-adventure",
-    "title": "Island Adventure",
-    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
-    "source": "figma",
-    "layout": "mobile",
-    "entry": "island.html",
-    "width": 412,
-    "height": 915,
-    "tags": [
-      "PayZapp",
-      "Islands",
-      "Adventure",
-      "Rewards"
-    ],
-    "logo": "assets/473-17470-9dd33.svg",
-    "thumbnail": "assets/island-preview.png",
-    "scenarios": [
-      {
-        "id": "first",
-        "title": "First visit",
-        "description": "Choose a boat and start exploring.",
-        "entry": "island.html?scene=first"
-      },
-      {
-        "id": "boats",
-        "title": "Choose a boat",
-        "description": "Explore five original boats.",
-        "entry": "island.html?scene=boats"
-      },
-      {
-        "id": "map",
-        "title": "Explore the islands",
-        "description": "Discover the tasks and your first relic piece.",
-        "entry": "island.html?scene=map"
-      },
-      {
-        "id": "returning",
-        "title": "Continue the journey",
-        "description": "Three relic pieces found. More islands await.",
-        "entry": "island.html?scene=returning"
-      },
-      {
-        "id": "last-piece",
-        "title": "The final piece",
-        "description": "Scan and pay to complete the relic.",
-        "entry": "island.html?scene=last-piece"
-      },
-      {
-        "id": "completed",
-        "title": "Adventure complete",
-        "description": "A complete relic and ₹50 cashback.",
-        "entry": "island.html?scene=completed"
-      }
-    ],
-    "accentColor": "#218ba4"
   }
 ]
