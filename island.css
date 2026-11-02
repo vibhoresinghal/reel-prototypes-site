@@ -168,7 +168,10 @@
 .boat-picker-card{position:absolute;left:100px;top:10px;width:160px;height:264px;transform-origin:50% 55%;will-change:transform,opacity;pointer-events:none}
 .boat-picker-float{position:absolute;inset:0;transform-origin:50% 60%;animation:boat-picker-float var(--float-duration,7s) ease-in-out var(--float-delay,0s) infinite}
 .boat-picker-float>.art{position:absolute;animation:none}
-.boat-picker-glow{position:absolute;inset:-12px -24px;background:radial-gradient(ellipse at 50% 55%,#c4ffff5c,transparent 66%);pointer-events:none}
+.boat-picker-glow{position:absolute;inset:-12px -24px;pointer-events:none}
+/* Selection owns the wrapper opacity. Animate only the light inside it so
+   removing the intro cannot replace each boat's focus-weighted brightness. */
+.boat-picker-glow::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#c4ffff5c,transparent 66%)}
 .boat-picker-prev,.boat-picker-next{position:absolute;top:123px;z-index:20;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;touch-action:manipulation;cursor:pointer;transition:background-color .18s,scale .18s}
 .boat-picker-prev{left:62px}.boat-picker-next{right:62px}
 .boat-picker-prev .source-icon{width:20px;height:20px;transform:rotate(-90deg)}
@@ -189,7 +192,7 @@
 .boat-arriving .arrival-boats,.boat-arriving>.shore{animation:islandJourneySweep 4.6s linear .25s both}
 .boat-arriving>.island-title,.boat-arriving>.boat-copy{animation:islandPickerSettle .8s cubic-bezier(.22,1,.36,1) 4.05s both;transform-origin:50% 50%}
 .boat-arriving>.dock-button{animation:islandDockSettle .8s cubic-bezier(.22,1,.36,1) 4.05s both;opacity:1}
-.boat-arriving .boat-picker-prev,.boat-arriving .boat-picker-next,.boat-arriving .boat-picker-glow{animation:islandControlsSettle .8s ease-out 4.05s both}
+.boat-arriving .boat-picker-prev,.boat-arriving .boat-picker-next,.boat-arriving .boat-picker-glow::before{animation:islandControlsSettle .8s ease-out 4.05s both}
 .boat-arriving .boat-picker-float{animation-play-state:paused}
 .boat-arriving .back{z-index:10}
 /* One camera-like sweep keeps title, map and boats at fixed relative distances. */
