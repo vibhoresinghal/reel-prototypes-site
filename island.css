@@ -133,6 +133,13 @@
  100%{transform:translate3d(0,0,0);opacity:1}
 }
 
+/* Retain one terrain compositing surface throughout opacity/zoom handoffs.
+   Do not promote individual islands: their luminosity must blend with the sea. */
+.map-art{transform:translateZ(0);will-change:opacity;backface-visibility:hidden}
+.map-world{backface-visibility:hidden}
+.ship-position,.boat-picker-float{backface-visibility:hidden}
+
+
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
 .finance-v2{background:white;color:#222;animation:finance-page-in .3s ease-out both}
