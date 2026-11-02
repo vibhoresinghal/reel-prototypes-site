@@ -95,67 +95,49 @@
     "accentColor": "#7dc66b"
   },
   {
-    "id": "milestone-desert",
-    "title": "Desert rewards",
-    "description": "A sunlit trail through dunes, palms and hidden oases.",
+    "id": "milestone-themes",
+    "title": "Milestone offers · Themes",
+    "description": "One journey. Three worlds: green, desert and winter.",
     "source": "figma",
     "layout": "mobile",
-    "entry": "milestone-desert.html",
+    "entry": "milestone-themes.html",
     "width": 412,
     "height": 915,
     "tags": [
       "PayZapp",
-      "Payments",
-      "Rewards",
-      "Desert"
+      "Milestones",
+      "Themes",
+      "Green",
+      "Desert",
+      "Winter"
     ],
     "logo": "assets/473-17470-9dd33.svg",
-    "thumbnail": "assets/milestone/desert/preview.svg",
+    "thumbnail": "assets/milestone/themes-preview.svg",
     "scenarios": [
       {
-        "id": "first",
-        "title": "First visit",
-        "description": "Discover the offer and make your first payment.",
-        "entry": "milestone-desert.html?scene=first"
+        "id": "green",
+        "title": "Green",
+        "description": "The original forest and village.",
+        "entry": "milestone-themes.html?theme=green"
       },
       {
-        "id": "returning",
-        "title": "Returning to the offer",
-        "description": "Pick up your progress before payment seven.",
-        "entry": "milestone-desert.html?scene=returning"
+        "id": "desert",
+        "title": "Desert",
+        "description": "Geometric sandstone, palms and quiet oases.",
+        "entry": "milestone-themes.html?theme=desert"
       },
       {
-        "id": "reward",
-        "title": "Earning a reward",
-        "description": "Make payment four and reveal 15 Cashpoints.",
-        "entry": "milestone-desert.html?scene=reward"
-      },
-      {
-        "id": "no-reward",
-        "title": "Between milestones",
-        "description": "Payment three moves you closer to your next reward.",
-        "entry": "milestone-desert.html?scene=no-reward"
-      },
-      {
-        "id": "final",
-        "title": "The final payment",
-        "description": "Finish payment fifteen and collect all 60 Cashpoints.",
-        "entry": "milestone-desert.html?scene=final"
-      },
-      {
-        "id": "help",
-        "title": "How it works",
-        "description": "Explore the offer, milestones, and terms.",
-        "entry": "milestone-desert.html?scene=help"
-      },
-      {
-        "id": "completed",
-        "title": "Completed offer",
-        "description": "Return to your rewards and the finished journey.",
-        "entry": "milestone-desert.html?scene=completed"
+        "id": "winter",
+        "title": "Winter",
+        "description": "Snowy pines, cozy cabins and festive details.",
+        "entry": "milestone-themes.html?theme=winter"
       }
     ],
-    "accentColor": "#ab714c"
+    "accentColor": "#719792",
+    "variantKind": "themes",
+    "aliases": [
+      "milestone-desert.html"
+    ]
   },
   {
     "id": "ipl-payzapp",
