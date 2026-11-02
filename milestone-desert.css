@@ -117,3 +117,15 @@ html[data-theme="winter"] body{background:#f1f5f6}
 .theme-choice-dot{width:10px;height:10px;flex:0 0 10px;border:1px solid #71827e66;border-radius:50%;margin-left:auto}
 [aria-current]>.theme-choice-dot{border:3px solid #fff;background:currentColor;outline:1px solid currentColor}
 [data-collection="themes"] .viewer-tools>small{margin-top:30px}
+
+@media(min-width:761px) and (max-height:820px){
+ [data-collection="themes"] .viewer-tools .library-link{margin-bottom:24px}
+ [data-collection="themes"] .viewer-tools h1{font-size:32px;margin:10px 0}
+ [data-collection="themes"] .theme-choices-label{margin-top:18px}
+ [data-collection="themes"] .theme-choices{gap:6px;margin-bottom:14px}
+ [data-collection="themes"] .theme-choices>a{padding:7px}
+ [data-collection="themes"] .theme-choices img{width:36px;height:36px}
+ [data-collection="themes"] .viewer-actions{gap:4px}
+ [data-collection="themes"] .viewer-actions button{min-height:32px;padding:6px 10px}
+ [data-collection="themes"] .viewer-tools>small{margin-top:16px}
+}
