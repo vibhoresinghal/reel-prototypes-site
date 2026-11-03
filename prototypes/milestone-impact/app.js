@@ -1,5 +1,4 @@
 const story=document.querySelector('#story');const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-for(const [id,total,delay] of [['before',5,300],['after',33,1100]]){document.getElementById(id).innerHTML=Array.from({length:100},(_,i)=>`<svg class="person ${i<total?'active':''}" style="--delay:${delay+i*40}ms" viewBox="0 0 18 28"><circle cx="9" cy="4" r="3.3" fill="currentColor"/><path d="M5 25v-8H3V12a6 6 0 0 1 12 0v5h-2v8h-3V17H8v8Z" fill="currentColor"/></svg>`).join('');}
 function replay(){story.classList.remove('playing');void story.offsetWidth;if(!reduced.matches)story.classList.add('playing');}
 function still(){story.classList.remove('playing');}
 async function present(){document.body.classList.add('presenting');try{await document.documentElement.requestFullscreen();}catch{}replay();}
