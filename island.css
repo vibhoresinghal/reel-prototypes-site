@@ -134,9 +134,9 @@
 /* A visible journey from below the viewport, then a separate earned-piece beat. */
 .reward-backdrop{animation:reward-dim .3s ease-out both}
 .reward-backdrop.closing{animation:backdrop-out .22s ease forwards}
-.reward-dialog{animation:reward-rise .78s cubic-bezier(.22,1,.36,1) both}
+.reward-dialog{animation:reward-rise .9s both}
 @keyframes reward-dim{from{background:#082a3800}to{background:#082a3891}}
-@keyframes reward-rise{0%{transform:translateY(calc(50vh + 50%))}76%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+@keyframes reward-rise{0%{transform:translateY(calc(var(--stage-half-height) + 50% + 12px));animation-timing-function:cubic-bezier(.28,.12,.2,1)}82%{transform:translateY(-4px);animation-timing-function:ease-in-out}100%{transform:translateY(0)}}
 .earned-relic{position:relative;width:202px;height:210px}
 .reward-relic-canvas{position:absolute;left:-32px;top:-32px;width:266px;height:274px;visibility:hidden;pointer-events:none}
 .earned-relic.is-ready>.relic{visibility:hidden}
