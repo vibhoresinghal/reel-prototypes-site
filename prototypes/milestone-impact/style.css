@@ -16,3 +16,6 @@ h1{font-weight:400;color:#536258;letter-spacing:-1px}h1 strong{font-weight:600;c
 .playing .figure,.playing .after .figure{animation:number-reveal 420ms cubic-bezier(.22,1,.36,1) both}
 @keyframes number-reveal{from{transform:translateY(12px);opacity:.8}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){.playing .figure,.playing .after .figure{animation:none}}
+
+/* Larger reading sizes for wall projection. */
+h1{font-size:clamp(28px,2.9vw,44px)}.cohort-label{font-size:clamp(21px,2.1vw,32px)}.cohort-label>span{font-size:clamp(15px,1.35vw,20px)}@media(max-width:650px){h1{font-size:25px;max-width:350px}.cohort-label{font-size:17px}.cohort-label>span{font-size:11px}}
