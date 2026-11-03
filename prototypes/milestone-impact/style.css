@@ -12,7 +12,7 @@ h1{font-weight:400;color:#536258;letter-spacing:-1px}h1 strong{font-weight:600;c
 @keyframes people-bounce{0%{transform:translateY(9px) scale(.8);opacity:.55}42%{transform:translateY(-12px) scale(1.18);opacity:1}66%{transform:translateY(3px) scale(.94)}84%{transform:translateY(-3px) scale(1.03)}100%{transform:none;opacity:1}}
 @media(max-width:650px){.people,.after .people{padding:0 6px}}@media(prefers-reduced-motion:reduce){.playing .people .highlighted{animation:none}}
 
-/* Reserve final digit widths so the percentage sign never shifts during counting. */
-.figure>span:first-child{display:inline-block;min-width:1ch;text-align:right}.after .figure>span:first-child{min-width:2ch}.playing .figure,.playing .after .figure{animation:number-arrival 820ms ease-out both}
-@keyframes number-arrival{0%{transform:translateY(5px) scale(.97)}72%{transform:translateY(0) scale(1)}86%{transform:translateY(-2px) scale(1.018)}100%{transform:none}}
+/* Complete values move together; no counting or typographic bounce. */
+.playing .figure,.playing .after .figure{animation:number-reveal 420ms cubic-bezier(.22,1,.36,1) both}
+@keyframes number-reveal{from{transform:translateY(12px);opacity:.8}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){.playing .figure,.playing .after .figure{animation:none}}
