@@ -74,6 +74,12 @@
         "entry": "milestone.html?scene=no-reward"
       },
       {
+        "id": "map-progress",
+        "title": "Moving along the map",
+        "description": "Payment five is successful. Tap View Progress to watch the map travel to the next step.",
+        "entry": "milestone.html?scene=map-progress"
+      },
+      {
         "id": "final",
         "title": "The final payment",
         "description": "Finish payment fifteen and collect all 60 Cashpoints.",
