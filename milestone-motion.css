@@ -160,8 +160,9 @@
 
 /* Every mobile screen, including its overlays, occupies the entire viewport. */
 /* Desktop recording retains the phone frame, centered on the fullscreen canvas. */
-.viewer.recording{width:100%;height:100dvh;min-height:0;gap:0;justify-content:center;align-items:center}
+.viewer.recording:not(.embedded){display:flex;--recording-height:min(calc(100dvh - 48px),calc((100vw - 48px)/.45));width:100%;height:100dvh;min-height:0;padding:24px;gap:0;justify-content:center;align-items:center}
 .viewer.recording .viewer-tools{display:none}
+.viewer.recording:not(.embedded) .phone{flex:0 0 auto;width:calc(var(--recording-height)*.45);height:var(--recording-height);max-width:none;max-height:none;margin:0;border-radius:calc(var(--recording-height)*.035)}
 @media(max-width:760px){
  .viewer:not(.embedded){padding:0}
  .viewer:not(.embedded) .phone{height:100dvh;box-sizing:border-box;padding:0}
