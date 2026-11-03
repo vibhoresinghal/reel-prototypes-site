@@ -210,26 +210,38 @@
 
 /* Keep the numeral anchored while the next payment becomes an active tile. */
 .completion-source{position:absolute;inset:0}
-/* Complete in place: retire the pointer, contract the tile, then draw the
-   original SVG check. The camera waits until this confirmation is readable. */
-.marker.completing .current-pointer{animation:completionPointer .24s ease-out both}
-.marker.completing .halo-outer,.marker.completing .halo-mid{animation:completionHalo .22s ease-out both}
-.marker.completing .halo-inner{animation:completionShell .65s cubic-bezier(.4,0,.2,1) both;transform-origin:center}
-.marker.completing .orb-number{animation:completionNumber .22s ease-out both}
-.marker.completing .regular-orb-active{animation:completionFace .35s .12s ease-out both}
+/* One confirmation: the tile folds into the existing face, the original
+   check draws, and a restrained pulse lands before the camera takes over. */
+.marker.completing .current-pointer{animation:figmaPointer 2.801s infinite,completionPointer .24s ease-out both;animation-play-state:paused,running}
+.marker.completing .halo-outer,.marker.completing .halo-mid{animation:completionHalo .3s ease-out both}
+.marker.completing .halo-inner{animation:completionShell .56s cubic-bezier(.4,0,.2,1) both;transform-origin:center}
+.marker.completing .orb-number{animation:completionNumber .24s ease-in both;transform-origin:50% 50%}
+.marker.completing .regular-orb-active{animation:completionFace .42s ease-in-out both}
 .marker.completing .regular-orb-idle{opacity:0;transition:none}
-.marker.completing .completion-target{animation:completionFaceIn .3s .2s ease-out both}
-.marker.completing .completion-target svg>g>path{stroke-dasharray:24;stroke-dashoffset:24;animation:completionCheck .36s .4s cubic-bezier(.4,0,.2,1) forwards}
-@keyframes completionPointer{to{opacity:0;translate:0 5px}}
-@keyframes completionHalo{to{opacity:0}}
-@keyframes completionShell{0%{opacity:1;transform:scale(1);clip-path:inset(0 round 14px)}65%{opacity:1}100%{opacity:0;transform:translate(-1px,-1px) scale(.66);clip-path:inset(0 round 50%)}}
-@keyframes completionNumber{to{opacity:0;translate:0 -3px}}
-@keyframes completionFace{from{opacity:1}to{opacity:0}}
-@keyframes completionFaceIn{from{opacity:0}to{opacity:1}}
+.marker.completing .completion-target{animation:completionFaceIn .82s cubic-bezier(.22,.75,.3,1) both;transform-origin:74.5px 74.5px}
+.marker.completing .completion-target svg>g>path{stroke-dasharray:24;stroke-dashoffset:24;animation:completionCheck .34s .32s cubic-bezier(.4,0,.2,1) forwards}
+.marker.completing:before{content:"";position:absolute;left:51px;top:51px;width:47px;height:47px;border:2px solid #e9fcff;border-radius:50%;pointer-events:none;animation:completionPulse .48s .54s ease-out both}
+@keyframes completionPointer{to{opacity:0;translate:0 7px}}
+@keyframes completionHalo{to{opacity:0;scale:.94}}
+@keyframes completionShell{
+ 0%{opacity:1;transform:translate(0,0) scale(1);clip-path:inset(0 round 17px)}
+ 18%{opacity:1;transform:translate(-.15px,-.15px) scale(.96);clip-path:inset(0 round 21px)}
+ 78%{opacity:1;transform:translate(-1px,-1px) scale(.68254,.66154);clip-path:inset(0 round 50%)}
+ 100%{opacity:0;transform:translate(-1px,-1px) scale(.68254,.66154);clip-path:inset(0 round 50%)}
+}
+@keyframes completionNumber{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.75)}}
+@keyframes completionFace{0%,22%{opacity:1}100%{opacity:0}}
+@keyframes completionFaceIn{
+ 0%,18%{opacity:0;transform:scale(.96)}
+ 48%{opacity:1;transform:scale(.98)}
+ 76%{opacity:1;transform:scale(1.08)}
+ 100%{opacity:1;transform:scale(1)}
+}
 @keyframes completionCheck{to{stroke-dashoffset:0}}
+@keyframes completionPulse{0%{opacity:0;transform:scale(.94)}18%{opacity:.55}100%{opacity:0;transform:scale(1.65)}}
 @media(prefers-reduced-motion:reduce){
- .marker.completing .completion-source{display:none}
- .marker.completing .completion-target,.marker.completing .completion-target svg>g>path{animation:none;opacity:1;stroke-dashoffset:0}
+ .marker.completing .completion-source,.marker.completing:before{display:none}
+ .marker.completing .completion-target,.marker.completing .completion-target svg>g>path{animation:none;opacity:1;transform:none;stroke-dashoffset:0}
 }
 .regular-orb-idle,.regular-orb-active{transition:opacity .5s ease-out}
 .regular-orb-active{opacity:0}
