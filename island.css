@@ -133,7 +133,10 @@
 
 /* A visible journey from below the viewport, then a separate earned-piece beat. */
 .reward-backdrop{animation:reward-dim .3s ease-out both}
-.reward-backdrop.closing{animation:backdrop-out .22s ease forwards}
+.reward-backdrop.closing{animation:reward-undim .4s ease-in forwards}
+.reward-backdrop.closing .dialog{animation:reward-dismiss .4s cubic-bezier(.4,0,.65,1) both;pointer-events:none}
+@keyframes reward-undim{from{background:var(--dialog-exit-dim,#082a3891)}to{background:#082a3800}}
+@keyframes reward-dismiss{from{transform:var(--dialog-exit-from,translateY(0));opacity:1}to{transform:translateY(calc(var(--stage-half-height) + 50% + 12px));opacity:1}}
 .reward-dialog,.collection-dialog{animation:reward-rise .65s both}
 @keyframes reward-dim{from{background:#082a3800}to{background:#082a3891}}
 @keyframes reward-rise{0%{transform:translateY(calc(var(--stage-half-height) + 50% + 12px));animation-timing-function:cubic-bezier(.28,.12,.2,1)}82%{transform:translateY(-4px);animation-timing-function:ease-in-out}100%{transform:translateY(0)}}
