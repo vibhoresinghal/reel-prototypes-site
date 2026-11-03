@@ -51,7 +51,7 @@
 
 /* Translation is isolated from layout scaling and the opening's movement. */
 .map-entry-track{position:absolute;left:0;top:0;width:1237px;height:337px}
-.map-world{left:0;transform:translateX(var(--camera));transition:transform 2.8106s cubic-bezier(.22,.85,.26,1)}
+.map-world{left:0;transform:translateX(var(--camera));transition:transform var(--map-duration,2.8106s) cubic-bezier(.22,.85,.26,1)}
 .map-world.travelling{will-change:transform}
 .map-world.dragging{transition:none}
 

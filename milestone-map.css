@@ -1,7 +1,7 @@
 /* Paint at the phone's actual resolution; never magnify a cached map texture. */
 .stage{transform:none;transform-origin:initial}
 .map-scale{transform:none;transform-origin:initial}
-.map-world{transition:left 2.8106s cubic-bezier(.22,.85,.26,1);will-change:auto;transform:none}
+.map-world{transition:left var(--map-duration,2.8106s) cubic-bezier(.22,.85,.26,1);will-change:auto;transform:none}
 .map-world.dragging{transition:none}
 .vector-art{display:block;pointer-events:none}
 .vector-art>svg{display:block;overflow:visible;shape-rendering:geometricPrecision;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter}

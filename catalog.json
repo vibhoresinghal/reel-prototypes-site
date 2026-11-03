@@ -76,7 +76,7 @@
       {
         "id": "map-progress",
         "title": "Moving along the map",
-        "description": "Payment five is successful. Tap View Progress to watch the map travel to the next step.",
+        "description": "Watch the map move from payment five to six, with a slower pan and a clear pause at the destination.",
         "entry": "milestone.html?scene=map-progress"
       },
       {
