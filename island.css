@@ -5,7 +5,7 @@
 @keyframes shore-wave{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @keyframes wake{50%{opacity:.6}}
 
-@keyframes pin-done{from{opacity:.5;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes pin-done{from{transform:translateY(-8px)}to{transform:none}}
 @keyframes tooltip-in{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
 @keyframes backdrop-in{from{background:#082a3800;backdrop-filter:none}to{background:#082a3891;backdrop-filter:none}}
 @keyframes backdrop-out{to{background:#082a3800;backdrop-filter:none}}
@@ -112,7 +112,7 @@
 /* Task return uses the same boat and map throughout the camera pullback. */
 .map-world{transform-origin:0 0}
 .return-voyage .map-art{opacity:var(--return-land,0)}
-.return-voyage .map-pin{opacity:var(--return-pins,0);pointer-events:none}
+.return-voyage .map-pin{pointer-events:none}
 .return-voyage .map-counter{opacity:0;pointer-events:none}
 .return-voyage .map-pin.available>.art{animation-play-state:paused}
 .return-voyage .ship-wake{animation:none}
@@ -127,6 +127,9 @@
 @media(prefers-reduced-motion:reduce){.reward-reveal.piece-earned .relic-raster{animation:none}}
 
 .terrain-art{position:absolute;width:709.235px;height:775.597px;pointer-events:none}.terrain-art::before{display:none}
+
+/* Busy map controls remain solid: disabled prevents taps, never dims the pins. */
+.map-pin,.map-pin:disabled{opacity:1}
 
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
