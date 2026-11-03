@@ -134,7 +134,7 @@
 /* A visible journey from below the viewport, then a separate earned-piece beat. */
 .reward-backdrop{animation:reward-dim .3s ease-out both}
 .reward-backdrop.closing{animation:backdrop-out .22s ease forwards}
-.reward-dialog{animation:reward-rise .9s both}
+.reward-dialog,.collection-dialog{animation:reward-rise .65s both}
 @keyframes reward-dim{from{background:#082a3800}to{background:#082a3891}}
 @keyframes reward-rise{0%{transform:translateY(calc(var(--stage-half-height) + 50% + 12px));animation-timing-function:cubic-bezier(.28,.12,.2,1)}82%{transform:translateY(-4px);animation-timing-function:ease-in-out}100%{transform:translateY(0)}}
 .earned-relic{position:relative;width:202px;height:210px}
@@ -142,7 +142,7 @@
 .earned-relic.is-ready>.relic{visibility:hidden}
 .earned-relic.is-ready>.reward-relic-canvas{visibility:visible}
 .reward-reveal .earned-relic .relic-raster,.reward-reveal .earned-relic .full-relic{animation:none}
-@media(prefers-reduced-motion:reduce){.reward-dialog,.reward-backdrop{animation:none}}
+@media(prefers-reduced-motion:reduce){.reward-dialog,.collection-dialog,.reward-backdrop{animation:none}}
 
 /* Original 360px Figma compositions scroll naturally on compact displays.
    Extra phone height extends the backdrop, never stretches icons or banking rows. */
