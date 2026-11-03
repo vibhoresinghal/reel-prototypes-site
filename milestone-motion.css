@@ -205,6 +205,28 @@
 @keyframes rewardToMap{0%,12%{opacity:1}100%{opacity:0}}
 
 /* Keep the numeral anchored while the next payment becomes an active tile. */
+.completion-source{position:absolute;inset:0}
+/* Complete in place: retire the pointer, contract the tile, then draw the
+   original SVG check. The camera waits until this confirmation is readable. */
+.marker.completing .current-pointer{animation:completionPointer .24s ease-out both}
+.marker.completing .halo-outer,.marker.completing .halo-mid{animation:completionHalo .22s ease-out both}
+.marker.completing .halo-inner{animation:completionShell .65s cubic-bezier(.4,0,.2,1) both;transform-origin:center}
+.marker.completing .orb-number{animation:completionNumber .22s ease-out both}
+.marker.completing .regular-orb-active{animation:completionFace .35s .12s ease-out both}
+.marker.completing .regular-orb-idle{opacity:0;transition:none}
+.marker.completing .completion-target{animation:completionFaceIn .3s .2s ease-out both}
+.marker.completing .completion-target svg>g>path{stroke-dasharray:24;stroke-dashoffset:24;animation:completionCheck .36s .4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes completionPointer{to{opacity:0;translate:0 5px}}
+@keyframes completionHalo{to{opacity:0}}
+@keyframes completionShell{0%{opacity:1;transform:scale(1);clip-path:inset(0 round 14px)}65%{opacity:1}100%{opacity:0;transform:translate(-1px,-1px) scale(.66);clip-path:inset(0 round 50%)}}
+@keyframes completionNumber{to{opacity:0;translate:0 -3px}}
+@keyframes completionFace{from{opacity:1}to{opacity:0}}
+@keyframes completionFaceIn{from{opacity:0}to{opacity:1}}
+@keyframes completionCheck{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){
+ .marker.completing .completion-source{display:none}
+ .marker.completing .completion-target,.marker.completing .completion-target svg>g>path{animation:none;opacity:1;stroke-dashoffset:0}
+}
 .regular-orb-idle,.regular-orb-active{transition:opacity .5s ease-out}
 .regular-orb-active{opacity:0}
 .marker.active .regular-orb-active{opacity:1}
