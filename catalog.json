@@ -96,7 +96,7 @@
   },
   {
     "id": "milestone-themes",
-    "title": "Milestone offers · Themes",
+    "title": "Milestone offers Â· Themes",
     "description": "One journey. Three worlds: green, desert and winter.",
     "source": "figma",
     "layout": "mobile",
@@ -272,7 +272,7 @@
       {
         "id": "completed",
         "title": "Adventure complete",
-        "description": "A complete relic and ₹50 cashback.",
+        "description": "A complete relic and â‚¹50 cashback.",
         "entry": "island.html?scene=completed"
       }
     ],
@@ -412,13 +412,13 @@
       {
         "id": "intro",
         "title": "Recap opening",
-        "description": "Open Vibhore’s 2025 flipbook, personalised with sample app data.",
+        "description": "Open Vibhoreâ€™s 2025 flipbook, personalised with sample app data.",
         "entry": "prototypes/payzapp-recap/index.html?scene=intro"
       },
       {
         "id": "quiz",
         "title": "Your year in payments",
-        "description": "Six questions about Vibhore’s sample payment activity.",
+        "description": "Six questions about Vibhoreâ€™s sample payment activity.",
         "entry": "prototypes/payzapp-recap/index.html?scene=quiz"
       },
       {
@@ -510,7 +510,7 @@
   {
     "id": "fto",
     "title": "First Transaction Offer",
-    "description": "A guided first payment, from the home-screen offer to ₹20 cashback.",
+    "description": "A guided first payment, from the home-screen offer to â‚¹20 cashback.",
     "source": "figma",
     "layout": "mobile",
     "entry": "fto.html",
@@ -528,20 +528,20 @@
     "scenarios": [
       {
         "id": "pip",
-        "title": "Home · floating offer",
+        "title": "Home Â· floating offer",
         "description": "Discover the first-payment offer on the PayZapp home screen.",
         "entry": "fto.html?scene=pip"
       },
       {
         "id": "spotlight",
-        "title": "Home · spotlight banner",
+        "title": "Home Â· spotlight banner",
         "description": "The alternate home banner leads into the same payment journey.",
         "entry": "fto.html?scene=spotlight"
       },
       {
         "id": "send",
         "title": "Send money",
-        "description": "The ₹20 offer follows you into your first UPI payment.",
+        "description": "The â‚¹20 offer follows you into your first UPI payment.",
         "entry": "fto.html?scene=send"
       },
       {
@@ -565,7 +565,7 @@
       {
         "id": "success",
         "title": "Cashback earned",
-        "description": "See the payment confirmation and the ₹20 cashback reveal.",
+        "description": "See the payment confirmation and the â‚¹20 cashback reveal.",
         "entry": "fto.html?scene=success"
       }
     ],
@@ -642,7 +642,7 @@
       {
         "id": "offer",
         "title": "Offer unlocked",
-        "description": "Your ₹20 first-payment offer, ready to use.",
+        "description": "Your â‚¹20 first-payment offer, ready to use.",
         "entry": "rive-box.html?scene=offer"
       }
     ],
@@ -685,5 +685,22 @@
         "entry": "prototypes/mo-engage/index.html?scene=campaign"
       }
     ]
+  },
+  {
+    "id": "milestone-impact",
+    "title": "The fifth payment",
+    "description": "5% to 33%. The impact of milestone offers on early retention.",
+    "source": "html",
+    "layout": "desktop",
+    "entry": "prototypes/milestone-impact/index.html",
+    "width": 1440,
+    "height": 900,
+    "tags": [
+      "Milestone",
+      "Retention",
+      "Presentation"
+    ],
+    "accentColor": "#367650",
+    "thumbnail": "prototypes/milestone-impact/preview.svg"
   }
 ]
