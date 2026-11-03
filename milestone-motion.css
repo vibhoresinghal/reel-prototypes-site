@@ -159,6 +159,9 @@
 @keyframes popupClose{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(20px) scale(.97)}}
 
 /* Every mobile screen, including its overlays, occupies the entire viewport. */
+/* Desktop recording retains the phone frame, centered on the fullscreen canvas. */
+.viewer.recording{width:100%;height:100dvh;min-height:0;gap:0;justify-content:center;align-items:center}
+.viewer.recording .viewer-tools{display:none}
 @media(max-width:760px){
  .viewer:not(.embedded){padding:0}
  .viewer:not(.embedded) .phone{height:100dvh;box-sizing:border-box;padding:0}
