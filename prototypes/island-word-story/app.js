@@ -5,8 +5,8 @@ const status=document.querySelector('#status');
 let index=0,timer=0,run=0,starting=false,recording=false;
 let entrance=null;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-const glide='cubic-bezier(.37,0,.63,1)';
-const entranceDuration=()=>reducedMotion.matches?0:Math.min(720,Number(pace.value)*.58);
+const glide='cubic-bezier(.2,.75,.3,1)';
+const entranceDuration=()=>reducedMotion.matches?0:Math.min(250,Number(pace.value)*.18);
 const measure=document.createElement('canvas').getContext('2d');
 function fit(){
   // One stable type size for the whole sentence; even Adventure fits the shot.
@@ -19,7 +19,7 @@ function enterWord(){
   entrance?.cancel();
   if(reducedMotion.matches)return;
   entrance=word.animate([
-    {transform:'translateY(.09em)',opacity:0},
+    {transform:'translateY(.055em)',opacity:0},
     {transform:'translateY(0)',opacity:1}
   ],{duration:entranceDuration(),easing:glide});
 }
@@ -43,15 +43,15 @@ async function play(fullscreen=false){
     document.body.classList.remove('preparing');
     enterWord();
     // Reading time begins after the entrance settles, even at the quick pace.
-    const hold=beat*[.65,.85,.45,.35,1.6][index];
+    const hold=beat*[.3,.42,.16,.12,.65][index];
     timer=setTimeout(async()=>{
       if(token!==run)return;
       entrance?.cancel();
       if(!reducedMotion.matches){
         entrance=word.animate([
           {transform:'translateY(0)',opacity:1},
-          {transform:'translateY(-.035em)',opacity:0}
-        ],{duration:Math.min(300,beat*.26),easing:glide,fill:'forwards'});
+          {transform:'translateY(0)',opacity:0}
+        ],{duration:Math.min(110,beat*.08),easing:'linear',fill:'forwards'});
         await entrance.finished.catch(()=>{});
       }
       if(token!==run)return;
@@ -59,7 +59,7 @@ async function play(fullscreen=false){
       entrance?.cancel();
       const last=index===words.length-1;
       show(last?0:index+1,false);
-      timer=setTimeout(advance,last?450:80);
+      timer=setTimeout(advance,last?220:0);
     },entranceDuration()+hold);
   };
   timer=setTimeout(advance,2000);
