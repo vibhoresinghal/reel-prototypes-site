@@ -5,8 +5,7 @@ const status=document.querySelector('#status');
 let index=0,timer=0,run=0,starting=false,recording=false;
 let entrance=null;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-const glide='cubic-bezier(.2,.75,.3,1)';
-const entranceDuration=()=>reducedMotion.matches?0:Math.min(250,Number(pace.value)*.18);
+const entranceDuration=()=>reducedMotion.matches?0:Math.min(300,Number(pace.value)*.23);
 const measure=document.createElement('canvas').getContext('2d');
 function fit(){
   // One stable type size for the whole sentence; even Adventure fits the shot.
@@ -19,9 +18,11 @@ function enterWord(){
   entrance?.cancel();
   if(reducedMotion.matches)return;
   entrance=word.animate([
-    {transform:'translateY(.055em)',opacity:0},
-    {transform:'translateY(0)',opacity:1}
-  ],{duration:entranceDuration(),easing:glide});
+    {transform:'translateY(.07em) scale(.86)',offset:0,easing:'cubic-bezier(.2,.75,.3,1)'},
+    {transform:'translateY(-.018em) scale(1.045)',offset:.55,easing:'ease-in-out'},
+    {transform:'translateY(.006em) scale(.99)',offset:.82,easing:'ease-out'},
+    {transform:'translateY(0) scale(1)',offset:1}
+  ],{duration:entranceDuration(),easing:'linear'});
 }
 function show(i,animate=true){index=Math.max(0,Math.min(words.length-1,i));word.textContent=words[index];if(animate)enterWord();}
 function cancel(){clearTimeout(timer);entrance?.cancel();run++;starting=false;}
@@ -44,23 +45,13 @@ async function play(fullscreen=false){
     enterWord();
     // Reading time begins after the entrance settles, even at the quick pace.
     const hold=beat*[.3,.42,.16,.12,.65][index];
-    timer=setTimeout(async()=>{
+    const last=index===words.length-1;
+    timer=setTimeout(()=>{
       if(token!==run)return;
-      entrance?.cancel();
-      if(!reducedMotion.matches){
-        entrance=word.animate([
-          {transform:'translateY(0)',opacity:1},
-          {transform:'translateY(0)',opacity:0}
-        ],{duration:Math.min(110,beat*.08),easing:'linear',fill:'forwards'});
-        await entrance.finished.catch(()=>{});
-      }
-      if(token!==run)return;
-      document.body.classList.add('preparing');
-      entrance?.cancel();
-      const last=index===words.length-1;
+      // Replace on the same frame: solid words, no fade or blank between beats.
       show(last?0:index+1,false);
-      timer=setTimeout(advance,last?220:0);
-    },entranceDuration()+hold);
+      advance();
+    },entranceDuration()+hold+(last?220:0));
   };
   timer=setTimeout(advance,2000);
 }
