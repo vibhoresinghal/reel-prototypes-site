@@ -3,6 +3,8 @@ const word=document.querySelector('#word');
 const pace=document.querySelector('#pace');
 const status=document.querySelector('#status');
 let index=0,timer=0,run=0,starting=false,recording=false;
+let entrance=null;
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const measure=document.createElement('canvas').getContext('2d');
 function fit(){
   // One stable type size for the whole sentence; even Adventure fits the shot.
@@ -11,8 +13,17 @@ function fit(){
   const size=Math.min(innerWidth*.84/width*100,innerHeight*.39);
   word.style.fontSize=size+'px';
 }
-function show(i){index=Math.max(0,Math.min(words.length-1,i));word.textContent=words[index];}
-function cancel(){clearTimeout(timer);run++;starting=false;}
+function enterWord(){
+  entrance?.cancel();
+  if(reducedMotion.matches)return;
+  entrance=word.animate([
+    {transform:'translateY(.18em) scale(.97)',opacity:0},
+    {opacity:1,offset:.45},
+    {transform:'translateY(0) scale(1)',opacity:1}
+  ],{duration:Math.min(440,Number(pace.value)*.44),easing:'cubic-bezier(.16,1,.3,1)'});
+}
+function show(i,animate=true){index=Math.max(0,Math.min(words.length-1,i));word.textContent=words[index];if(animate)enterWord();}
+function cancel(){clearTimeout(timer);entrance?.cancel();run++;starting=false;}
 function controls(){cancel();recording=false;document.body.classList.remove('recording','preparing');}
 async function play(fullscreen=false){
   if(starting)return;
@@ -23,15 +34,16 @@ async function play(fullscreen=false){
   }
   await document.fonts.ready;
   if(token!==run)return;
-  starting=false;recording=true;fit();show(0);
+  starting=false;recording=true;fit();show(0,false);
   document.body.classList.add('recording','preparing');
   const beat=Number(pace.value);
   const advance=()=>{
     if(token!==run)return;
     document.body.classList.remove('preparing');
+    enterWord();
     if(index===words.length-1)return; // Hold the final word until the next take.
     const duration=beat*[1.1,1.3,.75,.65][index];
-    timer=setTimeout(()=>{show(index+1);advance();},duration);
+    timer=setTimeout(()=>{show(index+1,false);advance();},duration);
   };
   timer=setTimeout(advance,2000);
 }
@@ -49,4 +61,5 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('fullscreenchange',()=>{fit();if(!document.fullscreenElement)controls();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)controls();});
 document.addEventListener('pointerdown',e=>{if(recording&&e.target.closest('main'))play();});
-addEventListener('resize',fit);document.fonts.ready.then(fit);fit();
+reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches)entrance?.cancel();});
+addEventListener('resize',fit);document.fonts.ready.then(()=>{fit();if(!recording&&!starting)enterWord();});fit();
