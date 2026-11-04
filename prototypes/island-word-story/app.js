@@ -18,10 +18,9 @@ function enterWord(){
   entrance?.cancel();
   if(reducedMotion.matches)return;
   entrance=word.animate([
-    {transform:'translateY(.07em) scale(.86)',offset:0,easing:'cubic-bezier(.2,.75,.3,1)'},
-    {transform:'translateY(-.018em) scale(1.045)',offset:.55,easing:'ease-in-out'},
-    {transform:'translateY(.006em) scale(.99)',offset:.82,easing:'ease-out'},
-    {transform:'translateY(0) scale(1)',offset:1}
+    {transform:'translateY(.08em)',opacity:.92,offset:0,easing:'cubic-bezier(.22,.7,.35,1)'},
+    {transform:'translateY(-.004em)',opacity:1,offset:.78,easing:'ease-out'},
+    {transform:'translateY(0)',opacity:1,offset:1}
   ],{duration:entranceDuration(),easing:'linear'});
 }
 function show(i,animate=true){index=Math.max(0,Math.min(words.length-1,i));word.textContent=words[index];if(animate)enterWord();}
