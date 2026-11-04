@@ -708,5 +708,23 @@
       }
     ],
     "accentColor": "#218ba4"
+  },
+  {
+    "id": "island-word-story",
+    "title": "Island had to wait",
+    "description": "One word at a time. A fullscreen story for your camera.",
+    "source": "html",
+    "layout": "desktop",
+    "entry": "prototypes/island-word-story/index.html",
+    "width": 1440,
+    "height": 900,
+    "tags": [
+      "Video",
+      "Recording",
+      "Island",
+      "Typography"
+    ],
+    "accentColor": "#bc352b",
+    "thumbnail": "prototypes/island-word-story/preview.svg"
   }
 ]
