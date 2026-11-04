@@ -5,6 +5,8 @@ const status=document.querySelector('#status');
 let index=0,timer=0,run=0,starting=false,recording=false;
 let entrance=null;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+const glide='cubic-bezier(.37,0,.63,1)';
+const entranceDuration=()=>reducedMotion.matches?0:Math.min(720,Number(pace.value)*.58);
 const measure=document.createElement('canvas').getContext('2d');
 function fit(){
   // One stable type size for the whole sentence; even Adventure fits the shot.
@@ -17,10 +19,9 @@ function enterWord(){
   entrance?.cancel();
   if(reducedMotion.matches)return;
   entrance=word.animate([
-    {transform:'translateY(.18em) scale(.97)',opacity:0},
-    {opacity:1,offset:.45},
-    {transform:'translateY(0) scale(1)',opacity:1}
-  ],{duration:Math.min(440,Number(pace.value)*.44),easing:'cubic-bezier(.16,1,.3,1)'});
+    {transform:'translateY(.09em)',opacity:0},
+    {transform:'translateY(0)',opacity:1}
+  ],{duration:entranceDuration(),easing:glide});
 }
 function show(i,animate=true){index=Math.max(0,Math.min(words.length-1,i));word.textContent=words[index];if(animate)enterWord();}
 function cancel(){clearTimeout(timer);entrance?.cancel();run++;starting=false;}
@@ -41,9 +42,25 @@ async function play(fullscreen=false){
     if(token!==run)return;
     document.body.classList.remove('preparing');
     enterWord();
-    if(index===words.length-1)return; // Hold the final word until the next take.
-    const duration=beat*[1.1,1.3,.75,.65][index];
-    timer=setTimeout(()=>{show(index+1,false);advance();},duration);
+    // Reading time begins after the entrance settles, even at the quick pace.
+    const hold=beat*[.65,.85,.45,.35,1.6][index];
+    timer=setTimeout(async()=>{
+      if(token!==run)return;
+      entrance?.cancel();
+      if(!reducedMotion.matches){
+        entrance=word.animate([
+          {transform:'translateY(0)',opacity:1},
+          {transform:'translateY(-.035em)',opacity:0}
+        ],{duration:Math.min(300,beat*.26),easing:glide,fill:'forwards'});
+        await entrance.finished.catch(()=>{});
+      }
+      if(token!==run)return;
+      document.body.classList.add('preparing');
+      entrance?.cancel();
+      const last=index===words.length-1;
+      show(last?0:index+1,false);
+      timer=setTimeout(advance,last?450:80);
+    },entranceDuration()+hold);
   };
   timer=setTimeout(advance,2000);
 }
@@ -61,5 +78,5 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('fullscreenchange',()=>{fit();if(!document.fullscreenElement)controls();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)controls();});
 document.addEventListener('pointerdown',e=>{if(recording&&e.target.closest('main'))play();});
-reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches)entrance?.cancel();});
+reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches&&entrance?.playState==='running')entrance.finish();});
 addEventListener('resize',fit);document.fonts.ready.then(()=>{fit();if(!recording&&!starting)enterWord();});fit();
