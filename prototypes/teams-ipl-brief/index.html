@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ecebf5"><title>The IPL brief · Teams recording</title><meta name="description" content="A staged Teams message scene for a design case-study video."><link rel="preload" href="inter-regular.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="inter-semibold.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="style.css"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
+html body,html body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
+html body img,html body svg,html body a{-webkit-user-drag:none}
+html body input,html body textarea,html body [contenteditable]:not([contenteditable="false"]),html body [contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
+/* Reused home controls share one press treatment. Positioning transforms stay intact. */
+#phone :is(button,[role="button"]){scale:1}
+:is(.home,.fto-home,.psf-home,.attention-stage) button:active,#phone [role="button"]:active{filter:none}
+.fto-home-target:active,.home .home-anchors>button:active,.home .home-secondary>button:active{background:transparent!important}
+[data-home-press-visual]{scale:1!important;transform-origin:center;transition:scale 180ms cubic-bezier(.2,.8,.2,1)!important;-webkit-tap-highlight-color:transparent}
+[data-home-press-visual][data-home-pressed]{scale:.97!important;transition-duration:110ms!important}
+@media(prefers-reduced-motion:reduce){[data-home-press-visual]{transition:none!important}}
+
+.fto-home-offer:active .fto-home-offer-art{transform:none!important}
+
+/* Home offers settle on card edges for touch and shared mouse dragging. */
+[data-node-id="423:15372"]{scroll-snap-type:x mandatory;scroll-padding-inline:24px}
+[data-node-id="423:15373"]>div{scroll-snap-align:start;scroll-snap-stop:always}
+</style><script>(()=>{
+ const editable=target=>{
+  const element=target?.nodeType===3?target.parentElement:target;
+  return Boolean(element?.isContentEditable||element?.closest?.('input,textarea'));
+ };
+ for(const type of ['selectstart','dragstart'])document.addEventListener(type,event=>{
+  if(!editable(event.target))event.preventDefault();
+ },true);
+ document.addEventListener('keydown',event=>{
+  if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='a'&&!editable(event.target))event.preventDefault();
+ },true);
+})();
+(()=>{
+ let drag=null,blockClick=false;const settling=new Map();
+ const skip='input,textarea,select,[contenteditable="true"],[role="slider"],.attention-strip,.map-page,.swipe-button,[data-mouse-drag="off"]';
+ document.addEventListener('pointerdown',e=>{
+  blockClick=false;if(e.pointerType!=='mouse'||e.button!==0||e.target.closest(skip))return;
+  const candidates=[];for(let el=e.target;el;el=el.parentElement){const css=getComputedStyle(el);const doc=el===document.scrollingElement;
+   const x=el.scrollWidth>el.clientWidth+1&&/auto|scroll/.test(css.overflowX),y=el.scrollHeight>el.clientHeight+1&&(doc?!/hidden|clip/.test(css.overflowY):/auto|scroll/.test(css.overflowY));
+   if(x||y){const stop=settling.get(el);if(stop)stop();candidates.push({el,x,y});}
+  }
+  if(candidates.length)drag={id:e.pointerId,target:e.target,x:e.clientX,y:e.clientY,candidates,chosen:null};
+ });
+ window.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.chosen){if(Math.hypot(dx,dy)<5)return;
+   // Existing map, slider and sheet gestures retain ownership.
+   for(let el=drag.target;el;el=el.parentElement)if(el.hasPointerCapture?.(e.pointerId)){drag=null;return;}
+   const axis=Math.abs(dx)>Math.abs(dy)?'x':'y',c=drag.candidates.find(c=>c[axis]);if(!c){drag=null;return;}
+   drag.chosen=c.el;drag.axis=axis;drag.left=c.el.scrollLeft;drag.top=c.el.scrollTop;
+   drag.scale=c.el===document.scrollingElement?1:c.el.getBoundingClientRect().width/c.el.offsetWidth||1;
+   if(axis==='x'&&getComputedStyle(c.el).scrollSnapType!=='none'){drag.snap=c.el.style.scrollSnapType;c.el.style.scrollSnapType='none';}
+   drag.target.setPointerCapture(e.pointerId);blockClick=true;
+  }
+  e.preventDefault();if(drag.axis==='x')drag.chosen.scrollLeft=drag.left-dx/drag.scale;else drag.chosen.scrollTop=drag.top-dy/drag.scale;
+ },{passive:false});
+ const release=()=>{
+  const ended=drag;drag=null;
+  if(!ended?.chosen||ended.snap===undefined)return;
+  const el=ended.chosen,scale=ended.scale,padding=parseFloat(getComputedStyle(el).scrollPaddingLeft)||0;
+  const points=[...el.querySelectorAll('*')].filter(n=>getComputedStyle(n).scrollSnapAlign!=='none').map(n=>Math.max(0,Math.min(el.scrollWidth-el.clientWidth,el.scrollLeft+(n.getBoundingClientRect().left-el.getBoundingClientRect().left)/scale-padding)));
+  const target=points.sort((a,b)=>Math.abs(a-el.scrollLeft)-Math.abs(b-el.scrollLeft))[0];
+  const from=el.scrollLeft,start=performance.now();let frame;
+  const stop=()=>{cancelAnimationFrame(frame);el.style.scrollSnapType=ended.snap;settling.delete(el);};
+  if(target===undefined){stop();return;}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.scrollLeft=target;stop();return;}
+  const tick=now=>{const t=Math.min(1,(now-start)/360);el.scrollLeft=from+(target-from)*(1-Math.pow(1-t,3));if(t<1)frame=requestAnimationFrame(tick);else stop();};
+  settling.set(el,stop);frame=requestAnimationFrame(tick);
+ };window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
+ document.addEventListener('click',e=>{if(blockClick){blockClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
+})();
+
+(()=>{
+ const roots='#phone,.attention-stage,.psf-home,.fto-home,.home';
+ let held=null,pressedAt=0,releaseTimer;
+ function release(immediate=false){clearTimeout(releaseTimer);const remaining=100-(performance.now()-pressedAt);if(!immediate&&held&&remaining>0){releaseTimer=setTimeout(()=>release(true),remaining);return;}if(held)held.removeAttribute('data-home-pressed');held=null;}
+ function press(visual){release(true);if(!visual)return;visual.setAttribute('data-home-press-visual','');getComputedStyle(visual).scale;visual.setAttribute('data-home-pressed','');held=visual;pressedAt=performance.now();}
+ function at(node,x,y,padX=0,padBottom=0){if(!node)return false;const r=node.getBoundingClientRect();return r.width&&r.height&&x>=r.left-padX&&x<=r.right+padX&&y>=r.top-5&&y<=r.bottom+padBottom;}
+ function visualFor(event){const root=event.target.closest?.(roots);if(!root||root.closest('[inert]'))return null;
+  // Spotlights stay fixed while their original click actions and authored motion run.
+  if(root.matches('.home')&&event.target.closest('.hero-hit'))return null;
+  if(event.target.closest('[data-node-id="294:13867"]'))return null;
+  const {clientX:x,clientY:y}=event;
+  if(event.target.closest('.christmas-spotlight,.rakhi-overlay,.psf-home-spotlight'))return null;
+  if(root.matches('.attention-stage')&&at(root.querySelector('[data-node-id="423:14701"]'),x,y))return null;
+  if(root.matches('.psf-home')&&at(root.querySelector('.psf-home-spotlight'),x,y))return null;
+  if(root.matches('.fto-home')&&event.target.closest('[aria-label="Make a Payment"],[aria-label="Explore Cashpoints"]'))return null;
+  const ipl=root.querySelector('#stage[data-scene^="spotlight-"]');
+  if(ipl){
+   const base=ipl.querySelector('img.art');
+   if(base?.naturalWidth&&!ipl.querySelector('.ipl-home-tile')){
+    for(let i=0;i<8;i++){const sx=30+(i%4)*132,sy=i<4?366:615;
+     const cover=document.createElement('div');cover.className='ipl-home-tile-cover';Object.assign(cover.style,{position:'absolute',left:(sx/540*100)+'%',top:'calc('+(sy/540*100)+'cqw + var(--hero-extra, 0px))',width:(84/540*100)+'cqw',height:(84/540*100)+'cqw',background:'white',pointerEvents:'none'});
+     const visual=document.createElement('div');visual.className='ipl-home-tile';Object.assign(visual.style,{position:'absolute',inset:'0',overflow:'hidden'});
+     const image=base.cloneNode();image.removeAttribute('class');Object.assign(image.style,{position:'absolute',width:(540/84*100)+'%',maxWidth:'none',height:'auto',left:(-sx/84*100)+'%',top:(-sy/84*100)+'%',clipPath:'none'});visual.append(image);cover.append(visual);base.parentElement.append(cover);
+    }
+   }
+   if(event.target.closest('[aria-label="Open stadium scanner"]'))return ipl.querySelector('.ipl-home-tile');
+   const tile=[...ipl.querySelectorAll('.ipl-home-tile')].find(node=>at(node,x,y,10,40));if(tile)return tile;
+   if(event.target.closest('[aria-label="Explore IPL season"]'))return null;
+  }
+
+  // Original Figma tile boxes, exported composite tiles, and FTO replacement icons.
+  // Labels are separate siblings and are deliberately excluded from the animated box.
+  const tiles=[...root.querySelectorAll('[data-source-home-tile],[data-fto-icon],[data-node-id],[id]')].filter(node=>{
+   const s=getComputedStyle(node),w=parseFloat(s.width),h=parseFloat(s.height);
+   return s.display!=='contents'&&s.display!=='none'&&s.visibility==='visible'&&(([48,52].some(size=>Math.abs(w-size)<.5&&Math.abs(h-size)<.5))||(node.matches('[data-fto-icon]')&&Math.abs(w-56)<.5&&Math.abs(h-56)<.5))&&!node.querySelector('p');
+  });
+  const tile=tiles.find(node=>!tiles.some(other=>other!==node&&other.contains(node))&&at(node,x,y,12,40));if(tile)return tile;
+  const reminder=event.target.closest('[data-reminder]');if(reminder&&!event.target.closest('.reminder-close'))return reminder;
+  const hit=event.target.closest('button,[role="button"]');
+  if(root.matches('.home')){
+   if(hit?.matches('.offer-banner-hit'))return root.querySelector('[data-node-id="473:16818"]');
+  }
+  if(root.matches('.fto-home')){
+   if(hit?.getAttribute('aria-label')==='Zoomcar offer')return root.querySelector('[data-node-id="6898:24802"], [data-node-id="6797:46196"]');
+   if(hit?.classList.contains('fto-home-offer'))return hit;
+  }
+  if(root.matches('.attention-stage')){
+   for(const id of ['14910']){const art=root.querySelector('[data-node-id="423:'+id+'"]');if(art&&at(art,x,y))return art;}
+  }
+  return hit&&getComputedStyle(hit).display!=='contents'?hit:null;
+ }
+ document.addEventListener('pointerdown',event=>{if(event.button!==0)return;press(visualFor(event));},true);
+ document.addEventListener('pointerup',()=>release(),true);
+ document.addEventListener('pointercancel',()=>release(true),true);
+ window.addEventListener('blur',()=>release(true));
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)release(true);});
+})();
+</script><!--/prototype-interaction-guard--></head>
+<body>
+<div class="teams-window">
+  <header class="appbar"><div class="brand"><img src="teams.svg" alt=""><span>Microsoft Teams</span></div><div class="search"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><span>Search</span><kbd>Ctrl + E</kbd></div><div class="account"><span class="more"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis lucide-more-horizontal" aria-hidden="true"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></span><span class="initials me">VS<i></i></span></div></header>
+  <div class="workspace">
+    <nav class="rail" aria-label="Teams navigation"><div><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg><span>Activity</span></div><div class="active"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"></path></svg><span>Chat</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days" aria-hidden="true"><path d="M8 2v3"></path><path d="M16 2v3"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M8 13h.01"></path><path d="M12 13h.01"></path><path d="M16 13h.01"></path><path d="M8 17h.01"></path><path d="M12 17h.01"></path><path d="M16 17h.01"></path></svg><span>Calendar</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg><span>Calls</span></div><div><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-files" aria-hidden="true"><path d="M15 2h-4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8"></path><path d="M16.706 2.706A2.4 2.4 0 0 0 15 2v5a1 1 0 0 0 1 1h5a2.4 2.4 0 0 0-.706-1.706z"></path><path d="M5 7a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h8a2 2 0 0 0 1.732-1"></path></svg><span>Files</span></div><div class="rail-more"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis lucide-more-horizontal" aria-hidden="true"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></div><div class="rail-bottom"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg><span>Apps</span></div></nav>
+    <aside class="chats"><header><h1>Chat</h1><span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal" aria-hidden="true"><path d="M10 5H3"></path><path d="M12 19H3"></path><path d="M14 3v4"></path><path d="M16 17v4"></path><path d="M21 12h-9"></path><path d="M21 19h-5"></path><path d="M21 5h-7"></path><path d="M8 10v4"></path><path d="M8 12H3"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen lucide-pen-box lucide-edit lucide-pen-square" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path></svg></span></header><div class="filters"><span>Unread</span><span>Chats</span><span>Channels</span></div><div class="section-label"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Favourites</div><div class="chat-item selected"><span class="group-avatar small"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg></span><div><b>PayZapp Design</b><p id="chat-preview">You, Anoop, Simarpreet +2</p></div><span id="unread-dot" hidden></span></div><div class="section-label recent"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg> Chats</div><div class="chat-item"><span class="initials lilac">SK</span><div><b>Simarpreet Kaur</b><p>Design review</p></div></div><div class="chat-item"><span class="initials blue">VS</span><div><b>Vishnu Senthil</b><p>Shared files</p></div></div></aside>
+    <main class="conversation">
+      <header class="conversation-header"><span class="group-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg></span><div><h2>PayZapp Design</h2><p>Anoop, Simarpreet, Vishnu, Aro, you</p></div><div class="conversation-tools"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-video" aria-hidden="true"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path><rect x="2" y="6" width="14" height="12" rx="2"></rect></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg><span class="tool-divider"></span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis lucide-more-horizontal" aria-hidden="true"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></div></header>
+      <div class="tabs"><span class="tab-active">Chat</span><span>Shared</span><span>Notes</span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></div>
+      <section class="thread" aria-label="Design group messages"><div class="date-divider"><span>Today</span></div>
+        <div class="message-space">
+          <div class="group-intro"><span class="group-avatar large"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-palette" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg></span><h3>PayZapp Design</h3><p>5 members</p></div>
+          <div class="arrival-slot">
+            <div id="typing" hidden><img src="anoop.png" alt=""><div class="typing-bubble"><span></span><span></span><span></span></div><span>Anoop is typing</span></div>
+            <article id="message" hidden aria-label="Message from Anoop Sethumadhavan"><img class="sender-avatar" src="anoop.png" alt="Anoop Sethumadhavan"><div class="message-content"><header><strong>Anoop Sethumadhavan</strong><time>10:42 AM</time></header><div class="bubble"><p><span class="mention">@Vibhore</span>, please lead the<br class="wide-break"> <strong>IPL visual transformation</strong> for PayZapp.</p></div></div></article>
+          </div>
+        </div>
+      </section>
+      <footer class="composer"><div class="compose-box"><span>Type a message</span><div><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-case-sensitive" aria-hidden="true"><path d="m2 16 4.039-9.69a.5.5 0 0 1 .923 0L11 16"></path><path d="M22 9v7"></path><path d="M3.304 13h6.392"></path><circle cx="18.5" cy="12.5" r="3.5"></circle></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-face-slightly-smiling lucide-smile" aria-hidden="true"><path d="M15 10V9"></path><path d="M16.472 15a6 6 0 01-8.943 0"></path><path d="M9 10V9"></path><circle cx="12" cy="12" r="10"></circle></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paperclip" aria-hidden="true"><path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg><span class="compose-spacer"></span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg></div></div></footer>
+    </main>
+  </div>
+</div>
+<footer class="recording-controls"><a href="../../"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>All flows</a><span class="recording-label">The IPL brief <small>Staged recording</small></span><div><button id="focus" aria-pressed="false"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-scan" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path><path d="M17 3h2a2 2 0 0 1 2 2v2"></path><path d="M21 17v2a2 2 0 0 1-2 2h-2"></path><path d="M7 21H5a2 2 0 0 1-2-2v-2"></path></svg>Close-up</button><button id="replay"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>Replay</button><button id="record" class="primary"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-maximize" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M21 8V5a2 2 0 0 0-2-2h-3"></path><path d="M3 16v3a2 2 0 0 0 2 2h3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>Record fullscreen</button></div><p id="status" role="status">R replay · F fullscreen · Esc controls</p></footer>
+<script src="app.js"></script></body></html>

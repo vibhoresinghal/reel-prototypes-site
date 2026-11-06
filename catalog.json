@@ -726,5 +726,23 @@
     ],
     "accentColor": "#bc352b",
     "thumbnail": "prototypes/island-word-story/preview.svg"
+  },
+  {
+    "id": "teams-ipl-brief",
+    "title": "The IPL brief",
+    "description": "A message in the design group. The start of the IPL transformation.",
+    "source": "html",
+    "layout": "desktop",
+    "entry": "prototypes/teams-ipl-brief/index.html",
+    "width": 1440,
+    "height": 900,
+    "tags": [
+      "Teams",
+      "Video",
+      "IPL",
+      "Recording"
+    ],
+    "accentColor": "#6264a7",
+    "thumbnail": "prototypes/teams-ipl-brief/preview.svg"
   }
 ]
