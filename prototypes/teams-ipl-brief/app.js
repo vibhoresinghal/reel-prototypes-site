@@ -1,7 +1,9 @@
 const message=document.querySelector('#message'),slot=document.querySelector('.arrival-slot'),preview=document.querySelector('#chat-preview'),dot=document.querySelector('#unread-dot');
-const status=document.querySelector('#status');
+const status=document.querySelector('#status'),thread=document.querySelector('.thread'),history=document.querySelector('.message-space');
 let timers=[],generation=0,starting=false;
-let soundContext,arrivalMotion,scrollFrame;
+let soundContext;
+let arrivalMotions=[];
+const arrivalTiming={duration:560,easing:'cubic-bezier(.22,.61,.36,1)',fill:'both'};
 const voices=new Set();
 function prepareSound(){
   try{
@@ -32,29 +34,50 @@ function chime(){
     oscillator.start(at);oscillator.stop(at+.35);
   }
 }
-function scrollToLatest(){requestAnimationFrame(()=>{const thread=document.querySelector('.thread');thread.scrollTop=thread.scrollHeight;});}
-function cancel(){arrivalMotion?.cancel();cancelAnimationFrame(scrollFrame);timers.forEach(clearTimeout);timers=[];stopChime();generation++;starting=false;message.classList.remove('arriving');}
-function reset(){cancel();message.hidden=true;slot.hidden=true;dot.hidden=true;preview.textContent="You: Agreed. Let's keep it light…";scrollToLatest();}
+function finishArrival(){
+  const motions=arrivalMotions;
+  arrivalMotions=[];
+  for(const motion of motions){motion.onfinish=null;motion.cancel();}
+}
+function scrollToLatest(){
+  if(!arrivalMotions.length)thread.scrollTop=thread.scrollHeight;
+}
+function cancel(){
+  finishArrival();
+  timers.forEach(clearTimeout);timers=[];stopChime();generation++;starting=false;
+}
+function reset(){
+  cancel();message.hidden=true;slot.hidden=true;dot.hidden=true;
+  preview.textContent="You: Agreed. Let's keep it light...";
+  scrollToLatest();
+}
 function showMessage(notify=false){
+  finishArrival();
+  const previousScroll=thread.scrollTop;
   slot.hidden=false;message.hidden=false;
   preview.textContent='Anoop: @Vibhore, please lead...';dot.hidden=false;
-  if(notify){
-    message.classList.add('arriving');
-    if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
-      // Add space only on arrival, keeping the chat anchored to its newest message.
-      arrivalMotion=slot.animate([{height:'0px'},{height:slot.offsetHeight+'px'}],
-        {duration:440,easing:'cubic-bezier(.22,.61,.36,1)'});
-      const motion=arrivalMotion;
-      const follow=()=>{
-        const thread=document.querySelector('.thread');
-        thread.scrollTop=thread.scrollHeight;
-        if(motion.playState==='running')scrollFrame=requestAnimationFrame(follow);
-      };
-      follow();
-    }
-    chime();
-  }
   scrollToLatest();
+  if(!notify)return;
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // Commit the final layout once, then visually carry the entire conversation
+    // from its previous position. No growing clip or per-frame scroll writes.
+    const distance=thread.scrollTop-previousScroll;
+    const conversation=history.animate([
+      {transform:'translateY('+distance+'px)'},{transform:'translateY(0)'}
+    ],arrivalTiming);
+    const incoming=message.animate([
+      {transform:'translateY(12px)',opacity:.94},{transform:'translateY(0)',opacity:1}
+    ],arrivalTiming);
+    // Both effects use the exact same clock, duration and easing.
+    const start=document.timeline.currentTime;
+    conversation.startTime=start;incoming.startTime=start;
+    arrivalMotions=[conversation,incoming];
+    conversation.onfinish=()=>{
+      if(arrivalMotions[0]!==conversation)return;
+      finishArrival();scrollToLatest();
+    };
+  }
+  chime();
 }
 async function play(fullscreen=false){
   if(starting)return;
@@ -68,7 +91,7 @@ async function play(fullscreen=false){
   scrollToLatest();
   timers.push(setTimeout(()=>{if(token===generation)showMessage(true);},5000));
 }
-function restore(){cancel();document.body.classList.remove('recording');showMessage();message.classList.remove('arriving');status.textContent='5s lead-in · Sound on · R replay · Esc controls';}
+function restore(){cancel();document.body.classList.remove('recording');showMessage();status.textContent='5s lead-in · Sound on · R replay · Esc controls';}
 document.querySelector('#replay').addEventListener('click',()=>play());
 document.querySelector('#record').addEventListener('click',()=>play(true));
 document.addEventListener('keydown',e=>{
@@ -79,7 +102,6 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement)restore();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)restore();});
-document.addEventListener('animationend',e=>{if(e.target===message)message.classList.remove('arriving');});
-showMessage();message.classList.remove('arriving');
+showMessage();
 document.fonts.ready.then(scrollToLatest);
-addEventListener('resize',scrollToLatest);
+addEventListener('resize',()=>{finishArrival();scrollToLatest();});
