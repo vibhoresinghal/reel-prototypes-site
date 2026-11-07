@@ -1,5 +1,5 @@
-const enabledKey='payzapp-ipl-camera-enabled',zoomKey='payzapp-ipl-camera-zoom';
-let enabled=false,savedZoom=1;
+const enabledKey='payzapp-ipl-camera-enabled';
+let enabled=false;
 export function cameraPreferences(storage){
   if(storage===undefined)try{storage=globalThis.localStorage;}catch{storage=null;}
   const read=(key,fallback)=>{try{return storage?.getItem(key)??fallback;}catch{return fallback;}};
@@ -7,8 +7,6 @@ export function cameraPreferences(storage){
   return {
     enabled:()=>read(enabledKey,enabled?'yes':'no')==='yes',
     remember:value=>{enabled=value;write(enabledKey,value?'yes':null);},
-    zoom:()=>{const value=Number(read(zoomKey,savedZoom));return [1,2,3].includes(value)?value:1;},
-    saveZoom:value=>{if(![1,2,3].includes(value))return;savedZoom=value;write(zoomKey,String(value));}
   };
 }
 
