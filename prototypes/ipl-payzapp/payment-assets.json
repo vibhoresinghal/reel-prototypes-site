@@ -1,0 +1,19 @@
+{
+  "assets\\payment\\back.svg": "assets\\milestone\\2766-56066-1a15a.svg",
+  "assets\\payment\\help.svg": "assets\\milestone\\2766-56066-a0f9c.svg",
+  "assets\\payment\\bank.png": "assets\\milestone\\2766-56066-9c170.png",
+  "assets\\payment\\upi.png": "assets\\milestone\\2766-56066-c897a.png",
+  "assets\\payment\\chevron.svg": "assets\\milestone\\2766-56066-af39f.svg",
+  "assets\\payment\\received.svg": "assets\\milestone\\2766-56066-7b869.svg",
+  "assets\\payment\\sent.svg": "assets\\milestone\\2766-56066-53340.svg",
+  "assets\\payment\\balance.svg": "assets\\milestone\\2766-56066-4f024.svg",
+  "assets\\payment\\account.svg": "assets\\milestone\\2766-56066-5ecab.svg",
+  "assets\\payment\\confirm.svg": "assets\\milestone\\2766-56066-b855e.svg",
+  "assets\\payment\\delete.svg": "assets\\milestone\\2766-56066-958e1.svg",
+  "assets\\payment\\processing.gif": "assets\\milestone\\processing.gif",
+  "assets\\payment\\processing.png": "assets\\milestone\\processing.png",
+  "assets/payment/processing-glow.svg": "assets/milestone/2766-55870-a553f.svg",
+  "assets\\payment\\close.svg": "assets\\milestone\\4002-76176-e2b8e.svg",
+  "assets\\payment\\share.svg": "assets\\milestone\\4002-76176-ff8e6.svg",
+  "assets\\payment\\receipt-help.svg": "assets\\milestone\\4002-76176-5e486.svg"
+}
