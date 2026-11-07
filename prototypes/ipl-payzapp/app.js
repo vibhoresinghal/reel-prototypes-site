@@ -1,5 +1,5 @@
 import {mountPayment,formatAmount} from './payment.js';
-import {mountScannerCamera} from './camera.js';
+import {mountScannerCamera} from './scanner.js?v=remember-zoom-1';
 import {scenes} from './scenes.js?v=scan-payment-1';
 const $=s=>document.querySelector(s),stage=$('#stage'),select=$('#scene'),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const params=new URLSearchParams(location.search),embedded=params.get('embed')==='1'||(parent!==window&&params.get('hosted')!=='1');
