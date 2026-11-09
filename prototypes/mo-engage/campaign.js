@@ -124,7 +124,7 @@ function launchCampaign(){
    button.querySelector('.launch-announcement').textContent='Campaign launched';
   }
   // Let the green tick and confirmation settle in the button before moving on.
-  if(elapsed>=3200){launchTimer=null;launching=false;go(3);return;}
+  if(elapsed>=3400){launchTimer=null;launching=false;go(3);return;}
   launchTimer=setTimeout(tick,40);
  }
  launchTimer=setTimeout(tick,40);

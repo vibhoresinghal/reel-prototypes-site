@@ -125,8 +125,10 @@ body.campaign{font-family:Campaign Inter,Inter,Arial,sans-serif;font-size:14px;l
 .campaign #content #campaign-next[data-launch="idle"]:not(:disabled):hover{box-shadow:0 4px 12px #12889526}
 .campaign #content #campaign-next[data-launch="idle"]:not(:disabled):active{transform:scale(.975);background:#137e8b;box-shadow:inset 0 2px 4px #07525e22}
 .campaign #content #campaign-next[data-launch="loading"],.campaign #content #campaign-next[data-launch="success"]{opacity:1;cursor:default}
-.campaign #content #campaign-next[data-launch="success"]{background:#188765;border-color:#188765;box-shadow:0 3px 12px #1887651a}
-.launch-layers{display:grid;align-items:center;justify-items:center}
+.campaign #content #campaign-next[data-launch="success"]{border-color:#188765;box-shadow:0 3px 12px #1887651a}
+.campaign #content #campaign-next[data-launch]::before{content:"";position:absolute;inset:0 auto 0 0;width:calc(100% + 20px);background:linear-gradient(90deg,#188765 calc(100% - 20px),#18876500);transform:translateX(-100%);transition:transform 600ms cubic-bezier(.4,0,.2,1);pointer-events:none}
+.campaign #content #campaign-next[data-launch="success"]::before{transform:translateX(0)}
+.launch-layers{position:relative;z-index:1;display:grid;align-items:center;justify-items:center}
 .launch-label{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;opacity:0;transform:translateY(9px);transition:opacity 180ms ease,transform 300ms cubic-bezier(.22,.8,.3,1)}
 [data-launch="idle"] .launch-idle,[data-launch="loading"] .launch-loading,[data-launch="success"] .launch-done{opacity:1;transform:translateY(0)}
 [data-launch="loading"] .launch-idle,[data-launch="success"] .launch-loading,[data-launch="success"] .launch-idle{opacity:0;transform:translateY(-9px)}
@@ -134,12 +136,15 @@ body.campaign{font-family:Campaign Inter,Inter,Arial,sans-serif;font-size:14px;l
 [data-launch="loading"] .launch-spinner{animation-play-state:running}
 .launch-done svg{width:19px;height:19px}
 .launch-done svg path{stroke-dasharray:30;stroke-dashoffset:30}
-[data-launch="success"] .launch-done svg path{animation:launch-check 380ms 100ms cubic-bezier(.2,.7,.3,1) forwards}
+[data-launch="success"] .launch-done{transition-delay:180ms}
+[data-launch="success"] .launch-done svg path{animation:launch-check 380ms 260ms cubic-bezier(.2,.7,.3,1) forwards}
 .launch-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @keyframes launch-spin{to{transform:rotate(360deg)}}
 @keyframes launch-check{to{stroke-dashoffset:0}}
 @media(prefers-reduced-motion:reduce){
  .campaign #content #campaign-next[data-launch],.launch-label{transition:none;transform:none!important}
+ .campaign #content #campaign-next[data-launch]::before{transition:none}
+ .launch-label{transition-delay:0s!important}
  .launch-spinner{animation:none}
  [data-launch="success"] .launch-done svg path{animation:none;stroke-dashoffset:0}
 }

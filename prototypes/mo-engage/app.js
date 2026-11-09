@@ -1,4 +1,4 @@
-import {mountCampaign,leaveCampaign,resetCampaign} from './campaign.js?v=launch-2';
+import {mountCampaign,leaveCampaign,resetCampaign} from './campaign.js?v=launch-sweep-3';
 
 import {icons} from './icons.js';
 const content=document.querySelector('#content');
