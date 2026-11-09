@@ -517,43 +517,6 @@
     "accentColor": "#8f542b"
   },
   {
-    "id": "mo-engage",
-    "title": "Mo-engage flows for video",
-    "description": "Customer lifecycle stories. Built for the big screen.",
-    "source": "html",
-    "layout": "desktop",
-    "entry": "prototypes/mo-engage/index.html",
-    "width": 1440,
-    "height": 900,
-    "tags": [
-      "Analytics",
-      "Web",
-      "Video"
-    ],
-    "accentColor": "#2099a7",
-    "thumbnail": "prototypes/mo-engage/preview.svg",
-    "scenarios": [
-      {
-        "id": "decline",
-        "title": "Lifecycle overview",
-        "description": "Activation and retention decline across the user lifetime.",
-        "entry": "prototypes/mo-engage/index.html?scene=decline"
-      },
-      {
-        "id": "uplift",
-        "title": "Activation uplift",
-        "description": "A 4% relative increase in activation.",
-        "entry": "prototypes/mo-engage/index.html?scene=uplift"
-      },
-      {
-        "id": "campaign",
-        "title": "Create a campaign",
-        "description": "Upload creative assets, review and simulate a campaign launch.",
-        "entry": "prototypes/mo-engage/index.html?scene=campaign"
-      }
-    ]
-  },
-  {
     "id": "milestone-impact",
     "title": "The fifth payment",
     "description": "5% to 33%. The impact of milestone offers on early retention.",
@@ -744,5 +707,42 @@
       }
     ],
     "accentColor": "#319340"
+  },
+  {
+    "id": "mo-engage",
+    "title": "Mo-engage flows for video",
+    "description": "Customer lifecycle stories. Built for the big screen.",
+    "source": "html",
+    "layout": "desktop",
+    "entry": "prototypes/mo-engage/index.html",
+    "width": 1440,
+    "height": 900,
+    "tags": [
+      "Analytics",
+      "Web",
+      "Video"
+    ],
+    "accentColor": "#2099a7",
+    "thumbnail": "prototypes/mo-engage/preview.svg",
+    "scenarios": [
+      {
+        "id": "decline",
+        "title": "Lifecycle overview",
+        "description": "Activation and retention decline across the user lifetime.",
+        "entry": "prototypes/mo-engage/index.html?scene=decline"
+      },
+      {
+        "id": "uplift",
+        "title": "Activation uplift",
+        "description": "A 4% relative increase in activation.",
+        "entry": "prototypes/mo-engage/index.html?scene=uplift"
+      },
+      {
+        "id": "campaign",
+        "title": "Create a campaign",
+        "description": "Upload creative assets, review and simulate a campaign launch.",
+        "entry": "prototypes/mo-engage/index.html?scene=campaign"
+      }
+    ]
   }
 ]

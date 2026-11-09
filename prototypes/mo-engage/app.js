@@ -1,4 +1,4 @@
-import {mountCampaign,leaveCampaign,resetCampaign} from './campaign.js';
+import {mountCampaign,leaveCampaign,resetCampaign} from './campaign.js?v=json-1';
 
 import {icons} from './icons.js';
 const content=document.querySelector('#content');
