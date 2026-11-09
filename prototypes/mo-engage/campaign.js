@@ -96,11 +96,39 @@ function updateProgress(){
 
  const next=root.querySelector('#campaign-next');
 
- if(next){next.disabled=launching||!canReview(assets);next.firstChild.textContent=launching?'Launching demo…':'Launch campaign';}
+ if(next)next.disabled=launching||!canReview(assets);
 
 }
 
 
+
+// Keep one button mounted throughout the launch, so its width and press feedback never jump.
+function launchButton(){
+ return '<span class="launch-layers" aria-hidden="true"><span class="launch-label launch-idle">Launch campaign'+icon('rocket')+'</span><span class="launch-label launch-loading"><span class="launch-spinner"></span>Launching…</span><span class="launch-label launch-done">'+icon('check')+'Campaign launched</span></span><span class="launch-announcement" role="status" aria-live="polite"></span>';
+}
+
+function launchCampaign(){
+ if(launching||!root||!canReview(assets))return;
+ const target=root,button=target.querySelector('#campaign-next'),token=transition;
+ launching=true;
+ target.querySelectorAll('button,input,select').forEach(el=>el.disabled=true);
+ button.dataset.launch='loading';button.setAttribute('aria-busy','true');button.setAttribute('aria-label','Launching campaign');
+ button.querySelector('.launch-announcement').textContent='Launching campaign';
+ if(!reduced())button.animate([{transform:'scale(.975)'},{transform:'scale(1)'}],{duration:240,easing:'cubic-bezier(.22,.8,.3,1)'});
+ let elapsed=0,last=performance.now(),complete=false;
+ function tick(){
+  if(root!==target||transition!==token||!launching)return;
+  const now=performance.now();if(!document.hidden)elapsed+=Math.min(now-last,100);last=now;
+  if(elapsed>=1800&&!complete){
+   complete=true;button.dataset.launch='success';button.setAttribute('aria-busy','false');button.setAttribute('aria-label','Campaign launched');
+   button.querySelector('.launch-announcement').textContent='Campaign launched';
+  }
+  // Let the green tick and confirmation settle in the button before moving on.
+  if(elapsed>=3200){launchTimer=null;launching=false;go(3);return;}
+  launchTimer=setTimeout(tick,40);
+ }
+ launchTimer=setTimeout(tick,40);
+}
 
 export function leaveCampaign(){transition++;if(root){root.inert=false;root.getAnimations().forEach(a=>a.cancel());}root=null;if(launchTimer){clearTimeout(launchTimer);launchTimer=null;launching=false;}}
 
@@ -110,7 +138,7 @@ export function mountCampaign(target){root=target;draw();}
 
 const bytes=n=>n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
 
-function add(files){const previousHeight=root?.querySelector('#dropzone')?.getBoundingClientRect().height;errors=[];for(const f of files){const error=fileError(f,assets);if(error){errors.push(f.name+': '+error);continue;}const isImage=/\.(png|jpe?g|webp|gif)$/i.test(f.name);const a={id:++serial,name:f.name,size:f.size,image:isImage,url:URL.createObjectURL(f),blob:true,ready:false};assets.push(a);prepare(a);}drawUploadChange(previousHeight);}
+function add(files){if(launching)return;const previousHeight=root?.querySelector('#dropzone')?.getBoundingClientRect().height;errors=[];for(const f of files){const error=fileError(f,assets);if(error){errors.push(f.name+': '+error);continue;}const isImage=/\.(png|jpe?g|webp|gif)$/i.test(f.name);const a={id:++serial,name:f.name,size:f.size,image:isImage,url:URL.createObjectURL(f),blob:true,ready:false};assets.push(a);prepare(a);}drawUploadChange(previousHeight);}
 
 function sample(){const previousHeight=root?.querySelector('#dropzone')?.getBoundingClientRect().height;errors=[];if(assets.some(a=>a.sample))return;if(assets.length>=8){errors=['You can add up to 8 assets.'];draw();return;}const a={id:++serial,name:'welcome-to-your-next.png',size:184320,image:true,url:'campaign-art.svg',sample:true,ready:false};assets.push(a);drawUploadChange(previousHeight);prepare(a);}
 
@@ -146,7 +174,7 @@ function draw(){
 
  '<div class="panel-heading upload-heading"><h2>Creative assets</h2></div><div id="dropzone" class="dropzone"><span class="upload-icon" aria-hidden="true">'+icon('cloud-upload')+'</span><h3>Upload files</h3><button class="button primary" id="browse">Choose files</button><p id="upload-help">Images, documents or JSON · Up to 10 MB each</p><input type="file" id="asset-files" multiple accept=".png,.jpg,.jpeg,.webp,.gif,.pdf,.doc,.docx,.json" aria-describedby="upload-help" hidden></div><div class="upload-under"><span>'+icon('shield-check')+'Files stay on this device</span><button class="text-button" id="sample" '+(assets.some(a=>a.sample)?'disabled':'')+'>'+icon(assets.some(a=>a.sample)?'check':'plus')+(assets.some(a=>a.sample)?'Sample added':'Use sample creative')+'</button></div><div class="upload-errors" role="alert">'+errors.map(e=>'<p>'+esc(e)+'</p>').join('')+'</div>'+(assets.length?'<div class="assets-heading"><strong id="upload-status">Uploading files</strong><span>'+assets.length+' / 8 files</span></div><div class="asset-list">'+rows()+'</div>':''))+
 
- '<div class="campaign-actions"><button id="campaign-back" class="button" '+(step===0||launching?'disabled':'')+'>'+icon('arrow-left')+'Back</button><span class="action-spacer" aria-hidden="true"></span><button id="campaign-next" class="button primary" '+(step===1&&!canReview(assets)||launching?'disabled':'')+'>'+(launching?'Launching demo…':step===0?'Continue to assets':'Launch campaign')+icon(step===1?'rocket':'arrow-right')+'</button></div></section><aside class="creative-sidebar"><div class="preview-label">'+icon('image')+'Creative preview<span>'+esc(channel)+'</span></div>'+preview()+'<div class="preview-advice">'+icon('sparkles')+'<div><strong>Good creative starts a conversation.</strong><p>Keep the message clear, the visual memorable, and the next step simple.</p></div></div><p class="local-note">Illustrative message preview. Documents are attached assets and are not rendered here.</p></aside></div>';
+ '<div class="campaign-actions"><button id="campaign-back" class="button" '+(step===0||launching?'disabled':'')+'>'+icon('arrow-left')+'Back</button><span class="action-spacer" aria-hidden="true"></span><button id="campaign-next" class="button primary" '+(step===1?'data-launch="idle" aria-label="Launch campaign" ':'')+(step===1&&!canReview(assets)||launching?'disabled':'')+'>'+(step===1?launchButton():'Continue to assets'+icon('arrow-right'))+'</button></div></section><aside class="creative-sidebar"><div class="preview-label">'+icon('image')+'Creative preview<span>'+esc(channel)+'</span></div>'+preview()+'<div class="preview-advice">'+icon('sparkles')+'<div><strong>Good creative starts a conversation.</strong><p>Keep the message clear, the visual memorable, and the next step simple.</p></div></div><p class="local-note">Illustrative message preview. Documents are attached assets and are not rendered here.</p></aside></div>';
 
  root.querySelectorAll('h2').forEach(h=>h.tabIndex=-1);
 
@@ -156,7 +184,7 @@ function draw(){
  root.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>go(+b.dataset.step));
  root.querySelector('#campaign-back').onclick=()=>{if(launching)return;errors=[];go(step-1);};
 
- root.querySelector('#campaign-next').onclick=()=>{if(step===0){const input=root.querySelector('#campaign-name');name=input.value.trim();if(!name){input.setCustomValidity('Enter a campaign name.');input.reportValidity();return;}go(1);}else if(step===1&&!launching&&canReview(assets)){launching=true;draw();launchTimer=setTimeout(()=>{launching=false;launchTimer=null;go(3);},1800);}};
+ root.querySelector('#campaign-next').onclick=()=>{if(step===0){const input=root.querySelector('#campaign-name');name=input.value.trim();if(!name){input.setCustomValidity('Enter a campaign name.');input.reportValidity();return;}go(1);}else if(step===1)launchCampaign();};
 
  root.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{if(launching)return;errors=[];const previousHeight=root.querySelector('#dropzone')?.getBoundingClientRect().height;const a=assets.find(a=>a.id===+b.dataset.remove);if(a?.blob)URL.revokeObjectURL(a.url);assets=assets.filter(a=>a!==a);if(step===2&&!assets.length)step=1;if(step===1)drawUploadChange(previousHeight);else draw();});
 
