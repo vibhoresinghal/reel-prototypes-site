@@ -3,11 +3,12 @@ import {exampleCode,highlight,advancePosition} from './model.js';
 const $=id=>document.getElementById(id);
 document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=icons[el.dataset.icon]||'');
 const workspace=$('workspace'),viewport=$('code-viewport'),code=$('code');
-const defaults={size:20,speed:65,length:64,palette:'mint',accent:'#8ee5be',ink:'#e0e4e8',background:'#151719',delay:2,loop:true,filename:'MilestoneJourney.tsx',prompt:$('prompt').value,'custom-code':''};
+const defaults={view:'code',size:26,speed:65,length:64,palette:'mint',accent:'#8ee5be',ink:'#e0e4e8',background:'#151719',delay:2,loop:true,filename:'MilestoneJourney.tsx',prompt:$('prompt').value,'custom-code':''};
 const palettes={mint:['#8ee5be','#e0e4e8','#151719','#1c1e20','#191b1d','#8e969e','#ffffff13','#c8b3ef','#a8d6b4','#e9c38d','#7b8791'],violet:['#c6adff','#e8e3f1','#191620','#211d29','#1d1925','#9d92ac','#ffffff14','#b9bdff','#a8d3c0','#e6bd91','#8a819a'],amber:['#efc27e','#eee5d6','#1c1915','#25211b','#211d18','#a69a88','#ffffff14','#d5b4e8','#c6cf9a','#e6a582','#938675'],light:['#247b5b','#26362e','#fafbf8','#f0f2ec','#f5f6f1','#728075','#1b302b18','#7956a1','#3f7751','#a06825','#8b968d']};
 const vars=['accent','ink','editor','chrome','panel','muted','border','keyword','string','number','comment'];
 let settings={...defaults};try{const saved=JSON.parse(localStorage.getItem('codex-code-studio')||'{}');for(const key of Object.keys(defaults))if(typeof saved[key]===typeof defaults[key])settings[key]=saved[key];}catch{}
-for(const [key,min,max] of [['size',12,34],['speed',15,200],['length',48,160],['delay',0,5]])settings[key]=Math.max(min,Math.min(max,settings[key]));
+for(const [key,min,max] of [['size',12,48],['speed',15,200],['length',48,160],['delay',0,5]])settings[key]=Math.max(min,Math.min(max,settings[key]));
+if(!['code','workspace'].includes(settings.view))settings.view='code';
 if(!palettes[settings.palette])settings.palette='mint';
 for(const key of ['accent','ink','background'])if(!/^#[0-9a-f]{6}$/i.test(settings[key]))settings[key]=defaults[key];
 settings['custom-code']=settings['custom-code'].slice(0,24000);settings.prompt=settings.prompt.slice(0,400);settings.filename=settings.filename.slice(0,60);
@@ -16,6 +17,7 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const active=()=>['lead','typing','hold'].includes(phase);
 function save(){try{localStorage.setItem('codex-code-studio',JSON.stringify(settings));}catch{}}
 function appearance(){
+ workspace.dataset.view=settings.view;
  vars.forEach((v,i)=>workspace.style.setProperty('--'+v,palettes[settings.palette][i]));
  workspace.style.setProperty('--accent',settings.accent);workspace.style.setProperty('--ink',settings.ink);workspace.style.setProperty('--editor',settings.background);workspace.style.setProperty('--font-size',settings.size+'px');document.body.style.setProperty('--record-bg',settings.background);
  for(const key of ['size','speed','length'])$(key+'-value').textContent=settings[key]+(key==='size'?' px':key==='speed'?' chars/s':' lines');
@@ -45,14 +47,15 @@ function render(){
  }
  const current=rows.at(-1);current.classList.add('current');const caret=document.createElement('span');caret.className='caret';current.lastElementChild.append(caret);
  $('line-count').textContent='+'+(position?lines.length:0);$('position').textContent='Ln '+lines.length+', Col '+(lines.at(-1).length+1);$('progress').style.width=100*position/source.length+'%';
- targetScroll=Math.max(0,Math.min(viewport.scrollHeight-viewport.clientHeight,(lines.length-1)*settings.size*1.7-viewport.clientHeight*.62));rendered=position;
+ targetScroll=Math.max(0,Math.min(viewport.scrollHeight-viewport.clientHeight,current.offsetTop-code.offsetTop+parseFloat(getComputedStyle(viewport).paddingTop)-viewport.clientHeight*.62));rendered=position;
 }
 function prepare(){request++;source=settings['custom-code'].trim()?settings['custom-code'].replace(/\r\n?/g,'\n'):exampleCode(settings.length);empty();setState('ready');appearance();position=Math.min(source.length,source.split('\n').slice(0,14).join('\n').length);render();$('progress').style.width='0%';}
 function begin(){empty();elapsed=0;leadDelay=settings.delay*1000;setState(leadDelay?'lead':'typing');render();}
-async function start(fullscreen=false){
+async function start(fullscreen=false,clean=false){
  const token=++request;$('notice').textContent='';
- if(fullscreen){try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen({navigationUI:'hide'});}catch{$('notice').textContent='Fullscreen is unavailable here. Open this flow in its own tab, or use Preview.';return;}if(token!==request)return;document.body.classList.add('recording');}
- await document.fonts.ready;if(token!==request)return;begin();
+ if(fullscreen){try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen({navigationUI:'hide'});}catch{$('notice').textContent='Browser fullscreen was unavailable. The clean view still works; press Esc to return to controls.';}if(token!==request)return;document.body.classList.add('recording');}
+ if(clean)document.body.classList.add('recording');
+ await document.fonts.ready;if(token!==request)return;rendered=-1;begin();
 }
 function pause(){if(phase==='paused'){setState(beforePause);return;}if(active()){beforePause=phase;setState('paused');}else start();}
 function exitRecording(){request++;document.body.classList.remove('recording');if(active()){beforePause=phase;setState('paused');}}
@@ -75,9 +78,9 @@ for(const key of Object.keys(defaults))$(key).addEventListener('input',()=>{
  const el=$(key);settings[key]=key==='loop'?el.checked:typeof defaults[key]==='number'?Number(el.value):el.value;
  if(key==='palette'){[settings.accent,settings.ink,settings.background]=palettes[settings.palette];controlsFromSettings();}
  if(['length','custom-code'].includes(key))prepare();else appearance();
- if(key==='size'){rendered=-1;render();}save();
+ if(key==='size'||key==='view'){rendered=-1;render();}save();
 });
-$('play').onclick=pause;$('restart').onclick=()=>start();$('record').onclick=()=>start(true);
+$('play').onclick=pause;$('restart').onclick=()=>start();$('record').onclick=()=>start(true);$('clean-preview').onclick=()=>start(false,true);
 $('reset').onclick=()=>{settings={...defaults};controlsFromSettings();prepare();save();};
 document.addEventListener('keydown',event=>{
  if(event.target.closest('input,textarea,select,summary')||event.ctrlKey||event.metaKey||event.altKey||event.repeat)return;

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151719"><title>Code in motion · Codex recording</title><link rel="stylesheet" href="style.css?v=1"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151719"><title>Code in motion · Codex recording</title><link rel="stylesheet" href="style.css?v=code-only-2"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
 html body,html body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
 html body img,html body svg,html body a{-webkit-user-drag:none}
 html body input,html body textarea,html body [contenteditable]:not([contenteditable="false"]),html body [contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
@@ -130,7 +130,7 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
 <body>
 <header class="studio-bar setup"><a href="../../" class="back"><i data-icon="ArrowLeft"></i>All flows</a><div><strong>Code in motion</strong><span>A coding scene, ready for your camera.</span></div><button id="record" class="primary"><i data-icon="Maximize"></i>Record fullscreen</button></header>
 <main class="studio">
-<section id="workspace" class="workspace" aria-label="Codex coding scene">
+<section id="workspace" class="workspace" data-view="code" aria-label="Code generation scene">
  <header class="workspace-bar"><div class="brand"><i data-icon="Code2"></i><strong>Codex</strong></div><div class="breadcrumb">payzapp <i data-icon="ChevronRight"></i><span>Milestone rewards</span></div><span class="branch"><i data-icon="GitBranch"></i>feature / rewards</span></header>
  <div class="workspace-body">
   <aside class="conversation">
@@ -152,8 +152,10 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
 </section>
 <aside class="controls setup" aria-label="Recording controls">
  <div class="controls-title"><i data-icon="SlidersHorizontal"></i><h2>Set up your shot</h2></div>
+ <label class="view-label" for="view">Recording view</label><select id="view"><option value="code">Code only</option><option value="workspace">Workspace</option></select>
  <div class="playback"><button id="play" class="primary"><i data-icon="Play"></i><span>Preview</span></button><button id="restart" class="icon-button" aria-label="Restart generation"><i data-icon="RotateCcw"></i></button></div>
- <label class="range-label" for="size">Text size <output id="size-value">20 px</output></label><input id="size" type="range" min="12" max="34" step="1" value="20">
+ <button id="clean-preview" class="clean-preview">Hide controls</button>
+ <label class="range-label" for="size">Text size <output id="size-value">26 px</output></label><input id="size" type="range" min="12" max="48" step="1" value="26">
  <label class="range-label" for="speed">Generation speed <output id="speed-value">65 chars/s</output></label><input id="speed" type="range" min="15" max="200" step="5" value="65">
  <label class="range-label" for="length">Code length <output id="length-value">64 lines</output></label><input id="length" type="range" min="48" max="160" step="8" value="64">
  <div class="length-note" id="duration-note"></div>
@@ -163,7 +165,7 @@ html body input,html body textarea,html body [contenteditable]:not([contentedita
  <details><summary>Your own content</summary><label for="filename">File name</label><input id="filename" type="text" maxlength="60" value="MilestoneJourney.tsx"><label for="prompt">Task prompt</label><textarea id="prompt" rows="3" maxlength="400">Build a milestone rewards journey. Make the progress feel smooth and celebrate each payment.</textarea><label for="custom-code">Code to reveal</label><textarea id="custom-code" rows="6" maxlength="24000" spellcheck="false" placeholder="Paste your code, or leave empty for the rewards example."></textarea><small>Displayed as text only. Never executed.</small></details>
  <button id="reset" class="reset">Reset settings</button>
  <p class="shortcuts"><kbd>R</kbd> replay <kbd>Space</kbd> pause <kbd>F</kbd> fullscreen<br><kbd>Esc</kbd> show controls</p>
- <p class="simulation">Staged Codex-style scene for recording. No live AI request.</p><p id="notice" role="status"></p>
+ <p class="simulation">Staged code generation for recording. No live AI request.</p><p id="notice" role="status"></p>
 </aside>
-</main><script type="module" src="app.js?v=1"></script></body></html>
+</main><script type="module" src="app.js?v=code-only-2"></script></body></html>
 

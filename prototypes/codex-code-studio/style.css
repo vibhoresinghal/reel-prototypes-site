@@ -10,3 +10,17 @@ body.recording{background:var(--record-bg,#151719);overflow:hidden;cursor:none}b
 @media(max-height:760px){.section-label{margin-top:24px}.conversation h1{margin-bottom:16px}.reply{margin-top:18px}.task-progress{margin-top:18px}.composer{display:none}}
 @media(max-width:800px){.studio{display:flex;flex-direction:column}.workspace{width:100%;height:65dvh;min-height:420px}.controls{width:100%;max-height:none}.conversation{display:none}.workspace-body,body.recording .workspace-body{grid-template-columns:1fr}.studio-bar{padding:0 18px;gap:12px}.studio-bar>div>span,.back{display:none}.studio-bar strong{font-size:16px}.workspace-bar{padding:0 15px}.breadcrumb{font-size:10px}.editor-footer{gap:12px}.controls{display:block}.encoding{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* Clean close-up: the entire surface belongs to the generated code. */
+.workspace[data-view="code"] .workspace-bar,.workspace[data-view="code"] .conversation,.workspace[data-view="code"] .editor-tabs,.workspace[data-view="code"] .editor-path,.workspace[data-view="code"] .editor-footer{display:none}
+.workspace[data-view="code"] .workspace-body,body.recording .workspace[data-view="code"] .workspace-body{grid-template-columns:minmax(0,1fr)}
+.workspace[data-view="code"] .code-viewport,body.recording .workspace[data-view="code"] .code-viewport{padding:clamp(28px,5vh,64px) clamp(24px,4vw,72px) 30vh}
+.workspace[data-view="code"] .line-number{display:none}
+.workspace[data-view="code"] .code-line.current{background:none}
+.workspace[data-view="code"] .code-line{padding-right:0}
+.workspace[data-view="code"] .code{min-width:0}
+.workspace[data-view="code"] .line-text{white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+.controls .view-label{margin-top:0}
+#view{margin-bottom:16px}
+.controls .playback{margin-bottom:8px}
+.clean-preview{width:100%;font-size:11px;margin-bottom:10px;background:transparent;color:#526b59}
