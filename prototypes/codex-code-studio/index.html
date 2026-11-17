@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#151719"><title>Code in motion · Codex recording</title><link rel="stylesheet" href="style.css?v=1"><!--prototype-interaction-guard--><style>/* Prototype surfaces behave like an app; editable fields retain native editing. */
+html body,html body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
+html body img,html body svg,html body a{-webkit-user-drag:none}
+html body input,html body textarea,html body [contenteditable]:not([contenteditable="false"]),html body [contenteditable]:not([contenteditable="false"]) *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
+/* Reused home controls share one press treatment. Positioning transforms stay intact. */
+#phone :is(button,[role="button"]){scale:1}
+:is(.home,.fto-home,.psf-home,.attention-stage) button:active,#phone [role="button"]:active{filter:none}
+.fto-home-target:active,.home .home-anchors>button:active,.home .home-secondary>button:active{background:transparent!important}
+[data-home-press-visual]{scale:1!important;transform-origin:center;transition:scale 180ms cubic-bezier(.2,.8,.2,1)!important;-webkit-tap-highlight-color:transparent}
+[data-home-press-visual][data-home-pressed]{scale:.97!important;transition-duration:110ms!important}
+@media(prefers-reduced-motion:reduce){[data-home-press-visual]{transition:none!important}}
+
+.fto-home-offer:active .fto-home-offer-art{transform:none!important}
+
+/* Home offers settle on card edges for touch and shared mouse dragging. */
+[data-node-id="423:15372"]{scroll-snap-type:x mandatory;scroll-padding-inline:24px}
+[data-node-id="423:15373"]>div{scroll-snap-align:start;scroll-snap-stop:always}
+</style><script>(()=>{
+ const editable=target=>{
+  const element=target?.nodeType===3?target.parentElement:target;
+  return Boolean(element?.isContentEditable||element?.closest?.('input,textarea'));
+ };
+ for(const type of ['selectstart','dragstart'])document.addEventListener(type,event=>{
+  if(!editable(event.target))event.preventDefault();
+ },true);
+ document.addEventListener('keydown',event=>{
+  if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='a'&&!editable(event.target))event.preventDefault();
+ },true);
+})();
+(()=>{
+ let drag=null,blockClick=false;const settling=new Map();
+ const skip='input,textarea,select,[contenteditable="true"],[role="slider"],.attention-strip,.map-page,.swipe-button,[data-mouse-drag="off"]';
+ document.addEventListener('pointerdown',e=>{
+  blockClick=false;if(e.pointerType!=='mouse'||e.button!==0||e.target.closest(skip))return;
+  const candidates=[];for(let el=e.target;el;el=el.parentElement){const css=getComputedStyle(el);const doc=el===document.scrollingElement;
+   const x=el.scrollWidth>el.clientWidth+1&&/auto|scroll/.test(css.overflowX),y=el.scrollHeight>el.clientHeight+1&&(doc?!/hidden|clip/.test(css.overflowY):/auto|scroll/.test(css.overflowY));
+   if(x||y){const stop=settling.get(el);if(stop)stop();candidates.push({el,x,y});}
+  }
+  if(candidates.length)drag={id:e.pointerId,target:e.target,x:e.clientX,y:e.clientY,candidates,chosen:null};
+ });
+ window.addEventListener('pointermove',e=>{
+  if(!drag||e.pointerId!==drag.id)return;
+  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+  if(!drag.chosen){if(Math.hypot(dx,dy)<5)return;
+   // Existing map, slider and sheet gestures retain ownership.
+   for(let el=drag.target;el;el=el.parentElement)if(el.hasPointerCapture?.(e.pointerId)){drag=null;return;}
+   const axis=Math.abs(dx)>Math.abs(dy)?'x':'y',c=drag.candidates.find(c=>c[axis]);if(!c){drag=null;return;}
+   drag.chosen=c.el;drag.axis=axis;drag.left=c.el.scrollLeft;drag.top=c.el.scrollTop;
+   drag.scale=c.el===document.scrollingElement?1:c.el.getBoundingClientRect().width/c.el.offsetWidth||1;
+   if(axis==='x'&&getComputedStyle(c.el).scrollSnapType!=='none'){drag.snap=c.el.style.scrollSnapType;c.el.style.scrollSnapType='none';}
+   drag.target.setPointerCapture(e.pointerId);blockClick=true;
+  }
+  e.preventDefault();if(drag.axis==='x')drag.chosen.scrollLeft=drag.left-dx/drag.scale;else drag.chosen.scrollTop=drag.top-dy/drag.scale;
+ },{passive:false});
+ const release=()=>{
+  const ended=drag;drag=null;
+  if(!ended?.chosen||ended.snap===undefined)return;
+  const el=ended.chosen,scale=ended.scale,padding=parseFloat(getComputedStyle(el).scrollPaddingLeft)||0;
+  const points=[...el.querySelectorAll('*')].filter(n=>getComputedStyle(n).scrollSnapAlign!=='none').map(n=>Math.max(0,Math.min(el.scrollWidth-el.clientWidth,el.scrollLeft+(n.getBoundingClientRect().left-el.getBoundingClientRect().left)/scale-padding)));
+  const target=points.sort((a,b)=>Math.abs(a-el.scrollLeft)-Math.abs(b-el.scrollLeft))[0];
+  const from=el.scrollLeft,start=performance.now();let frame;
+  const stop=()=>{cancelAnimationFrame(frame);el.style.scrollSnapType=ended.snap;settling.delete(el);};
+  if(target===undefined){stop();return;}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.scrollLeft=target;stop();return;}
+  const tick=now=>{const t=Math.min(1,(now-start)/360);el.scrollLeft=from+(target-from)*(1-Math.pow(1-t,3));if(t<1)frame=requestAnimationFrame(tick);else stop();};
+  settling.set(el,stop);frame=requestAnimationFrame(tick);
+ };window.addEventListener('pointerup',release);window.addEventListener('pointercancel',release);window.addEventListener('blur',release);
+ document.addEventListener('click',e=>{if(blockClick){blockClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
+})();
+
+(()=>{
+ const roots='#phone,.attention-stage,.psf-home,.fto-home,.home';
+ let held=null,pressedAt=0,releaseTimer;
+ function release(immediate=false){clearTimeout(releaseTimer);const remaining=100-(performance.now()-pressedAt);if(!immediate&&held&&remaining>0){releaseTimer=setTimeout(()=>release(true),remaining);return;}if(held)held.removeAttribute('data-home-pressed');held=null;}
+ function press(visual){release(true);if(!visual)return;visual.setAttribute('data-home-press-visual','');getComputedStyle(visual).scale;visual.setAttribute('data-home-pressed','');held=visual;pressedAt=performance.now();}
+ function at(node,x,y,padX=0,padBottom=0){if(!node)return false;const r=node.getBoundingClientRect();return r.width&&r.height&&x>=r.left-padX&&x<=r.right+padX&&y>=r.top-5&&y<=r.bottom+padBottom;}
+ function visualFor(event){const root=event.target.closest?.(roots);if(!root||root.closest('[inert]'))return null;
+  // Spotlights stay fixed while their original click actions and authored motion run.
+  if(root.matches('.home')&&event.target.closest('.hero-hit'))return null;
+  if(event.target.closest('[data-node-id="294:13867"]'))return null;
+  const {clientX:x,clientY:y}=event;
+  if(event.target.closest('.christmas-spotlight,.rakhi-overlay,.psf-home-spotlight'))return null;
+  if(root.matches('.attention-stage')&&at(root.querySelector('[data-node-id="423:14701"]'),x,y))return null;
+  if(root.matches('.psf-home')&&at(root.querySelector('.psf-home-spotlight'),x,y))return null;
+  if(root.matches('.fto-home')&&event.target.closest('[aria-label="Make a Payment"],[aria-label="Explore Cashpoints"]'))return null;
+  const ipl=root.querySelector('#stage[data-scene^="spotlight-"]');
+  if(ipl){
+   const base=ipl.querySelector('img.art');
+   if(base?.naturalWidth&&!ipl.querySelector('.ipl-home-tile')){
+    for(let i=0;i<8;i++){const sx=30+(i%4)*132,sy=i<4?366:615;
+     const cover=document.createElement('div');cover.className='ipl-home-tile-cover';Object.assign(cover.style,{position:'absolute',left:(sx/540*100)+'%',top:'calc('+(sy/540*100)+'cqw + var(--hero-extra, 0px))',width:(84/540*100)+'cqw',height:(84/540*100)+'cqw',background:'white',pointerEvents:'none'});
+     const visual=document.createElement('div');visual.className='ipl-home-tile';Object.assign(visual.style,{position:'absolute',inset:'0',overflow:'hidden'});
+     const image=base.cloneNode();image.removeAttribute('class');Object.assign(image.style,{position:'absolute',width:(540/84*100)+'%',maxWidth:'none',height:'auto',left:(-sx/84*100)+'%',top:(-sy/84*100)+'%',clipPath:'none'});visual.append(image);cover.append(visual);base.parentElement.append(cover);
+    }
+   }
+   if(event.target.closest('[aria-label="Open stadium scanner"]'))return ipl.querySelector('.ipl-home-tile');
+   const tile=[...ipl.querySelectorAll('.ipl-home-tile')].find(node=>at(node,x,y,10,40));if(tile)return tile;
+   if(event.target.closest('[aria-label="Explore IPL season"]'))return null;
+  }
+
+  // Original Figma tile boxes, exported composite tiles, and FTO replacement icons.
+  // Labels are separate siblings and are deliberately excluded from the animated box.
+  const tiles=[...root.querySelectorAll('[data-source-home-tile],[data-fto-icon],[data-node-id],[id]')].filter(node=>{
+   const s=getComputedStyle(node),w=parseFloat(s.width),h=parseFloat(s.height);
+   return s.display!=='contents'&&s.display!=='none'&&s.visibility==='visible'&&(([48,52].some(size=>Math.abs(w-size)<.5&&Math.abs(h-size)<.5))||(node.matches('[data-fto-icon]')&&Math.abs(w-56)<.5&&Math.abs(h-56)<.5))&&!node.querySelector('p');
+  });
+  const tile=tiles.find(node=>!tiles.some(other=>other!==node&&other.contains(node))&&at(node,x,y,12,40));if(tile)return tile;
+  const reminder=event.target.closest('[data-reminder]');if(reminder&&!event.target.closest('.reminder-close'))return reminder;
+  const hit=event.target.closest('button,[role="button"]');
+  if(root.matches('.home')){
+   if(hit?.matches('.offer-banner-hit'))return root.querySelector('[data-node-id="473:16818"]');
+  }
+  if(root.matches('.fto-home')){
+   if(hit?.getAttribute('aria-label')==='Zoomcar offer')return root.querySelector('[data-node-id="6898:24802"], [data-node-id="6797:46196"]');
+   if(hit?.classList.contains('fto-home-offer'))return hit;
+  }
+  if(root.matches('.attention-stage')){
+   for(const id of ['14910']){const art=root.querySelector('[data-node-id="423:'+id+'"]');if(art&&at(art,x,y))return art;}
+  }
+  return hit&&getComputedStyle(hit).display!=='contents'?hit:null;
+ }
+ document.addEventListener('pointerdown',event=>{if(event.button!==0)return;press(visualFor(event));},true);
+ document.addEventListener('pointerup',()=>release(),true);
+ document.addEventListener('pointercancel',()=>release(true),true);
+ window.addEventListener('blur',()=>release(true));
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)release(true);});
+})();
+</script><!--/prototype-interaction-guard--></head>
+<body>
+<header class="studio-bar setup"><a href="../../" class="back"><i data-icon="ArrowLeft"></i>All flows</a><div><strong>Code in motion</strong><span>A coding scene, ready for your camera.</span></div><button id="record" class="primary"><i data-icon="Maximize"></i>Record fullscreen</button></header>
+<main class="studio">
+<section id="workspace" class="workspace" aria-label="Codex coding scene">
+ <header class="workspace-bar"><div class="brand"><i data-icon="Code2"></i><strong>Codex</strong></div><div class="breadcrumb">payzapp <i data-icon="ChevronRight"></i><span>Milestone rewards</span></div><span class="branch"><i data-icon="GitBranch"></i>feature / rewards</span></header>
+ <div class="workspace-body">
+  <aside class="conversation">
+   <div class="project"><span class="project-icon"><i data-icon="Folder"></i></span><div>PayZapp<small>Design engineering</small></div></div>
+   <p class="section-label">CURRENT TASK</p><h1>Bring the rewards<br>journey to life.</h1>
+   <div class="prompt"><span class="you">You</span><p id="prompt-copy">Build a milestone rewards journey. Make the progress feel smooth and celebrate each payment.</p></div>
+   <div class="reply"><span class="agent-avatar"><i data-icon="Code2"></i></span><div><strong>Codex</strong><p>I’ll connect the payment state, animate the journey, and bring the rewards into focus.</p></div></div>
+   <div class="task-progress"><span id="task-dot" class="task-dot"></span><span id="task-copy">Ready to build</span></div>
+   <div class="file-change"><i data-icon="FileCode2"></i><span id="changed-file">MilestoneJourney.tsx</span><span id="line-count">+0</span></div>
+   <div class="composer"><span>Ask a follow-up</span><span class="send"><i data-icon="ArrowUp"></i></span></div>
+  </aside>
+  <section class="editor" aria-label="Generated code">
+   <header class="editor-tabs"><div class="file-tab"><i data-icon="FileCode2"></i><span id="file-tab">MilestoneJourney.tsx</span><span class="file-dot"></span></div><span class="language">TypeScript React</span></header>
+   <div class="editor-path">src <span>/</span> components <span>/</span> <span id="path-file">MilestoneJourney.tsx</span></div>
+   <div id="code-viewport" class="code-viewport" tabindex="0" aria-label="Code preview"><div id="code" class="code" aria-hidden="true"></div></div>
+   <footer class="editor-footer"><span class="status-main"><span id="status-icon"></span><span id="editor-status" role="status">Ready to generate</span></span><span id="position">Ln 1, Col 1</span><span class="encoding">UTF-8</span><div class="generation-progress"><span id="progress"></span></div></footer>
+  </section>
+ </div>
+</section>
+<aside class="controls setup" aria-label="Recording controls">
+ <div class="controls-title"><i data-icon="SlidersHorizontal"></i><h2>Set up your shot</h2></div>
+ <div class="playback"><button id="play" class="primary"><i data-icon="Play"></i><span>Preview</span></button><button id="restart" class="icon-button" aria-label="Restart generation"><i data-icon="RotateCcw"></i></button></div>
+ <label class="range-label" for="size">Text size <output id="size-value">20 px</output></label><input id="size" type="range" min="12" max="34" step="1" value="20">
+ <label class="range-label" for="speed">Generation speed <output id="speed-value">65 chars/s</output></label><input id="speed" type="range" min="15" max="200" step="5" value="65">
+ <label class="range-label" for="length">Code length <output id="length-value">64 lines</output></label><input id="length" type="range" min="48" max="160" step="8" value="64">
+ <div class="length-note" id="duration-note"></div>
+ <label for="palette">Color palette</label><select id="palette"><option value="mint">Midnight mint</option><option value="violet">Soft violet</option><option value="amber">Warm amber</option><option value="light">Paper light</option></select>
+ <div class="color-controls"><label>Accent<input id="accent" type="color" value="#8ee5be"></label><label>Code text<input id="ink" type="color" value="#e0e4e8"></label><label>Editor<input id="background" type="color" value="#151719"></label></div>
+ <div class="timing"><label for="delay">Lead-in<select id="delay"><option value="0">None</option><option value="2" selected>2 seconds</option><option value="3">3 seconds</option><option value="5">5 seconds</option></select></label><label class="toggle"><input id="loop" type="checkbox" checked>Loop sequence</label></div>
+ <details><summary>Your own content</summary><label for="filename">File name</label><input id="filename" type="text" maxlength="60" value="MilestoneJourney.tsx"><label for="prompt">Task prompt</label><textarea id="prompt" rows="3" maxlength="400">Build a milestone rewards journey. Make the progress feel smooth and celebrate each payment.</textarea><label for="custom-code">Code to reveal</label><textarea id="custom-code" rows="6" maxlength="24000" spellcheck="false" placeholder="Paste your code, or leave empty for the rewards example."></textarea><small>Displayed as text only. Never executed.</small></details>
+ <button id="reset" class="reset">Reset settings</button>
+ <p class="shortcuts"><kbd>R</kbd> replay <kbd>Space</kbd> pause <kbd>F</kbd> fullscreen<br><kbd>Esc</kbd> show controls</p>
+ <p class="simulation">Staged Codex-style scene for recording. No live AI request.</p><p id="notice" role="status"></p>
+</aside>
+</main><script type="module" src="app.js?v=1"></script></body></html>
+

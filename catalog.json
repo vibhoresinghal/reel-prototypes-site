@@ -744,5 +744,24 @@
         "entry": "prototypes/mo-engage/index.html?scene=campaign"
       }
     ]
+  },
+  {
+    "id": "codex-code-studio",
+    "title": "Code in motion",
+    "description": "AI at work. A customizable coding scene for your camera.",
+    "source": "html",
+    "layout": "desktop",
+    "entry": "prototypes/codex-code-studio/index.html",
+    "width": 1440,
+    "height": 900,
+    "tags": [
+      "Codex",
+      "Code",
+      "Video",
+      "Recording",
+      "AI"
+    ],
+    "accentColor": "#397f5b",
+    "thumbnail": "prototypes/codex-code-studio/preview.svg"
   }
 ]
