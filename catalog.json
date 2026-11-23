@@ -146,6 +146,145 @@
     ]
   },
   {
+    "id": "ipl-payzapp",
+    "title": "IPL on PayZapp",
+    "description": "A cricket-season takeover, from the first splash to the winning runs.",
+    "source": "html",
+    "layout": "mobile",
+    "entry": "prototypes/ipl-payzapp/index.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "IPL",
+      "Cricket",
+      "Motion",
+      "Rewards"
+    ],
+    "logo": "prototypes/ipl-payzapp/assets/IPL themification.png",
+    "thumbnail": "prototypes/ipl-payzapp/assets/Leaderboard Page.png",
+    "scenarios": [
+      {
+        "id": "splash",
+        "title": "App opening",
+        "description": "Tap the PayZapp icon. The original IPL splash plays once.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=splash"
+      },
+      {
+        "id": "promo",
+        "title": "Season promo",
+        "description": "Tap to play or pause the original promo. Playback starts muted.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=promo"
+      },
+      {
+        "id": "leaderboard",
+        "title": "Runs leaderboard",
+        "description": "Scroll to explore the original ranking and earning rules.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=leaderboard"
+      },
+      {
+        "id": "scan",
+        "title": "Stadium scanner",
+        "description": "Open the stadium camera, tap to use a sample QR, enter an amount and Pay. Ends with the IPL success and six-runs celebration.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=scan"
+      },
+      {
+        "id": "referral",
+        "title": "Refer & score",
+        "description": "Original referral entrance, hold and exit. Tap Share Invite to replay; no invitation is sent.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=referral"
+      },
+      {
+        "id": "success",
+        "title": "Payment success",
+        "description": "Original cricket-ball success, followed by the six-runs celebration.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=success"
+      },
+      {
+        "id": "spotlight-1",
+        "title": "Spotlight 1",
+        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-1"
+      },
+      {
+        "id": "spotlight-2",
+        "title": "Spotlight 2",
+        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-2"
+      },
+      {
+        "id": "spotlight-3",
+        "title": "Spotlight 3",
+        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-3"
+      },
+      {
+        "id": "sheet-alt",
+        "title": "Campaign invitation",
+        "description": "Tap the gift to view the season promo.",
+        "entry": "prototypes/ipl-payzapp/index.html?scene=sheet-alt"
+      }
+    ],
+    "accentColor": "#319340"
+  },
+  {
+    "id": "island-adventure",
+    "title": "Island Adventure",
+    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
+    "source": "figma",
+    "layout": "mobile",
+    "entry": "island.html",
+    "width": 412,
+    "height": 915,
+    "tags": [
+      "PayZapp",
+      "Islands",
+      "Adventure",
+      "Rewards"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "thumbnail": "assets/island-preview.png",
+    "scenarios": [
+      {
+        "id": "first",
+        "title": "First visit",
+        "description": "Choose a boat and start exploring.",
+        "entry": "island.html?scene=first"
+      },
+      {
+        "id": "boats",
+        "title": "Choose a boat",
+        "description": "Explore five original boats.",
+        "entry": "island.html?scene=boats"
+      },
+      {
+        "id": "map",
+        "title": "Explore the islands",
+        "description": "Discover the tasks and your first relic piece.",
+        "entry": "island.html?scene=map"
+      },
+      {
+        "id": "returning",
+        "title": "Continue the journey",
+        "description": "Three relic pieces found. More islands await.",
+        "entry": "island.html?scene=returning"
+      },
+      {
+        "id": "last-piece",
+        "title": "The final piece",
+        "description": "Scan and pay to complete the relic.",
+        "entry": "island.html?scene=last-piece"
+      },
+      {
+        "id": "completed",
+        "title": "Adventure complete",
+        "description": "A complete relic and â‚¹50 cashback.",
+        "entry": "island.html?scene=completed"
+      }
+    ],
+    "accentColor": "#218ba4"
+  },
+  {
     "id": "valentine-payzapp",
     "title": "A Valentine for you",
     "description": "A personalized letter, a little surprise, and a perfect match from PayZapp.",
@@ -517,6 +656,43 @@
     "accentColor": "#8f542b"
   },
   {
+    "id": "mo-engage",
+    "title": "Mo-engage flows for video",
+    "description": "Customer lifecycle stories. Built for the big screen.",
+    "source": "html",
+    "layout": "desktop",
+    "entry": "prototypes/mo-engage/index.html",
+    "width": 1440,
+    "height": 900,
+    "tags": [
+      "Analytics",
+      "Web",
+      "Video"
+    ],
+    "accentColor": "#2099a7",
+    "thumbnail": "prototypes/mo-engage/preview.svg",
+    "scenarios": [
+      {
+        "id": "decline",
+        "title": "Lifecycle overview",
+        "description": "Activation and retention decline across the user lifetime.",
+        "entry": "prototypes/mo-engage/index.html?scene=decline"
+      },
+      {
+        "id": "uplift",
+        "title": "Activation uplift",
+        "description": "A 4% relative increase in activation.",
+        "entry": "prototypes/mo-engage/index.html?scene=uplift"
+      },
+      {
+        "id": "campaign",
+        "title": "Create a campaign",
+        "description": "Upload creative assets, review and simulate a campaign launch.",
+        "entry": "prototypes/mo-engage/index.html?scene=campaign"
+      }
+    ]
+  },
+  {
     "id": "milestone-impact",
     "title": "The fifth payment",
     "description": "5% to 33%. The impact of milestone offers on early retention.",
@@ -532,63 +708,6 @@
     ],
     "accentColor": "#367650",
     "thumbnail": "prototypes/milestone-impact/preview.svg"
-  },
-  {
-    "id": "island-adventure",
-    "title": "Island Adventure",
-    "description": "Choose a boat. Explore the islands. Uncover a golden relic.",
-    "source": "figma",
-    "layout": "mobile",
-    "entry": "island.html",
-    "width": 412,
-    "height": 915,
-    "tags": [
-      "PayZapp",
-      "Islands",
-      "Adventure",
-      "Rewards"
-    ],
-    "logo": "assets/473-17470-9dd33.svg",
-    "thumbnail": "assets/island-preview.png",
-    "scenarios": [
-      {
-        "id": "first",
-        "title": "First visit",
-        "description": "Choose a boat and start exploring.",
-        "entry": "island.html?scene=first"
-      },
-      {
-        "id": "boats",
-        "title": "Choose a boat",
-        "description": "Explore five original boats.",
-        "entry": "island.html?scene=boats"
-      },
-      {
-        "id": "map",
-        "title": "Explore the islands",
-        "description": "Discover the tasks and your first relic piece.",
-        "entry": "island.html?scene=map"
-      },
-      {
-        "id": "returning",
-        "title": "Continue the journey",
-        "description": "Three relic pieces found. More islands await.",
-        "entry": "island.html?scene=returning"
-      },
-      {
-        "id": "last-piece",
-        "title": "The final piece",
-        "description": "Scan and pay to complete the relic.",
-        "entry": "island.html?scene=last-piece"
-      },
-      {
-        "id": "completed",
-        "title": "Adventure complete",
-        "description": "A complete relic and â‚¹50 cashback.",
-        "entry": "island.html?scene=completed"
-      }
-    ],
-    "accentColor": "#218ba4"
   },
   {
     "id": "island-word-story",
@@ -627,125 +746,6 @@
     "thumbnail": "prototypes/teams-ipl-brief/preview.svg"
   },
   {
-    "id": "ipl-payzapp",
-    "title": "IPL on PayZapp",
-    "description": "A cricket-season takeover, from the first splash to the winning runs.",
-    "source": "html",
-    "layout": "mobile",
-    "entry": "prototypes/ipl-payzapp/index.html",
-    "width": 412,
-    "height": 915,
-    "tags": [
-      "PayZapp",
-      "IPL",
-      "Cricket",
-      "Motion",
-      "Rewards"
-    ],
-    "logo": "prototypes/ipl-payzapp/assets/IPL themification.png",
-    "thumbnail": "prototypes/ipl-payzapp/assets/Leaderboard Page.png",
-    "scenarios": [
-      {
-        "id": "splash",
-        "title": "App opening",
-        "description": "Tap the PayZapp icon. The original IPL splash plays once.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=splash"
-      },
-      {
-        "id": "promo",
-        "title": "Season promo",
-        "description": "Tap to play or pause the original promo. Playback starts muted.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=promo"
-      },
-      {
-        "id": "leaderboard",
-        "title": "Runs leaderboard",
-        "description": "Scroll to explore the original ranking and earning rules.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=leaderboard"
-      },
-      {
-        "id": "scan",
-        "title": "Stadium scanner",
-        "description": "Open the stadium camera, tap to use a sample QR, enter an amount and Pay. Ends with the IPL success and six-runs celebration.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=scan"
-      },
-      {
-        "id": "referral",
-        "title": "Refer & score",
-        "description": "Original referral entrance, hold and exit. Tap Share Invite to replay; no invitation is sent.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=referral"
-      },
-      {
-        "id": "success",
-        "title": "Payment success",
-        "description": "Original cricket-ball success, followed by the six-runs celebration.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=success"
-      },
-      {
-        "id": "spotlight-1",
-        "title": "Spotlight 1",
-        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-1"
-      },
-      {
-        "id": "spotlight-2",
-        "title": "Spotlight 2",
-        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-2"
-      },
-      {
-        "id": "spotlight-3",
-        "title": "Spotlight 3",
-        "description": "Swipe between three original banners. Tap the banner to open the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=spotlight-3"
-      },
-      {
-        "id": "sheet-alt",
-        "title": "Campaign invitation",
-        "description": "Tap the gift to view the season promo.",
-        "entry": "prototypes/ipl-payzapp/index.html?scene=sheet-alt"
-      }
-    ],
-    "accentColor": "#319340"
-  },
-  {
-    "id": "mo-engage",
-    "title": "Mo-engage flows for video",
-    "description": "Customer lifecycle stories. Built for the big screen.",
-    "source": "html",
-    "layout": "desktop",
-    "entry": "prototypes/mo-engage/index.html",
-    "width": 1440,
-    "height": 900,
-    "tags": [
-      "Analytics",
-      "Web",
-      "Video"
-    ],
-    "accentColor": "#2099a7",
-    "thumbnail": "prototypes/mo-engage/preview.svg",
-    "scenarios": [
-      {
-        "id": "decline",
-        "title": "Lifecycle overview",
-        "description": "Activation and retention decline across the user lifetime.",
-        "entry": "prototypes/mo-engage/index.html?scene=decline"
-      },
-      {
-        "id": "uplift",
-        "title": "Activation uplift",
-        "description": "A 4% relative increase in activation.",
-        "entry": "prototypes/mo-engage/index.html?scene=uplift"
-      },
-      {
-        "id": "campaign",
-        "title": "Create a campaign",
-        "description": "Upload creative assets, review and simulate a campaign launch.",
-        "entry": "prototypes/mo-engage/index.html?scene=campaign"
-      }
-    ]
-  },
-  {
     "id": "codex-code-studio",
     "title": "Code in motion",
     "description": "AI at work. A customizable coding scene for your camera.",
@@ -763,5 +763,21 @@
     ],
     "accentColor": "#397f5b",
     "thumbnail": "prototypes/codex-code-studio/preview.svg"
+  },
+  {
+    "id": "light-projector",
+    "title": "Lightfield",
+    "description": "Moving light for portraits and spaces. Tune rays, rotation, and color, then project fullscreen.",
+    "source": "html",
+    "layout": "responsive",
+    "entry": "prototypes/light-projector/index.html",
+    "width": 1440,
+    "height": 900,
+    "tags": [
+      "Projection",
+      "Creative tool",
+      "Light"
+    ],
+    "accentColor": "#80cc48"
   }
 ]
