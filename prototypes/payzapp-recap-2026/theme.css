@@ -115,7 +115,6 @@
 }
 [data-theme="pixel"] .illustration-placeholder,
 [data-theme="pixel"] .illustration-placeholder img,
-[data-theme="pixel"] .emoji-sprite,
 [data-theme="pixel"] #landing-page img { image-rendering: pixelated; }
 
 /* Flipbook cover */

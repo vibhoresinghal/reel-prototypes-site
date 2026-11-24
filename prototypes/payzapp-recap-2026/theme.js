@@ -159,7 +159,7 @@
         .forEach(name => { PIXEL_ART[`assets/${name}.png`] = BG; });
     [['currency-note', 6], ['smartphone', 6], ['handshake', 6], ['l-hand', 6], ['r-hand', 6],
         ['bubble1', 5], ['bubble2', 5], ['bubble3', 5], ['bubble4', 5], ['heart', 4],
-        ['calendar', 5], ['calendar-tick', 5], ['chai', 5], ['steam', 5], ['validation-emojis', 4],
+        ['calendar', 5], ['calendar-tick', 5], ['chai', 5], ['steam', 5],
         ['product-iphone', 6], ['product-ps5', 6], ['product-samsung', 6], ['product-speaker', 6], ['product-watch', 6],
         ['vehicle-aprilia', 6], ['vehicle-byd', 6], ['vehicle-compass', 6], ['vehicle-defender', 6], ['vehicle-enfield', 6],
         ['vehicle-fortuner', 6], ['vehicle-mercedes', 6], ['vehicle-thar', 6], ['vehicle-tiago', 6],
