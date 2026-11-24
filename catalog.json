@@ -399,6 +399,64 @@
     "accentColor": "#682ca4"
   },
   {
+    "id": "payzapp-recap-2026",
+    "title": "PayZapp Recap 2026",
+    "description": "Your 2026 year in payments, in three festive themes.",
+    "source": "html",
+    "layout": "mobile",
+    "entry": "prototypes/payzapp-recap-2026/index.html",
+    "width": 360,
+    "height": 800,
+    "tags": [
+      "PayZapp",
+      "Recap",
+      "Personalization",
+      "Quiz",
+      "Themes"
+    ],
+    "logo": "assets/473-17470-9dd33.svg",
+    "scenarios": [
+      {
+        "id": "christmas",
+        "title": "Christmas opening",
+        "description": "Cranberry sky, snow and a twinkling tree on Vibhore’s 2026 flipbook.",
+        "entry": "prototypes/payzapp-recap-2026/index.html?scene=intro&theme=christmas"
+      },
+      {
+        "id": "aurora",
+        "title": "Night sky opening",
+        "description": "Northern lights over snowy peaks, with stars and shooting stars.",
+        "entry": "prototypes/payzapp-recap-2026/index.html?scene=intro&theme=aurora"
+      },
+      {
+        "id": "city",
+        "title": "City lights opening",
+        "description": "A festive skyline at dusk, with fireworks and floating lights.",
+        "entry": "prototypes/payzapp-recap-2026/index.html?scene=intro&theme=city"
+      },
+      {
+        "id": "pixel",
+        "title": "Pixel-fi opening",
+        "description": "Retro pixel art: chunky 3D type, lime buttons and pixelated card art.",
+        "entry": "prototypes/payzapp-recap-2026/index.html?scene=intro&theme=pixel"
+      },
+      {
+        "id": "quiz",
+        "title": "Your year in payments",
+        "description": "Six questions about Vibhore’s sample payment activity.",
+        "entry": "prototypes/payzapp-recap-2026/index.html?scene=quiz&theme=christmas"
+      },
+      {
+        "id": "summary",
+        "title": "Payment personality",
+        "description": "The final personality reveal and PayZapp discovery page.",
+        "entry": "prototypes/payzapp-recap-2026/index.html?scene=summary&theme=christmas"
+      }
+    ],
+    "thumbnail": "prototypes/payzapp-recap-2026/thumbnail.png",
+    "accentColor": "#1E6B4C"
+  },
+  {
     "id": "payzapp-recap",
     "title": "PayZapp Recap",
     "description": "A playful look back at your year in payments.",

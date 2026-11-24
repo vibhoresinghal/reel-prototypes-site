@@ -1,0 +1,297 @@
+{
+  "source": "recap.zip",
+  "assets": [
+    {
+      "path": "assets/answer-correct.mp3",
+      "sha256": "e43f44cad7e053fcd73599234b882909cd1ebf6a94318171a9400957b5bb84f3"
+    },
+    {
+      "path": "assets/answer-wrong.mp3",
+      "sha256": "3a5763cabeee26f31db6ca80a97b4ea3287de50da88485793785986f90f5a38b"
+    },
+    {
+      "path": "assets/autopay-icons.png",
+      "sha256": "9144738a305bd88cdd3c415e7fc9192242561b24f4230acefd80bfb79c45c227"
+    },
+    {
+      "path": "assets/bubble1.png",
+      "sha256": "d79bd4e33e96e29480ad7e41e2c6eda4e7742ad95cc79c8fb453943384846834"
+    },
+    {
+      "path": "assets/bubble2.png",
+      "sha256": "609a9167e36cf4c9c476eb3a6a8645d501af64bc839c4d02f429afca12405bc2"
+    },
+    {
+      "path": "assets/bubble3.png",
+      "sha256": "eaff323158eaecd814553a24cf6b30fd7c098bf7355ad3b9beae24c6efbf10ff"
+    },
+    {
+      "path": "assets/bubble4.png",
+      "sha256": "65512611a9b954798b045809ffe222ab16d72797a86dae182117665087979528"
+    },
+    {
+      "path": "assets/calendar-tick.png",
+      "sha256": "9a031d6db8290bbe41cdb822d360ac00ecc678bd3fcb555599fbc7fd8f85e81a"
+    },
+    {
+      "path": "assets/calendar.png",
+      "sha256": "0196623dda74f77e248792fdc4e88c4da2393811b7a28cc72332a0f5e9edabee"
+    },
+    {
+      "path": "assets/chai.png",
+      "sha256": "f7370312171a2ba3f1846dfb3f6eeff4017b304d21e3e6151a37e73c405fece4"
+    },
+    {
+      "path": "assets/cover-bg.png",
+      "sha256": "9f0ae7b0086c28d3db54bcc0d6145473bf46c7026f643ecc6a92334dc99de8f8"
+    },
+    {
+      "path": "assets/currency-note.png",
+      "sha256": "6fedd68e4aeaf78b0cdc21da36841dc60b1146a9353d9ec593d8641bb8235692"
+    },
+    {
+      "path": "assets/feature-1.png",
+      "sha256": "7869383e2464a88675e7d6a74f9ae45cdda13679bc04749f475bd1baea6ddb9c"
+    },
+    {
+      "path": "assets/feature-2.png",
+      "sha256": "7dc2a08d680bb874aefd8c938df5c881b89c3124a88d09c5fedbb6e02d2b7417"
+    },
+    {
+      "path": "assets/feature-3.png",
+      "sha256": "357b12925563fb10a6a89254294e67d17961534d73be6fb8131dd1e83d0736ea"
+    },
+    {
+      "path": "assets/feature-4.png",
+      "sha256": "c2ccf0d6d8c70fc2fa62a45cd49dfddd5b781c301f50b1d603b567da512f3963"
+    },
+    {
+      "path": "assets/feature-5.png",
+      "sha256": "4f8ca9521fbcc971dab00076d340dd4a8e84e11416fec7b2495f4f59b0f84d64"
+    },
+    {
+      "path": "assets/feature-6.png",
+      "sha256": "8c2d9b8685947d7257b0c6ba42b974c1a849634540636edd84e5cf2f91b5273d"
+    },
+    {
+      "path": "assets/flipbook-preview.png",
+      "sha256": "df1a10f7ac11d51383a1c6ce7a2f7043bd385344e7adea71962091a26108d0b9"
+    },
+    {
+      "path": "assets/flipbook-rings.svg",
+      "sha256": "4a580c0bf6b20aad6b8a73eaec80caf72e798fd0f4d0ca4f8e4281142409df20"
+    },
+    {
+      "path": "assets/handshake.png",
+      "sha256": "c7fae141c07e65933ee55dc87d29b64f7e5f7f08298a84631034368200db30df"
+    },
+    {
+      "path": "assets/hdfc.png",
+      "sha256": "42de5160c7e25f8fb5bff80d3aaa67dca3bbfa2a6b55978c0bef01ede1740b8d"
+    },
+    {
+      "path": "assets/heart.png",
+      "sha256": "8847607563c1d21eb99ee149dc13f3a400c0bcb8dfd6d22b3ee462f8816b7e5f"
+    },
+    {
+      "path": "assets/illustration1.png",
+      "sha256": "ca7bbde88b281cb3a21f0142aa056dae5d6c597acc57677f6ce52ec65b350af0"
+    },
+    {
+      "path": "assets/illustration2.png",
+      "sha256": "e195d83db39cf7ee2f1b7476c7f685f7f0240d287db2a02ed3c9f03dd71b0968"
+    },
+    {
+      "path": "assets/illustration3.png",
+      "sha256": "bb921eb7d631e4b3ce928d51fdb49cf6420949135c97a07bd2d3388a2c634684"
+    },
+    {
+      "path": "assets/illustration4.png",
+      "sha256": "5c0cf6241fa37a440c037809726d09ced19f467a0bf22418de9e28f67d9da4b9"
+    },
+    {
+      "path": "assets/illustration5.png",
+      "sha256": "7bbe0de5de772a38685d7489477cee0c4949be9195998ded3bbacd2e2100a773"
+    },
+    {
+      "path": "assets/illustration6.png",
+      "sha256": "2274703e2fc5a343b25e41061f84949a5ccbf379e6f69c187e6249a72c9fdf36"
+    },
+    {
+      "path": "assets/intro-bg.png",
+      "sha256": "ea596e5e5b122ddfaa8ca02458f7ba1ac41b9e28e587e78868736b59a64625f0"
+    },
+    {
+      "path": "assets/l-hand.png",
+      "sha256": "e51372b00c75e59e3d7c0dff2c4371a950d8971181af94afddd5c4704f07bcf9"
+    },
+    {
+      "path": "assets/logo-horizontal.png",
+      "sha256": "e70513e4b29bd5862878433d85527dfe0433150c4b96573f7e2655d2acc64bdc"
+    },
+    {
+      "path": "assets/logo-horizontal.svg",
+      "sha256": "b02a0c8d4eca47c0a34a142d6b8dc7e87af675326831de5c5c92578fd475c826"
+    },
+    {
+      "path": "assets/logo-plain.svg",
+      "sha256": "e72bd8ae8112469a82544a64a9138f224a9134feb76ad4c5f99c2cf1e9c88073"
+    },
+    {
+      "path": "assets/logo.png",
+      "sha256": "11783871043808fe65defb9b5248a391f578d856a53d7a90307cdcfc6a8aa824"
+    },
+    {
+      "path": "assets/logo.svg",
+      "sha256": "51051cf8f79ea2cd0b84f7b01ba1593d14f5d602b05f68afad8a7673419f2372"
+    },
+    {
+      "path": "assets/outro-bottom.png",
+      "sha256": "2c26a266a1564f5c9a969b781790eed93991bd0048e6bf3f7fd14ea6f81f1b00"
+    },
+    {
+      "path": "assets/outro-top.png",
+      "sha256": "885bee75330380ebadd7828c84a1bfe9bc301cc07c00fc3874bae8883bc109ff"
+    },
+    {
+      "path": "assets/page-flip.m4a",
+      "sha256": "2c5cad7197bef75fd701e9a62816332035849b6ac82fb29f449213a70d4317cf"
+    },
+    {
+      "path": "assets/product-iphone.png",
+      "sha256": "1a5151265ceb69223dcedefd8cfb63661b7881fc59e67a4438a1b524750b046f"
+    },
+    {
+      "path": "assets/product-ps5.png",
+      "sha256": "bb6bda4de6dfede206d51c3d6d6c2b902ea0f9796189707a058d488d503f0c0d"
+    },
+    {
+      "path": "assets/product-samsung.png",
+      "sha256": "9dab0a1b198382fb3d93d65f532c72c1d48377d33344ba7b440862d27174269b"
+    },
+    {
+      "path": "assets/product-speaker.png",
+      "sha256": "cec9185ef4c3827baac5e7c4a1ae863aa3c143c2ca6895d18f2acc1f0f59efac"
+    },
+    {
+      "path": "assets/product-watch.png",
+      "sha256": "6352afe6d3915b251b75b256686c77c07b38b433685248370319d3f150ebac67"
+    },
+    {
+      "path": "assets/pz-logo-composite.svg",
+      "sha256": "fbac24c8b1a9ad9699656c0ea48c75b9ef07bd1fa2755fe28c3841e1d2a69a81"
+    },
+    {
+      "path": "assets/pz-logo.png",
+      "sha256": "189f47a0985649a24d105eec8115398dae8f4391983486beccf3d7c16058f7f8"
+    },
+    {
+      "path": "assets/pz-logo.svg",
+      "sha256": "6969b7a19e859e582e21055c16c9e2c1a05d35f17e46881def4e043a848fc401"
+    },
+    {
+      "path": "assets/r-hand.png",
+      "sha256": "b13783bd51bf27a27b488bb68b5c5ad08b9171b89bfde95f8dbaa8b5325f4119"
+    },
+    {
+      "path": "assets/rays-bg-yellow.svg",
+      "sha256": "fb403823574139b86a0fd5ffb38518a4b9c769a7088d00e5845b0cc5d07280a8"
+    },
+    {
+      "path": "assets/rays-bg.svg",
+      "sha256": "91ebcc273b9c1f071630157257cdea5ac01d74d2424b9da81fe0dbcd8d66e2fe"
+    },
+    {
+      "path": "assets/security.svg",
+      "sha256": "98485768f01fa62cd168c8664641df92ffd35cb24e910c0b66f35b69a121e7ac"
+    },
+    {
+      "path": "assets/share-illustration-final.png",
+      "sha256": "d1281aea428ba8cf8cdd2669637f10d86360ff320b996722f83950051c632b1e"
+    },
+    {
+      "path": "assets/share-illustration1.png",
+      "sha256": "6700a49ebe364bb68dd1c8f07cfde270d4f1192cbb6801ea9fcb20edea6e3cee"
+    },
+    {
+      "path": "assets/share-illustration2.png",
+      "sha256": "30663e300c7631c5ec8a0d06403cd7ee140429e89de2d4f7a30b1c2dfa8a8d52"
+    },
+    {
+      "path": "assets/share-illustration3.png",
+      "sha256": "d050debc63bf9d31afe3e0ede121c10cfa5d325e5c12ecf0da2b89bc9f432f52"
+    },
+    {
+      "path": "assets/share-illustration4.png",
+      "sha256": "d30c69bac943d4f4648717ce2dd487a673810fa9925c83bb32f3a9644d2279b8"
+    },
+    {
+      "path": "assets/share-illustration5.png",
+      "sha256": "fb0567dcae6e54514f3e45b639f06e68f34dd3d9b56e7b9c859d3caabb3dfa3c"
+    },
+    {
+      "path": "assets/share-illustration6.png",
+      "sha256": "9971f4484e71201d3f08a4d92ac7e7c062c9bb6b20338980cbab8de8850d29c2"
+    },
+    {
+      "path": "assets/shopping.svg",
+      "sha256": "f1b442ca7bb13cf51e85fe5def7bdaf4ce477e70a299b34c5978c151f58db3cf"
+    },
+    {
+      "path": "assets/smartphone.png",
+      "sha256": "ed62494f2b39d193fbb38b4e4d658b7e895e1f9e3fb50b4d2bbdf7650ac53245"
+    },
+    {
+      "path": "assets/speed.svg",
+      "sha256": "052f6e7b39fae869bc47aafe2dfdbab6c5ae70d68ac63650621a1fbafdaaed70"
+    },
+    {
+      "path": "assets/steam.png",
+      "sha256": "6691019ea4faa1d963e55d0ecfc67b10331310451b40ace1fbea3c296e63d9c3"
+    },
+    {
+      "path": "assets/users.svg",
+      "sha256": "473c53d75247e96d3300fdefa6236ddfd4dc61f445eb21f9c17a3dcaeef125a8"
+    },
+    {
+      "path": "assets/validation-emojis.png",
+      "sha256": "cfa40d8cf33d22143cb62def793c94023e9253479bb33eba07f1c73885ab2f1f"
+    },
+    {
+      "path": "assets/vehicle-aprilia.png",
+      "sha256": "41e38b6557bf5fa63335b30a233950c8b07f5fcb9d3bcd2cf89bf0f013634646"
+    },
+    {
+      "path": "assets/vehicle-byd.png",
+      "sha256": "ac53addd66fe866efbeb6c8ff2898df80d1d34d10926941ccac6a5bef3afa70b"
+    },
+    {
+      "path": "assets/vehicle-compass.png",
+      "sha256": "6e7e7e5898ce812b3078d90b0c05022cf893f4cf60bc09901858a226eff89c33"
+    },
+    {
+      "path": "assets/vehicle-defender.png",
+      "sha256": "b118bd4e2ae76b1a2aa744dcca9e1b52dc6342e14ce6654deec8c5c431bb1091"
+    },
+    {
+      "path": "assets/vehicle-enfield.png",
+      "sha256": "2bc1cd25ae7b20003b3e7ddaa5788a4935f3dcd6a25b02d42467b9cac5e23f17"
+    },
+    {
+      "path": "assets/vehicle-fortuner.png",
+      "sha256": "6ddc8282501da5e1631a06242cc28614612b604eb791664c11c6215b70e26ff4"
+    },
+    {
+      "path": "assets/vehicle-mercedes.png",
+      "sha256": "4e85088536bcd505cfe6c25e8cacbcd26d253e41e4bf863382102c5083cfa7a1"
+    },
+    {
+      "path": "assets/vehicle-thar.png",
+      "sha256": "b53042f10f0e15be9b6906ced433f5069d3569654a9ba138b6286c2b31b6f660"
+    },
+    {
+      "path": "assets/vehicle-tiago.png",
+      "sha256": "9988b354fd502c37c0b8b6465fcd2834d6e5b16eea9f4021f485f6be90f5bb25"
+    }
+  ]
+}

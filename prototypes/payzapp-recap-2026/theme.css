@@ -1,0 +1,405 @@
+/* PayZapp Recap 2026 theme layer. Loaded after the original styles.
+   theme.js sets html[data-theme], --blue-dark (page base) and --theme-accent. */
+
+/* Page base for the preloader and error screens (Tailwind baked #183862). */
+#preloader, #error-screen { background-color: var(--blue-dark) !important; }
+#start-btn { color: var(--blue-dark) !important; }
+.theme-accent { color: var(--theme-accent); }
+
+/* Flipbook cover: sky colour behind the generated cover art. */
+[data-theme="christmas"] .cover-content { background: linear-gradient(180deg, #7E1626 0%, #B8303A 35%, #E8774A 70%, #F7C27A 100%); }
+[data-theme="aurora"]    .cover-content { background: linear-gradient(180deg, #0A1238 0%, #14306A 35%, #1C5A7A 70%, #2A8B86 100%); }
+[data-theme="city"]      .cover-content { background: linear-gradient(180deg, #24124A 0%, #5B2470 35%, #C2486A 70%, #F59A62 100%); }
+.intro-cover-mask .theme-cover {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center bottom;
+}
+.cover-content .logo-area img { width: 9rem; }
+.cover-content .user-badge {
+    color: #fff; font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 0 12px rgba(0, 0, 0, .25);
+}
+
+/* Ambient scenery fixed to the bottom of the page, behind the flipbook. */
+#theme-backdrop {
+    position: fixed; left: 0; right: 0; bottom: 0; height: min(30vh, 240px);
+    background: center bottom / cover no-repeat; pointer-events: none; z-index: 0;
+}
+#theme-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+[data-theme="christmas"] #theme-glow { background: radial-gradient(120% 50% at 50% 105%, rgba(255, 196, 110, .16), transparent 70%); }
+[data-theme="aurora"] #theme-glow {
+    background:
+        radial-gradient(70% 22% at 30% 6%, rgba(124, 245, 196, .20), transparent 70%),
+        radial-gradient(60% 18% at 75% 12%, rgba(229, 138, 216, .16), transparent 70%);
+    animation: auroraDrift 14s ease-in-out infinite alternate;
+}
+[data-theme="city"] #theme-glow { background: radial-gradient(130% 45% at 50% 108%, rgba(255, 150, 110, .22), transparent 70%); }
+@keyframes auroraDrift {
+    from { background-position: 0 0, 0 0; opacity: .75; }
+    to { background-position: 40px 10px, -40px 6px; opacity: 1; }
+}
+
+/* Night sky: twinkling stars and the odd shooting star. */
+.theme-star {
+    position: absolute; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 6px rgba(255, 255, 255, .8);
+    animation: starTwinkle ease-in-out infinite;
+}
+@keyframes starTwinkle { 0%, 100% { opacity: .15; transform: scale(.7); } 50% { opacity: .95; transform: scale(1); } }
+.theme-meteor {
+    position: absolute; width: 90px; height: 2px; border-radius: 2px; opacity: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, .9), transparent);
+    transform: rotate(-28deg); transform-origin: left center;
+    animation: meteor 11s linear infinite;
+}
+@keyframes meteor {
+    0%, 86% { opacity: 0; translate: 0 0; }
+    88% { opacity: 1; }
+    96% { opacity: 0; translate: -160px 86px; }
+    100% { opacity: 0; translate: -160px 86px; }
+}
+
+/* City lights: soft bokeh rising past the skyline. */
+.theme-bokeh {
+    position: absolute; bottom: -30px; border-radius: 50%; opacity: 0;
+    filter: blur(1.5px); box-shadow: 0 0 14px currentColor;
+    animation: bokehRise linear infinite;
+}
+@keyframes bokehRise {
+    0% { opacity: 0; transform: translate(0, 0); }
+    12% { opacity: var(--bokeh-opacity, .4); }
+    80% { opacity: var(--bokeh-opacity, .4); }
+    100% { opacity: 0; transform: translate(var(--bokeh-drift, 0), -105vh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #theme-glow, .theme-star, .theme-meteor, .theme-bokeh { animation: none !important; }
+    .theme-meteor, .theme-bokeh { display: none; }
+}
+
+/* The Christmas cover puts the badge on a snowfield, like the original. */
+[data-theme="christmas"] .cover-content .user-badge { color: #5B1A26; text-shadow: none; }
+
+/* Preview dialogs follow the theme base colour. */
+.recap-dialog { color: var(--blue-dark); }
+.recap-dialog button { background: var(--blue-dark); }
+.recap-dialog::backdrop { background: color-mix(in srgb, var(--blue-dark) 80%, black 20%); opacity: .9; }
+
+/* ======================================================================
+   Pixel-fi: electric violet, lime pops, big pixels behind, small pixels in
+   front. Card art is pixelated at load time by theme.js.
+   ====================================================================== */
+[data-theme="pixel"] {
+    --px-ink: #1B0F4A;
+    --px-lime: #CDF34B;
+    --px-lime-dark: #A6D61F;
+    --px-lilac: #E4DBFF;
+    --px-purple: #6B44F2;
+}
+
+/* Page: the base colour is a deep shade of each card's own art (set per card by
+   theme.js), so every layer on top is neutral: darker at the top, lighter at the
+   bottom, twinkling corner pixels. */
+[data-theme="pixel"] #theme-glow {
+    background:
+        url("assets/themes/pixel/corners.svg") top center / 100% auto no-repeat,
+        linear-gradient(180deg, rgba(0, 0, 0, .28) 0%, transparent 34%, rgba(255, 255, 255, .06) 70%, rgba(255, 255, 255, .16) 100%);
+}
+/* Two rolling hill ranges drifting sideways at different speeds, one pixel cell per
+   step so the motion reads as pixel art rather than a smooth slide. Tiles are 320px
+   wide here. */
+[data-theme="pixel"] #theme-backdrop {
+    height: 160px;
+    /* Only the image needs !important (theme.js sets it inline); position stays animatable. */
+    background-image: url("assets/themes/pixel/hills-front.svg"), url("assets/themes/pixel/hills-back.svg") !important;
+    background-size: auto 160px; background-repeat: repeat-x; background-position: 0 100%, 0 100%;
+    /* 8px art cells show at 5.33px; 120 steps over 640px moves one cell per step. */
+    animation: pixelHills 150s steps(120) infinite;
+}
+@keyframes pixelHills {
+    from { background-position: 0 100%, 0 100%; }
+    to { background-position: -640px 100%, -320px 100%; }
+}
+@media (prefers-reduced-motion: reduce) { [data-theme="pixel"] #theme-backdrop { animation: none; } }
+[data-theme="pixel"] .illustration-placeholder,
+[data-theme="pixel"] .illustration-placeholder img,
+[data-theme="pixel"] .emoji-sprite,
+[data-theme="pixel"] #landing-page img { image-rendering: pixelated; }
+
+/* Flipbook cover */
+[data-theme="pixel"] .cover-content { background: linear-gradient(180deg, #3A2BD8 0%, #6A3BEA 38%, #B34FDF 70%, #FF86C8 100%); }
+[data-theme="pixel"] .cover-content .logo-area img { width: 10.5rem; margin-top: 1.25rem; }
+/* No "Prepared exclusively" line on the Pixel-fi cover; hidden (not removed) so the layout stays put. */
+[data-theme="pixel"] .cover-content .user-badge { visibility: hidden; }
+[data-theme="pixel"] .notepad::after { background: #C9B8FF; }
+/* Keep the drifting pixels behind the flipbook so the cover stays clean. */
+[data-theme="pixel"] #snowfall-container { z-index: 0 !important; }
+/* The cover already has its own shine in the art; drop the sweeping shimmer. */
+[data-theme="pixel"] .intro-cover-mask::after { display: none; }
+
+/* Question pages: pastel lavender/blush with translucent big pixels and dither. */
+[data-theme="pixel"] #top-content,
+[data-theme="pixel"] #intro-back-content,
+[data-theme="pixel"] .back-content {
+    background-image: url("assets/themes/pixel/paper.svg");
+    background-size: 100% auto; background-repeat: no-repeat; background-position: top center;
+}
+[data-theme="pixel"] .question-text { color: #1B1446; font-weight: 800; letter-spacing: -.02em; line-height: 1.22; text-wrap: balance; }
+/* Highlighted word: lime pill, same face as the sentence. */
+[data-theme="pixel"] .question-text .dm-serif-italic {
+    font-family: var(--font-heading); font-style: normal; font-weight: 800; font-size: inherit !important;
+    color: var(--px-ink); background: var(--px-lime);
+    padding: 0 .3em .04em; border-radius: .38em; box-shadow: inset 0 -.14em 0 var(--px-lime-dark);
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+
+/* Progress: square pixel dots, purple counter pill. */
+[data-theme="pixel"] .carousel-dot { background-color: #A98BFF; border-radius: 1px; }
+[data-theme="pixel"] .carousel-dot.active { background-color: var(--px-purple); border-radius: 999px; box-shadow: 0 2px 0 #2A1680; }
+
+/* Answers: chunky 3D pills with an ink outline and a hard drop. */
+/* Unanswered options all look the same (white), so none reads as pre-selected or
+   as the right answer. Lime appears only on the correct one after answering. */
+[data-theme="pixel"] .option-btn {
+    background: #FFFFFF; color: var(--px-ink);
+    border: 2px solid var(--px-ink); box-shadow: 0 4px 0 var(--px-ink);
+    font-weight: 800; font-size: 1.125rem; letter-spacing: -.01em;
+    transition: transform .12s, box-shadow .12s, background-color .2s;
+}
+[data-theme="pixel"] .options-container .option-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--px-ink); background: var(--px-lilac); }
+[data-theme="pixel"] .options-container .option-btn.correct {
+    background: var(--px-lime); color: var(--px-ink);
+    box-shadow: 0 4px 0 var(--px-ink), 0 0 0 4px rgba(255, 255, 255, .85), 0 8px 0 4px rgba(255, 255, 255, .85);
+}
+[data-theme="pixel"] .options-container .option-btn.correct::after {
+    content: 'check_circle'; font-family: 'Material Symbols Rounded'; font-weight: normal;
+    font-size: 1.25rem; line-height: 1; vertical-align: -4px; margin-left: .4rem;
+}
+[data-theme="pixel"] .options-container .option-btn.wrong { background: #FF8FCF; color: var(--px-ink); }
+/* Once answered, an untouched option fades back so the result reads clearly. */
+[data-theme="pixel"] .options-container:has(.correct) .option-btn:not(.correct):not(.wrong) { opacity: .55; }
+/* Little pixel "burst" marks by the first answer. */
+[data-theme="pixel"] #top-content .options-container { position: relative; }
+[data-theme="pixel"] #top-content .options-container::before {
+    content: ''; position: absolute; right: -4px; top: -22px; width: 24px; height: 20px; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10' shape-rendering='crispEdges' fill='%231B0F4A'%3E%3Cpath d='M1 3h1v3H1zM2 6h1v1H2zM5 0h2v5H5zM10 4h1v1h-1zM9 5h1v1H9zM8 6h1v1H8z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Trivia: ink text, highlighted phrase as a purple italic on lavender. */
+[data-theme="pixel"] .trivia-text { color: #1B1446; font-weight: 600; line-height: 1.45; text-wrap: pretty; }
+[data-theme="pixel"] .trivia-hl {
+    color: #5B2BD6; font-style: italic; font-weight: 800 !important; background: var(--px-lilac);
+    padding: 0 .22em; border-radius: .3em;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+
+/* Intro copy: balanced lines, one hard pixel drop shadow, calm subtitle. */
+[data-theme="pixel"] .intro-content-below { gap: .875rem; }
+[data-theme="pixel"] .intro-question {
+    font-size: 1.75rem; line-height: 1.14; font-weight: 800; letter-spacing: -.012em;
+    text-wrap: balance; max-width: 17ch; margin-inline: auto;
+    text-shadow: 0 2px 0 rgba(27, 15, 74, .7);
+}
+[data-theme="pixel"] .intro-question br { display: none; }
+[data-theme="pixel"] .intro-question .theme-accent {
+    font-family: var(--font-heading) !important; font-style: normal !important; font-size: inherit !important;
+    font-weight: 800; color: var(--px-ink); background: var(--px-lime); text-shadow: none;
+    display: inline-block; line-height: 1.1; padding: .02em .28em .1em; border-radius: .32em;
+    box-shadow: inset 0 -.1em 0 var(--px-lime-dark), 0 2px 0 rgba(27, 15, 74, .7);
+}
+[data-theme="pixel"] .intro-subtitle {
+    font-size: 1rem; line-height: 1.45; font-weight: 500; letter-spacing: -.005em;
+    color: rgba(243, 238, 255, .9); opacity: 1; text-wrap: balance; max-width: 30ch; margin-inline: auto;
+}
+[data-theme="pixel"] #start-btn {
+    background: var(--px-lime); color: var(--px-ink) !important;
+    border: 2.5px solid var(--px-ink); box-shadow: 0 5px 0 var(--px-ink); border-radius: 18px;
+    font-weight: 800; font-size: 1.125rem;
+    display: flex; align-items: center; justify-content: center; gap: .6rem;
+}
+[data-theme="pixel"] #start-btn::after { content: 'arrow_forward'; font-family: 'Material Symbols Rounded'; font-weight: normal; font-size: 1.5rem; line-height: 1; }
+[data-theme="pixel"] #start-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--px-ink); }
+[data-theme="pixel"] .swipe-hint { font-weight: 700; text-shadow: 0 2px 0 rgba(27, 15, 74, .6); }
+[data-theme="pixel"] .top-nav .nav-icon { filter: drop-shadow(2px 2px 0 var(--px-ink)); }
+
+/* "Spot on!" overlay */
+[data-theme="pixel"] .validation-overlay { background: rgba(239, 233, 255, .9); }
+[data-theme="pixel"] .validation-content h3 { color: var(--px-ink); font-weight: 800; }
+
+/* Ending and landing page: swap the gold/brown accents for the pixel palette. */
+[data-theme="pixel"] .outro-share-btn {
+    background: var(--px-lime) !important; color: var(--px-ink) !important;
+    border: 2px solid var(--px-ink); box-shadow: 0 4px 0 var(--px-ink); font-weight: 800;
+}
+[data-theme="pixel"] .outro-top-title { font-family: var(--font-heading); font-style: normal; letter-spacing: -.02em; }
+[data-theme="pixel"] .top-nav.outro-active { background: linear-gradient(180deg, #2A1680 0%, rgba(42, 22, 128, .7) 50%, transparent 100%); }
+[data-theme="pixel"] #landing-page .dm-serif-italic { color: var(--px-lime) !important; font-family: var(--font-heading); font-style: normal; font-weight: 800; }
+[data-theme="pixel"] .trust-card,
+[data-theme="pixel"] .promo-card {
+    background: linear-gradient(#2A1680, #2A1680) padding-box, linear-gradient(to bottom, #A98BFF, rgba(169, 139, 255, 0)) border-box;
+}
+[data-theme="pixel"] .promo-card h4 { color: var(--px-lime) !important; }
+[data-theme="pixel"] .footer-section span { color: #DCD0FF !important; }
+[data-theme="pixel"] .footer-section .dm-serif-italic { color: var(--px-lime) !important; }
+
+/* Ambient: pixel sparkles that twinkle in steps, and big pixels drifting up in steps. */
+.theme-pixel-sparkle {
+    position: absolute; width: var(--px); height: var(--px); background: #fff; opacity: 0;
+    box-shadow:
+        var(--px) 0 currentColor, calc(var(--px) * -1) 0 currentColor, 0 var(--px) currentColor, 0 calc(var(--px) * -1) currentColor,
+        calc(var(--px) * 2) 0 currentColor, calc(var(--px) * -2) 0 currentColor, 0 calc(var(--px) * 2) currentColor, 0 calc(var(--px) * -2) currentColor;
+    animation: pixelTwinkle steps(1) infinite;
+}
+@keyframes pixelTwinkle {
+    0% { opacity: 0; } 20% { opacity: .35; } 40% { opacity: .7; } 60% { opacity: .7; } 80% { opacity: .35; } 100% { opacity: 0; }
+}
+.theme-pixel-block { position: absolute; bottom: -30px; opacity: 0; animation: pixelRise steps(48) infinite; }
+@keyframes pixelRise {
+    0% { transform: translateY(0); opacity: 0; }
+    10% { opacity: .16; }
+    85% { opacity: .16; }
+    100% { transform: translateY(-105vh); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .theme-pixel-sparkle { animation: none !important; opacity: .8; }
+    .theme-pixel-block { display: none; }
+}
+
+/* Pixel-fi loader: same sky as the page, a segmented pixel progress bar, and the
+   message tucked in close under it. */
+[data-theme="pixel"] #preloader,
+[data-theme="pixel"] #error-screen {
+    background:
+        url("assets/themes/pixel/corners.svg") top center / 100% auto no-repeat,
+        linear-gradient(180deg, #3A24C8 0%, #4A2BD6 45%, #8E44DC 80%, #D45FCB 100%) !important;
+}
+[data-theme="pixel"] .preloader-content { gap: 28px; }
+[data-theme="pixel"] .preloader-content img { width: 11rem; opacity: 1; }
+[data-theme="pixel"] .loader-spinner {
+    position: relative; width: 132px; height: 22px; border-radius: 0;
+    border: 3px solid var(--px-ink); background: #24137A;
+    box-shadow: 0 3px 0 var(--px-ink); animation: none;
+}
+[data-theme="pixel"] .loader-spinner::before {
+    content: ''; position: absolute; inset: 3px;
+    background: repeating-linear-gradient(90deg, var(--px-lime) 0 10px, transparent 10px 12px);
+    clip-path: inset(0 100% 0 0); animation: pixelLoad 1.8s steps(10, end) infinite;
+}
+@keyframes pixelLoad { to { clip-path: inset(0 0 0 0); } }
+[data-theme="pixel"] #loader-message {
+    margin-top: -6px; opacity: 1 !important; color: #F3EEFF;
+    font-size: .9375rem; font-weight: 700; letter-spacing: -.005em; text-shadow: 0 2px 0 var(--px-ink);
+}
+@media (prefers-reduced-motion: reduce) {
+    [data-theme="pixel"] .loader-spinner::before { animation: none; clip-path: inset(0 40% 0 0); }
+}
+
+/* ---------- Answers bento on the final spread (Pixel-fi) ----------
+   Soft tiles on a pale lavender page: translucent white cards, hairline edges,
+   tiny pixel icons. The hero tile carries the headline number in soft lime. */
+[data-theme="pixel"] .px-summary { width: 100%; text-align: left; }
+[data-theme="pixel"] .px-summary--top { display: flex; flex-direction: column; gap: 0; margin-top: -2px; }
+[data-theme="pixel"] .px-summary-kicker {
+    font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+    color: rgba(27, 20, 70, .5); text-align: center;
+}
+[data-theme="pixel"] .px-summary-title {
+    font-size: 22px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em;
+    color: #1B1446; text-align: center; margin: 4px 0 12px;
+}
+[data-theme="pixel"] .px-bento { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+[data-theme="pixel"] .px-tile {
+    position: relative; min-width: 0; display: flex; flex-direction: column; gap: 4px;
+    padding: 10px 12px 11px; border-radius: 14px;
+    background: rgba(255, 255, 255, .74);
+    box-shadow: inset 0 0 0 1px rgba(107, 68, 242, .09), 0 1px 2px rgba(27, 15, 74, .05);
+}
+[data-theme="pixel"] .px-tile--wide { grid-column: 1 / -1; }
+[data-theme="pixel"] .px-tile--hero {
+    background: linear-gradient(180deg, #F1FAD0 0%, #E6F6B0 100%);
+    box-shadow: inset 0 0 0 1px rgba(122, 150, 24, .16), 0 1px 2px rgba(27, 15, 74, .05);
+}
+/* A single soft pixel sparkle tucked into the hero tile's corner. */
+[data-theme="pixel"] .px-tile--hero::after {
+    content: ''; position: absolute; right: 12px; top: 12px; width: 14px; height: 14px; opacity: .55;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 5' shape-rendering='crispEdges' fill='%238FB21B'%3E%3Cpath d='M2 0h1v5H2zM0 2h5v1H0z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[data-theme="pixel"] .px-tile-head { display: flex; align-items: center; gap: 7px; min-width: 0; }
+[data-theme="pixel"] .px-tile-icon {
+    flex: none; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center;
+    color: #6B44F2; background: rgba(107, 68, 242, .1);
+}
+[data-theme="pixel"] .px-tile-icon svg { width: 12px; height: 12px; fill: currentColor; }
+[data-theme="pixel"] .px-tile[data-icon="cash"] .px-tile-icon { color: #6F8F0F; background: rgba(143, 178, 27, .18); }
+[data-theme="pixel"] .px-tile[data-icon="heart"] .px-tile-icon { color: #D2489A; background: rgba(255, 122, 208, .16); }
+[data-theme="pixel"] .px-tile[data-icon="calendar"] .px-tile-icon { color: #2E8DB5; background: rgba(127, 230, 255, .22); }
+[data-theme="pixel"] .px-tile[data-icon="cup"] .px-tile-icon { color: #B8741E; background: rgba(255, 190, 110, .2); }
+[data-theme="pixel"] .px-tile-label {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+    color: rgba(27, 20, 70, .52); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+[data-theme="pixel"] .px-tile-value {
+    font-size: 19px; line-height: 1.15; font-weight: 800; letter-spacing: -.02em; color: #1B1446;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+[data-theme="pixel"] .px-tile--hero .px-tile-value { font-size: 28px; line-height: 1.05; }
+[data-theme="pixel"] .px-tile-note { font-size: 12px; font-weight: 600; color: rgba(27, 20, 70, .58); }
+/* Bottom page: tiles from the top edge, share button pinned to the bottom. */
+[data-theme="pixel"] .outro-content.px-summary {
+    padding: 14px 20px 22px !important; justify-content: flex-start; align-items: stretch;
+}
+[data-theme="pixel"] .illustration-placeholder > div:has(> .px-summary) { height: 100%; }
+[data-theme="pixel"] .px-summary--bottom .outro-message {
+    margin: auto 0 14px; text-align: center; font-size: 13px; line-height: 1.4; font-weight: 600;
+    color: rgba(27, 20, 70, .55); text-wrap: balance;
+}
+
+/* ---------- Pixel flipbook: stepped corners, flat bevels, hard page stack ----------
+   Every face is square-cornered and clipped to a two-step pixel corner (6px cells).
+   Clip paths sit on the faces only, never on the 3D containers, so the flip keeps
+   its depth. */
+[data-theme="pixel"] {
+    --card-radius: 0px;
+    --px-s: 6px;
+    --px-corners-top: polygon(0 100%, 0 calc(var(--px-s) * 2), var(--px-s) calc(var(--px-s) * 2), var(--px-s) var(--px-s),
+        calc(var(--px-s) * 2) var(--px-s), calc(var(--px-s) * 2) 0, calc(100% - var(--px-s) * 2) 0,
+        calc(100% - var(--px-s) * 2) var(--px-s), calc(100% - var(--px-s)) var(--px-s), calc(100% - var(--px-s)) calc(var(--px-s) * 2),
+        100% calc(var(--px-s) * 2), 100% 100%);
+    --px-corners-bottom: polygon(0 0, 100% 0, 100% calc(100% - var(--px-s) * 2), calc(100% - var(--px-s)) calc(100% - var(--px-s) * 2),
+        calc(100% - var(--px-s)) calc(100% - var(--px-s)), calc(100% - var(--px-s) * 2) calc(100% - var(--px-s)),
+        calc(100% - var(--px-s) * 2) 100%, calc(var(--px-s) * 2) 100%, calc(var(--px-s) * 2) calc(100% - var(--px-s)),
+        var(--px-s) calc(100% - var(--px-s)), var(--px-s) calc(100% - var(--px-s) * 2), 0 calc(100% - var(--px-s) * 2));
+    --px-corners-all: polygon(0 calc(var(--px-s) * 2), var(--px-s) calc(var(--px-s) * 2), var(--px-s) var(--px-s),
+        calc(var(--px-s) * 2) var(--px-s), calc(var(--px-s) * 2) 0, calc(100% - var(--px-s) * 2) 0,
+        calc(100% - var(--px-s) * 2) var(--px-s), calc(100% - var(--px-s)) var(--px-s), calc(100% - var(--px-s)) calc(var(--px-s) * 2),
+        100% calc(var(--px-s) * 2), 100% calc(100% - var(--px-s) * 2), calc(100% - var(--px-s)) calc(100% - var(--px-s) * 2),
+        calc(100% - var(--px-s)) calc(100% - var(--px-s)), calc(100% - var(--px-s) * 2) calc(100% - var(--px-s)),
+        calc(100% - var(--px-s) * 2) 100%, calc(var(--px-s) * 2) 100%, calc(var(--px-s) * 2) calc(100% - var(--px-s)),
+        var(--px-s) calc(100% - var(--px-s)), var(--px-s) calc(100% - var(--px-s) * 2), 0 calc(100% - var(--px-s) * 2));
+}
+[data-theme="pixel"] .top-half,
+[data-theme="pixel"] .card-back,
+[data-theme="pixel"] .intro-back { clip-path: var(--px-corners-top); border-radius: 0; }
+[data-theme="pixel"] .bottom-half .content-container { clip-path: var(--px-corners-bottom); border-radius: 0; }
+/* The cover's rings poke above its edge, so only the art layer is clipped; the
+   cover itself goes transparent and square. */
+[data-theme="pixel"] .cover-content { background: transparent !important; border-radius: 0; box-shadow: none; }
+[data-theme="pixel"] .intro-cover-mask {
+    clip-path: var(--px-corners-all); border-radius: 0;
+    box-shadow: inset 0 3px 0 rgba(255, 255, 255, .35), inset 0 -4px 0 rgba(27, 15, 74, .2);
+}
+[data-theme="pixel"] .illustration-placeholder { border-radius: 0 !important; }
+[data-theme="pixel"] .intro-cover { border-radius: 0; box-shadow: none; }
+/* Flat pixel bevels instead of soft blurred shadows: a light top edge on upper
+   pages, a darker bottom edge on lower pages. */
+[data-theme="pixel"] .top-half,
+[data-theme="pixel"] #top-content { box-shadow: inset 0 3px 0 rgba(255, 255, 255, .55); }
+[data-theme="pixel"] .bottom-half .content-container { box-shadow: inset 0 -4px 0 rgba(27, 15, 74, .12); }
+/* The pages stacked underneath: two hard-edged layers, no blur. */
+[data-theme="pixel"] .notepad::after {
+    border-radius: 0; clip-path: var(--px-corners-bottom); box-shadow: inset 0 -6px 0 #A98BFF;
+    background: #C9B8FF;
+}
+/* Pixel binding rings in place of the smooth ones. */
+[data-theme="pixel"] .flipbook-ring { background: url("assets/themes/pixel/rings.svg") center / 100% 100% no-repeat; }
+[data-theme="pixel"] .flipbook-ring img { visibility: hidden; }

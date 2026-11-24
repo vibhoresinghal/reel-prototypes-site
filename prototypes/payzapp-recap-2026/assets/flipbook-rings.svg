@@ -1,0 +1,17 @@
+<svg width="262" height="34" viewBox="0 0 262 34" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="flipbook-rings_inner" data-figma-trr="l6u2.55-0f">
+<rect y="15" width="19" height="19" rx="9.5" fill="#43566F"/>
+<path d="M3 6.5C3 2.91015 5.91015 0 9.5 0V0C13.0899 0 16 2.91015 16 6.5V22.5C16 26.0899 13.0899 29 9.5 29V29C5.91015 29 3 26.0899 3 22.5V6.5Z" fill="url(#paint0_linear_1332_1676)"/>
+</g>
+<use xlink:href="#flipbook-rings_inner" transform="translate(48.45)"/>
+<use xlink:href="#flipbook-rings_inner" transform="translate(96.9)"/>
+<use xlink:href="#flipbook-rings_inner" transform="translate(145.35)"/>
+<use xlink:href="#flipbook-rings_inner" transform="translate(193.8)"/>
+<use xlink:href="#flipbook-rings_inner" transform="translate(242.25)"/>
+<defs>
+<linearGradient id="paint0_linear_1332_1676" x1="9.5" y1="0" x2="9.5" y2="29" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FEE3C5"/>
+<stop offset="1" stop-color="#FEB4A5"/>
+</linearGradient>
+</defs>
+</svg>
