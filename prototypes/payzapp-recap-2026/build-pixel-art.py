@@ -342,52 +342,26 @@ def twinkle(svg_fragment):
     return re.sub(r'<rect ', tag, svg_fragment)
 
 
-def rolling_hills(cell, base_rows, waves, fill, fill_op, rim, rim_op, width=480, height=240):
-    """One seamless tile of smooth rolling hills rasterised to a pixel grid.
-    The ridge is a sum of sines whose periods divide the tile width, so the tile
-    repeats without a joint. A one-pixel rim traces the ridge, including the
-    vertical steps between columns, so the contour reads as a single clean line."""
-    import math
-    cols = width // cell
-    rows = height // cell
-    tops = []
-    for c in range(cols):
-        x = (c + 0.5) / cols
-        h = base_rows + sum(a * math.sin(2 * math.pi * (k * x + p)) for a, k, p in waves)
-        tops.append(max(1, min(rows - 1, round(h))))
-    body, edge = [], []
-    for c, h in enumerate(tops):
-        top_y = rows - h
-        body.append(f'M{c*cell} {top_y*cell}h{cell}v{h*cell}h{-cell}z')
-        # Rim: the top cell, plus any cells needed to join a lower neighbour.
-        lowest_neighbour = min(tops[c - 1], tops[(c + 1) % cols])
-        span = max(1, h - lowest_neighbour + 1) if h > lowest_neighbour else 1
-        edge.append(f'M{c*cell} {top_y*cell}h{cell}v{span*cell}h{-cell}z')
-    return ('<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" '
-            'shape-rendering="crispEdges" aria-hidden="true">'.format(w=width, h=height) +
-            f'<path d="{"".join(body)}" fill="{fill}" fill-opacity="{fill_op}"/>'
-            f'<path d="{"".join(edge)}" fill="{rim}" fill-opacity="{rim_op}"/></svg>')
-
-
-def hills_back():
-    # Distant range: taller, gentle, a faint light tint of the page colour.
-    return rolling_hills(8, 17, [(5, 1, 0.1), (2.5, 2, 0.55), (1.2, 3, 0.3)], '#FFFFFF', .07, '#FFFFFF', .16)
-
-
-def hills_front():
-    # Near range: lower, a little shade, with a soft light rim on the ridge.
-    return rolling_hills(8, 9, [(3, 1, 0.6), (2, 2, 0.15), (1, 4, 0.8)], '#000000', .16, '#FFFFFF', .22)
+def floor():
+    """Bottom-of-page glow: an ordered-dither fade of soft white pixels that mirrors
+    the dither along the top edge, plus a few single pixels that twinkle in steps.
+    One seamless 480x240 tile; colour comes from the page underneath."""
+    rng = random.Random(12)
+    cell = 8
+    band = dither_band(0, 0, 480, 240, cell, '#FFFFFF', 0, .62, rng, .11)
+    twinkles = []
+    for x, y in [(40, 150), (136, 96), (200, 188), (288, 132), (352, 200), (424, 112), (96, 216), (456, 172)]:
+        twinkles.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" fill="#FFFFFF" fill-opacity=".55"/>')
+    return ('<svg xmlns="http://www.w3.org/2000/svg" width="480" height="240" viewBox="0 0 480 240" '
+            'shape-rendering="crispEdges" aria-hidden="true">' + TWINKLE_CSS + band + twinkle(''.join(twinkles)) + '</svg>')
 
 
 def backdrop():
-    """Static fallback/preview of the page scenery (the live page layers the two
-    drifting hill tiles instead)."""
-    back = re.sub(r'^<svg[^>]*>|</svg>$', '', hills_back())
-    front = re.sub(r'^<svg[^>]*>|</svg>$', '', hills_front())
+    """Static preview of the page floor on the theme violet."""
+    inner = re.sub(r'^<svg[^>]*>|</svg>$', '', floor())
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="720" height="240" viewBox="0 0 720 240" '
             'preserveAspectRatio="xMidYMax slice" shape-rendering="crispEdges" aria-hidden="true">'
-            f'<rect width="720" height="240" fill="{VIOLET}"/>{back}<g transform="translate(480 0)">{back}</g>'
-            f'{front}<g transform="translate(480 0)">{front}</g></svg>')
+            f'<rect width="720" height="240" fill="{VIOLET}"/>{inner}<g transform="translate(480 0)">{inner}</g></svg>')
 
 
 def corners():
@@ -454,7 +428,7 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     files = {'wordmark.svg': wordmark(), 'lockup.svg': lockup(), 'cover.svg': cover(), 'backdrop.svg': backdrop(),
              'preview.svg': preview(), 'corners.svg': corners(), 'paper.svg': paper(),
-             'hills-back.svg': hills_back(), 'hills-front.svg': hills_front(), 'rings.svg': rings()}
+             'floor.svg': floor(), 'rings.svg': rings()}
     for name, svg in files.items():
         with open(os.path.join(OUT, name), 'w', encoding='utf-8') as fh:
             fh.write(svg)

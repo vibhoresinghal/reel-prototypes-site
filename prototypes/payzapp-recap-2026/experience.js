@@ -641,19 +641,27 @@ const SUMMARY_TILES = {
     'assets/illustration5.png': { label: 'Chai cups', platform: 'Chai cups', icon: 'cup' },
     'assets/illustration4.png': { label: 'Best streak', platform: 'Record streak', icon: 'bolt' }
 };
+// Full-colour 9x9 pixel icons shown in front of each answer. One character per
+// pixel; '.' is empty and every other letter maps to a colour below.
+const SUMMARY_PALETTE = {
+    k: '#1B0F4A', w: '#FFFFFF', r: '#F0475B', o: '#FF9F3A', y: '#FFE45C',
+    g: '#2FA35A', G: '#B8F5C8', p: '#FF5FA8', P: '#D63B86', v: '#6B44F2', V: '#4A2BD6',
+    b: '#C47A3A', B: '#8A4E2E', s: '#DCD0FF'
+};
 const SUMMARY_ICONS = {
-    cash: ['.......', '1111111', '1.....1', '1..1..1', '1.....1', '1111111', '.......'],
-    bag: ['..111..', '.1...1.', '1111111', '1111111', '1111111', '1111111', '.11111.'],
-    heart: ['.11.11.', '1111111', '1111111', '.11111.', '..111..', '...1...', '.......'],
-    calendar: ['.1...1.', '1111111', '1.....1', '1.1.1.1', '1.....1', '1111111', '.......'],
-    cup: ['.1.1...', '..1.1..', '111111.', '11111.1', '11111.1', '.1111..', '.......'],
-    bolt: ['....11.', '...11..', '..1111.', '...11..', '..11...', '.11....', '.1.....']
+    cash: ['.........', 'kkkkkkkkk', 'kgggggggk', 'kgGGGGGgk', 'kgGgggGgk', 'kgGGGGGgk', 'kgggggggk', 'kkkkkkkkk', '.........'],
+    bag: ['...kkk...', '..k...k..', '.kkkkkkk.', '.kvvvvvk.', '.kvsvvvk.', '.kvsvvvk.', '.kvvvvVk.', '.kVVVVVk.', '.kkkkkkk.'],
+    heart: ['.kk...kk.', 'kppk.kppk', 'kpwpkpppk', 'kpwpppPpk', 'kpppppPPk', '.kppPPPk.', '..kpPPk..', '...kPk...', '....k....'],
+    calendar: ['.k.....k.', 'kkkkkkkkk', 'krrrrrrrk', 'kwwwwwwwk', 'kwkwkwkwk', 'kwwwwwwwk', 'kwkwkwrwk', 'kwwwwwwwk', 'kkkkkkkkk'],
+    cup: ['..w..w...', '.w..w....', '..w..w...', 'kkkkkkk..', 'kbbbbbkkk', 'kbobbbk.k', 'kbbbbBkkk', '.kbbBk...', '..kkk....'],
+    bolt: ['....r....', '...rr....', '...ror...', '..roor.r.', '.rooyorr.', '.royyyor.', '.royyyyr.', '..ryyyr..', '...rrr...']
 };
 
 function summaryIcon(name) {
     const rows = SUMMARY_ICONS[name] || SUMMARY_ICONS.cash;
-    const rects = rows.flatMap((row, y) => [...row].map((c, x) => c === '1' ? `<rect x="${x}" y="${y}" width="1" height="1"/>` : '')).join('');
-    return `<svg viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
+    const rects = rows.flatMap((row, y) => [...row].map((c, x) =>
+        c === '.' ? '' : `<rect x="${x}" y="${y}" width="1" height="1" fill="${SUMMARY_PALETTE[c]}"/>`)).join('');
+    return `<svg viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
 }
 
 function summaryTiles() {
@@ -678,14 +686,19 @@ function summaryGrid(tiles, heroFirst) {
         tile.dataset.icon = t.icon;
         const head = document.createElement('div');
         head.className = 'px-tile-head';
-        head.innerHTML = `<span class="px-tile-icon">${summaryIcon(t.icon)}</span>`;
         const label = document.createElement('span');
         label.className = 'px-tile-label';
         label.textContent = t.label;
         head.appendChild(label);
         const value = document.createElement('strong');
         value.className = 'px-tile-value';
-        value.textContent = t.value;
+        const icon = document.createElement('span');
+        icon.className = 'px-tile-icon';
+        icon.innerHTML = summaryIcon(t.icon);
+        const text = document.createElement('span');
+        text.className = 'px-tile-text';
+        text.textContent = t.value;
+        value.append(icon, text);
         tile.append(head, value);
         if (t.note) {
             const note = document.createElement('span');
@@ -698,7 +711,20 @@ function summaryGrid(tiles, heroFirst) {
     if (!reducedMotion) {
         gsap.from(grid.children, { opacity: 0, y: 12, duration: 0.45, stagger: 0.08, delay: heroFirst ? 0.35 : 0.5, ease: 'power2.out' });
     }
+    // Once laid out, shrink any value that would overflow its tile (long names).
+    requestAnimationFrame(() => grid.querySelectorAll('.px-tile-value').forEach(fitSummaryValue));
     return grid;
+}
+
+function fitSummaryValue(el) {
+    const tile = el.closest('.px-tile');
+    const pad = getComputedStyle(tile);
+    const room = tile.clientWidth - parseFloat(pad.paddingLeft) - parseFloat(pad.paddingRight);
+    let size = parseFloat(getComputedStyle(el).fontSize);
+    while (size > 15 && el.scrollWidth > room) {
+        size -= 1;
+        el.style.fontSize = `${size}px`;
+    }
 }
 
 function fillSummaryTop(container) {
@@ -707,7 +733,9 @@ function fillSummaryTop(container) {
     kicker.textContent = 'Every answer, all correct';
     const title = document.createElement('h2');
     title.className = 'px-summary-title';
-    title.textContent = 'Your 2026, rewound';
+    const pill = document.createElement('mark');
+    pill.textContent = 'rewound';
+    title.append('Your 2026, ', pill);
     container.className = 'outro-top-content px-summary px-summary--top';
     container.replaceChildren(kicker, title, summaryGrid(summaryTiles().slice(0, 3), true));
 }

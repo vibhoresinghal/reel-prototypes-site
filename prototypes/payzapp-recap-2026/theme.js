@@ -181,19 +181,43 @@
     const pixelMap = new Map();
     const topColors = new Map();
     // The ending pages carry the answers bento, so their art becomes a plain soft page.
-    PIXEL_ART['assets/outro-top.png'] = { solid: '#F3EEFF' };
-    PIXEL_ART['assets/outro-bottom.png'] = { solid: '#F3EEFF' };
+    // Two halves of one stepped violet-to-pink sky (the cover's palette), banded like
+    // pixel art, with a few soft big pixels in the outer corners.
+    PIXEL_ART['assets/outro-top.png'] = { bands: ['#3F2AD0', '#6A35E2'], corners: 'top' };
+    PIXEL_ART['assets/outro-bottom.png'] = { bands: ['#6A35E2', '#A646D9'], corners: 'bottom' };
 
-    function pixelate(src, { block, dither, solid }) {
+    const mix = (a, b, f) => '#' + [1, 3, 5].map(i => {
+        const x = parseInt(a.slice(i, i + 2), 16), y = parseInt(b.slice(i, i + 2), 16);
+        return Math.round(x + (y - x) * f).toString(16).padStart(2, '0');
+    }).join('');
+    function bandedPage(width, height, [from, to], corners) {
+        const c = document.createElement('canvas');
+        c.width = width; c.height = height;
+        const cx = c.getContext('2d');
+        const bands = 10, bh = Math.ceil(height / bands);
+        for (let i = 0; i < bands; i++) {
+            cx.fillStyle = mix(from, to, i / (bands - 1));
+            cx.fillRect(0, i * bh, width, bh);
+        }
+        // Soft white big pixels hugging the outer corners.
+        const u = Math.round(width / 13);
+        const rowsU = Math.floor(height / u);
+        const cells = corners === 'top'
+            ? [[0, 0, .16], [1, 0, .1], [0, 1, .1], [12, 0, .16], [11, 0, .1], [12, 1, .1], [12, 3, .07]]
+            : [[0, rowsU - 1, .1], [0, rowsU - 3, .07], [1, rowsU - 1, .07], [12, rowsU - 1, .1], [12, rowsU - 2, .07]];
+        cells.forEach(([x, y, a]) => {
+            cx.fillStyle = `rgba(255,255,255,${a})`;
+            cx.fillRect(x * u, y * u, u, u);
+        });
+        return c.toDataURL('image/png');
+    }
+
+    function pixelate(src, { block, dither, bands, corners }) {
         return new Promise(resolve => {
             const img = new Image();
             img.onload = () => {
-                if (solid) {
-                    const c = document.createElement('canvas');
-                    c.width = img.naturalWidth; c.height = img.naturalHeight;
-                    const cx = c.getContext('2d');
-                    cx.fillStyle = solid; cx.fillRect(0, 0, c.width, c.height);
-                    pixelMap.set(src, c.toDataURL('image/png'));
+                if (bands) {
+                    pixelMap.set(src, bandedPage(img.naturalWidth, img.naturalHeight, bands, corners));
                     resolve();
                     return;
                 }
