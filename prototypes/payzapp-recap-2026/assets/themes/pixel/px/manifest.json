@@ -1,0 +1,165 @@
+{
+ "assets/illustration1.png": {
+  "file": "assets/themes/pixel/px/illustration1.png",
+  "top": "#BDEFFF"
+ },
+ "assets/illustration2.png": {
+  "file": "assets/themes/pixel/px/illustration2.png",
+  "top": "#FFF3C4"
+ },
+ "assets/illustration3.png": {
+  "file": "assets/themes/pixel/px/illustration3.png",
+  "top": "#E9FBB0"
+ },
+ "assets/illustration4.png": {
+  "file": "assets/themes/pixel/px/illustration4.png",
+  "top": "#F3EEFF"
+ },
+ "assets/illustration5.png": {
+  "file": "assets/themes/pixel/px/illustration5.png",
+  "top": "#FFE3F1"
+ },
+ "assets/illustration6.png": {
+  "file": "assets/themes/pixel/px/illustration6.png",
+  "top": "#BDEFFF"
+ },
+ "assets/share-illustration1.png": {
+  "file": "assets/themes/pixel/px/share-illustration1.png",
+  "top": "#BDEFFF"
+ },
+ "assets/share-illustration2.png": {
+  "file": "assets/themes/pixel/px/share-illustration2.png",
+  "top": "#FFF3C4"
+ },
+ "assets/share-illustration3.png": {
+  "file": "assets/themes/pixel/px/share-illustration3.png",
+  "top": "#FFF3C4"
+ },
+ "assets/share-illustration4.png": {
+  "file": "assets/themes/pixel/px/share-illustration4.png",
+  "top": "#DCD0FF"
+ },
+ "assets/share-illustration5.png": {
+  "file": "assets/themes/pixel/px/share-illustration5.png",
+  "top": "#FFE3F1"
+ },
+ "assets/share-illustration6.png": {
+  "file": "assets/themes/pixel/px/share-illustration6.png",
+  "top": "#BDEFFF"
+ },
+ "assets/share-illustration-final.png": {
+  "file": "assets/themes/pixel/px/share-illustration-final.png",
+  "top": "#FFF3C4"
+ },
+ "assets/currency-note.png": {
+  "file": "assets/themes/pixel/px/currency-note.png"
+ },
+ "assets/smartphone.png": {
+  "file": "assets/themes/pixel/px/smartphone.png"
+ },
+ "assets/handshake.png": {
+  "file": "assets/themes/pixel/px/handshake.png"
+ },
+ "assets/l-hand.png": {
+  "file": "assets/themes/pixel/px/l-hand.png"
+ },
+ "assets/r-hand.png": {
+  "file": "assets/themes/pixel/px/r-hand.png"
+ },
+ "assets/bubble1.png": {
+  "file": "assets/themes/pixel/px/bubble1.png"
+ },
+ "assets/bubble2.png": {
+  "file": "assets/themes/pixel/px/bubble2.png"
+ },
+ "assets/bubble3.png": {
+  "file": "assets/themes/pixel/px/bubble3.png"
+ },
+ "assets/bubble4.png": {
+  "file": "assets/themes/pixel/px/bubble4.png"
+ },
+ "assets/heart.png": {
+  "file": "assets/themes/pixel/px/heart.png"
+ },
+ "assets/calendar.png": {
+  "file": "assets/themes/pixel/px/calendar.png"
+ },
+ "assets/calendar-tick.png": {
+  "file": "assets/themes/pixel/px/calendar-tick.png"
+ },
+ "assets/chai.png": {
+  "file": "assets/themes/pixel/px/chai.png"
+ },
+ "assets/steam.png": {
+  "file": "assets/themes/pixel/px/steam.png"
+ },
+ "assets/product-iphone.png": {
+  "file": "assets/themes/pixel/px/product-iphone.png"
+ },
+ "assets/product-ps5.png": {
+  "file": "assets/themes/pixel/px/product-ps5.png"
+ },
+ "assets/product-samsung.png": {
+  "file": "assets/themes/pixel/px/product-samsung.png"
+ },
+ "assets/product-speaker.png": {
+  "file": "assets/themes/pixel/px/product-speaker.png"
+ },
+ "assets/product-watch.png": {
+  "file": "assets/themes/pixel/px/product-watch.png"
+ },
+ "assets/vehicle-aprilia.png": {
+  "file": "assets/themes/pixel/px/vehicle-aprilia.png"
+ },
+ "assets/vehicle-byd.png": {
+  "file": "assets/themes/pixel/px/vehicle-byd.png"
+ },
+ "assets/vehicle-compass.png": {
+  "file": "assets/themes/pixel/px/vehicle-compass.png"
+ },
+ "assets/vehicle-defender.png": {
+  "file": "assets/themes/pixel/px/vehicle-defender.png"
+ },
+ "assets/vehicle-enfield.png": {
+  "file": "assets/themes/pixel/px/vehicle-enfield.png"
+ },
+ "assets/vehicle-fortuner.png": {
+  "file": "assets/themes/pixel/px/vehicle-fortuner.png"
+ },
+ "assets/vehicle-mercedes.png": {
+  "file": "assets/themes/pixel/px/vehicle-mercedes.png"
+ },
+ "assets/vehicle-thar.png": {
+  "file": "assets/themes/pixel/px/vehicle-thar.png"
+ },
+ "assets/vehicle-tiago.png": {
+  "file": "assets/themes/pixel/px/vehicle-tiago.png"
+ },
+ "assets/feature-1.png": {
+  "file": "assets/themes/pixel/px/feature-1.png"
+ },
+ "assets/feature-2.png": {
+  "file": "assets/themes/pixel/px/feature-2.png"
+ },
+ "assets/feature-3.png": {
+  "file": "assets/themes/pixel/px/feature-3.png"
+ },
+ "assets/feature-4.png": {
+  "file": "assets/themes/pixel/px/feature-4.png"
+ },
+ "assets/feature-5.png": {
+  "file": "assets/themes/pixel/px/feature-5.png"
+ },
+ "assets/feature-6.png": {
+  "file": "assets/themes/pixel/px/feature-6.png"
+ },
+ "assets/autopay-icons.png": {
+  "file": "assets/themes/pixel/px/autopay-icons.png"
+ },
+ "assets/outro-top.png": {
+  "file": "assets/themes/pixel/px/outro-top.png"
+ },
+ "assets/outro-bottom.png": {
+  "file": "assets/themes/pixel/px/outro-bottom.png"
+ }
+}

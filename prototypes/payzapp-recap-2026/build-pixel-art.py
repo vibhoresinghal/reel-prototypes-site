@@ -424,6 +424,218 @@ def preview():
 </svg>'''
 
 
+
+# ---------------------------------------------------------------- card scenes (item: hand-drawn pixel art)
+# Six card backgrounds drawn as pixel art on a 52x50 grid of 12px cells (624x600,
+# the original illustration size). The top ~17 rows stay calm because the trivia
+# text sits there; the middle stays open for each card's animated objects.
+
+class Grid:
+    COLS, ROWS, CELL = 52, 50, 12
+
+    def __init__(self):
+        self.c = [[None] * self.COLS for _ in range(self.ROWS)]
+
+    def put(self, x, y, col):
+        if 0 <= x < self.COLS and 0 <= y < self.ROWS and col:
+            self.c[y][x] = col
+
+    def rect(self, x, y, w, h, col):
+        for yy in range(y, y + h):
+            for xx in range(x, x + w):
+                self.put(xx, yy, col)
+
+    def bands(self, stops):
+        """stops: [(row, colour)] solid from each row to the next."""
+        for i, (row, col) in enumerate(stops):
+            end = stops[i + 1][0] if i + 1 < len(stops) else self.ROWS
+            self.rect(0, row, self.COLS, end - row, col)
+
+    def dither(self, y0, y1, col, d0=0.0, d1=1.0):
+        """Ordered-dither `col` over rows y0..y1, density rising d0 -> d1."""
+        bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]]
+        for y in range(y0, y1):
+            d = d0 + (d1 - d0) * (y - y0) / max(1, y1 - y0 - 1)
+            for x in range(self.COLS):
+                if bayer[y % 4][x % 4] / 16 < d:
+                    self.put(x, y, col)
+
+    def sprite(self, x, y, rows, palette):
+        for dy, row in enumerate(rows):
+            for dx, ch in enumerate(row):
+                if ch != '.':
+                    self.put(x + dx, y + dy, palette[ch])
+
+    def svg(self):
+        by = {}
+        for y, row in enumerate(self.c):
+            for x, col in enumerate(row):
+                if col:
+                    by.setdefault(col, []).append((x, y))
+        s = self.CELL
+        paths = ''.join(f'<path d="{cells_path(cells, s)}" fill="{col}"/>' for col, cells in by.items())
+        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.COLS*s}" height="{self.ROWS*s}" '
+                f'viewBox="0 0 {self.COLS*s} {self.ROWS*s}" shape-rendering="crispEdges">{paths}</svg>')
+
+
+CLOUD = ['...www....', '.wwwwwww..', 'wwwwwwwwww', '.sssssss..']
+NOTE = ['gggggg', 'gGGGGg', 'gGggGg', 'gGGGGg', 'gggggg']
+HEART = ['.pp.pp.', 'pwpppPp', 'ppppPPp', '.pppPP.', '..pPP..', '...P...']
+COIN = ['.yyy.', 'yYYYy', 'yYyYy', 'yYYYy', '.yyy.']
+SPARK = ['.w.', 'www', '.w.']
+PAL = {'w': '#FFFFFF', 's': '#DCD0FF', 'g': '#8FC21B', 'G': '#E9FBB0', 'p': '#FF7AD0', 'P': '#C24FE0',
+       'y': '#FFE45C', 'Y': '#FFF3C4', 'k': '#1B0F4A', 'l': '#A98BFF', 'L': '#6B44F2'}
+
+
+def scene_cash():
+    g = Grid()
+    g.bands([(0, '#BDEFFF'), (30, '#7FE6FF')])
+    g.dither(17, 30, '#7FE6FF', 0, 1)
+    g.dither(42, 50, '#BDEFFF', 0, .8)
+    for x, y in [(-3, 21), (40, 24), (4, 37), (44, 40)]:
+        g.sprite(x, y, CLOUD, PAL)
+    for x, y in [(10, 25), (36, 33), (14, 44), (30, 21), (41, 46)]:
+        g.sprite(x, y, NOTE, PAL)
+    for x, y in [(24, 19), (6, 31), (47, 30)]:
+        g.sprite(x, y, SPARK, PAL)
+    return g
+
+
+def scene_shop():
+    import math
+    g = Grid()
+    g.bands([(0, '#FFF3C4'), (28, '#FFE45C')])
+    g.dither(17, 28, '#FFE45C', 0, 1)
+    # Bunting: one continuous sagging string with triangular flags hanging off it.
+    flags = ['#FF7AD0', '#CDF34B', '#7FE6FF', '#A98BFF']
+    ys = [18 + round(2.2 * math.sin(math.pi * x / 51)) for x in range(52)]
+    for x, y in enumerate(ys):
+        g.put(x, y, '#C24FE0')
+        if x > 0 and ys[x - 1] != y:
+            g.put(x, min(y, ys[x - 1]), '#C24FE0')
+    for i, x in enumerate(range(2, 50, 6)):
+        col = flags[i % 4]
+        y = ys[x + 1] + 1
+        g.rect(x, y, 3, 1, col)
+        g.put(x + 1, y + 1, col)
+    # Shopping bags drifting at the sides.
+    bag = ['..kk...', '.k..k..', 'bbbbbbb', 'bBbbbbb', 'bBbbbbb', 'bbbbbbb', 'bbbbbbb']
+    for x, y, c in [(3, 27, '#FF7AD0'), (43, 30, '#A98BFF'), (7, 38, '#A98BFF'), (41, 40, '#FF7AD0')]:
+        g.sprite(x, y, bag, {'k': '#C24FE0', 'b': c, 'B': '#FFFFFF'})
+    for y in range(44, 50):
+        for x in range(52):
+            g.put(x, y, '#FFF3C4' if (x // 2 + y // 2) % 2 else '#FFE45C')
+    return g
+
+
+def scene_month():
+    g = Grid()
+    g.bands([(0, '#E9FBB0'), (24, '#FFE3F1'), (30, '#FFC2EA')])
+    g.dither(17, 24, '#FFE3F1', 0, 1)
+    g.dither(24, 30, '#FFC2EA', 0, 1)
+    # Setting sun on the horizon.
+    for dy, w in enumerate([6, 10, 12, 14, 14]):
+        g.rect(26 - w // 2, 29 + dy, w, 1, '#FFE45C')
+    import math
+    for x in range(52):
+        back = 34 + round(2 * math.sin(x / 52 * 2 * math.pi + 1.2) + math.sin(x / 52 * 6 * math.pi))
+        g.rect(x, back, 1, 50 - back, '#CDF34B')
+        front = 39 + round(2.5 * math.sin(x / 52 * 2 * math.pi + 4) + math.sin(x / 52 * 4 * math.pi + 1))
+        g.rect(x, front, 1, 50 - front, '#8FC21B')
+        g.put(x, front, '#CDF34B')
+    for x in (5, 9, 44, 48):
+        top = 39 + round(2.5 * math.sin(x / 52 * 2 * math.pi + 4) + math.sin(x / 52 * 4 * math.pi + 1))
+        g.sprite(x - 1, top - 5, ['.g.', 'ggg', 'ggg', '.B.', '.B.'], {'g': '#2FA35A', 'B': '#8A4E2E'})
+    return g
+
+
+def scene_streak():
+    g = Grid()
+    g.bands([(0, '#F3EEFF'), (26, '#DCD0FF'), (36, '#A98BFF')])
+    g.dither(17, 26, '#DCD0FF', 0, 1)
+    g.dither(33, 36, '#A98BFF', 0, 1)
+    g.dither(44, 50, '#6B44F2', 0, .5)
+    # Three standing dominoes and the first one already toppled flat. Each half is a
+    # 7x7 face with pips on a 1/3/5 grid so no two pips touch.
+    def pips(n):
+        grid = {1: [(3, 3)], 2: [(1, 1), (5, 5)], 3: [(1, 1), (3, 3), (5, 5)],
+                4: [(1, 1), (5, 1), (1, 5), (5, 5)], 5: [(1, 1), (5, 1), (3, 3), (1, 5), (5, 5)],
+                6: [(1, 1), (5, 1), (1, 3), (5, 3), (1, 5), (5, 5)]}
+        return grid[n]
+    INK, FACE, SPLIT, SIDE = '#2A1680', '#FFFFFF', '#A98BFF', '#DCD0FF'
+    for x, top, bot in [(23, 4, 2), (32, 6, 3), (41, 5, 1)]:
+        y = 21
+        g.rect(x - 1, y - 1, 9, 17, INK)
+        g.rect(x, y, 7, 15, FACE)
+        g.rect(x, y + 7, 7, 1, SPLIT)
+        for px, py in pips(top):
+            g.put(x + px, y + py, INK)
+        for px, py in pips(bot):
+            g.put(x + px, y + 8 + py, INK)
+        g.rect(x + 6, y, 1, 15, SIDE)
+    x, y = 3, 30
+    g.rect(x - 1, y - 1, 17, 9, INK)
+    g.rect(x, y, 15, 7, FACE)
+    g.rect(x + 7, y, 1, 7, SPLIT)
+    for px, py in pips(5):
+        g.put(x + px, y + py, INK)
+    for px, py in pips(2):
+        g.put(x + 8 + px, y + py, INK)
+    g.rect(x, y + 6, 15, 1, SIDE)
+    # Motion ticks.
+    for x, y in [(19, 27), (18, 30), (19, 33)]:
+        g.rect(x, y, 2, 1, '#6B44F2')
+    for x, y in [(6, 21), (14, 24), (46, 20)]:
+        g.sprite(x, y, SPARK, {'w': '#A98BFF'})
+    return g
+
+
+def scene_chai():
+    g = Grid()
+    g.bands([(0, '#FFE3F1'), (28, '#FFC2EA')])
+    g.dither(17, 28, '#FFC2EA', 0, 1)
+    # Window with a lattice behind the glass.
+    g.rect(4, 21, 11, 14, '#FFFFFF')
+    g.rect(5, 22, 9, 12, '#BDEFFF')
+    g.rect(9, 22, 1, 12, '#FFFFFF'); g.rect(5, 27, 9, 1, '#FFFFFF')
+    g.rect(37, 22, 11, 12, '#FFFFFF')
+    g.rect(38, 23, 9, 10, '#BDEFFF')
+    g.rect(42, 23, 1, 10, '#FFFFFF'); g.rect(38, 28, 9, 1, '#FFFFFF')
+    # Table.
+    g.rect(0, 42, 52, 1, '#FFFFFF')
+    g.rect(0, 43, 52, 4, '#FF7AD0')
+    g.rect(0, 47, 52, 3, '#C24FE0')
+    # Steam curls drifting up the sides.
+    for x, y in [(19, 30), (31, 26)]:
+        g.sprite(x, y, ['.w.', 'w..', '.w.', '..w', '.w.'], {'w': '#FFFFFF'})
+    return g
+
+
+def scene_bestie():
+    g = Grid()
+    g.bands([(0, '#BDEFFF'), (26, '#7FE6FF')])
+    g.dither(17, 26, '#7FE6FF', 0, 1)
+    g.dither(42, 50, '#BDEFFF', 0, .8)
+    # Hearts float up from below the fist bump, clear of the trivia text above and
+    # the fists across the middle.
+    for x, y in [(6, 41), (16, 44), (30, 43), (41, 40)]:
+        g.sprite(x, y, HEART, PAL)
+    for x, y in [(24, 41), (48, 45), (2, 47)]:
+        g.sprite(x, y, SPARK, PAL)
+    return g
+
+
+SCENES = {1: scene_cash, 2: scene_shop, 3: scene_month, 4: scene_streak, 5: scene_chai, 6: scene_bestie}
+
+
+def write_scenes():
+    d = os.path.join(OUT, 'scenes')
+    os.makedirs(d, exist_ok=True)
+    for n, make in SCENES.items():
+        with open(os.path.join(d, f'scene{n}.svg'), 'w', encoding='utf-8') as fh:
+            fh.write(make().svg())
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     files = {'wordmark.svg': wordmark(), 'lockup.svg': lockup(), 'cover.svg': cover(), 'backdrop.svg': backdrop(),
@@ -432,7 +644,8 @@ def main():
     for name, svg in files.items():
         with open(os.path.join(OUT, name), 'w', encoding='utf-8') as fh:
             fh.write(svg)
-    print({k: len(v) for k, v in files.items()})
+    write_scenes()
+    print({k: len(v) for k, v in files.items()}, 'scenes:', len(SCENES))
 
 
 if __name__ == '__main__':

@@ -32,4 +32,7 @@ for(const file of ['experience.html','experience.js','style.css']) {
 }
 for(const theme of ['christmas','aurora','city','pixel']) for(const name of ['wordmark','lockup','cover','backdrop','preview']) assert.ok(fs.existsSync(path.join(base,`assets/themes/${theme}/${name}.svg`)),`${theme}/${name}`);
 for(const name of ['corners','paper']) assert.ok(fs.existsSync(path.join(base,`assets/themes/pixel/${name}.svg`)),name);
-console.log(`Recap verified: five scenes, six personal cards / five platform cards, data guards, ${manifest.assets.length} unchanged assets, local runtime references, four themes' artwork.`);
+const pixelManifest=JSON.parse(read('assets/themes/pixel/px/manifest.json'));
+for(const [src,{file}] of Object.entries(pixelManifest)) { assert.ok(fs.existsSync(path.join(base,src)),src); assert.ok(fs.existsSync(path.join(base,file)),file); }
+for(let n=1;n<=6;n++) assert.ok(pixelManifest[`assets/illustration${n}.png`].top,`scene ${n} top colour`);
+console.log(`Recap verified: five scenes, six personal cards / five platform cards, data guards, ${manifest.assets.length} unchanged assets, local runtime references, four themes' artwork, ${Object.keys(pixelManifest).length} prebuilt pixel images.`);

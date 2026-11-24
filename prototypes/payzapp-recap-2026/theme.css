@@ -397,3 +397,7 @@
 /* Pixel binding rings in place of the smooth ones. */
 [data-theme="pixel"] .flipbook-ring { background: url("assets/themes/pixel/rings.svg") center / 100% 100% no-repeat; }
 [data-theme="pixel"] .flipbook-ring img { visibility: hidden; }
+
+/* Pixel burst from a correct answer (theme.js burst()). Above the "Spot on!" overlay. */
+.px-burst { position: fixed; inset: 0; pointer-events: none; z-index: 2100; }
+.px-burst i { position: absolute; box-shadow: 0 2px 0 rgba(27, 15, 74, .35); }

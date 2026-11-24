@@ -25,7 +25,10 @@
     "utilities.input.css",
     "build-theme-art.py",
     "wordmark-data.json",
-    "build-pixel-art.py"
+    "build-pixel-art.py",
+    "pixel-build/run.mjs",
+    "pixel-build/pipeline.js",
+    "pixel-build/index.html"
   ],
   "doNotPublish": [
     "tooling",

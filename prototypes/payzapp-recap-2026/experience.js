@@ -80,6 +80,7 @@ wrongSound.load();
 // Play answer sound
 function playAnswerSound(isCorrect) {
     if (document.hidden) return;
+    if (RecapTheme.sound(isCorrect ? 'correct' : 'wrong')) return;
     try {
         const sound = isCorrect ? correctSound : wrongSound;
         sound.currentTime = 0; // Reset to start
@@ -709,12 +710,49 @@ function summaryGrid(tiles, heroFirst, { animate = true } = {}) {
         }
         grid.appendChild(tile);
     });
+    const delay = heroFirst ? 0.35 : 0.5;
     if (animate && !reducedMotion) {
-        gsap.from(grid.children, { opacity: 0, y: 12, duration: 0.45, stagger: 0.08, delay: heroFirst ? 0.35 : 0.5, ease: 'power2.out' });
+        gsap.from(grid.children, { opacity: 0, y: 12, duration: 0.32, stagger: 0.1, delay, ease: 'steps(4)' });
     }
-    // Once laid out, shrink any value that would overflow its tile (long names).
-    requestAnimationFrame(() => grid.querySelectorAll('.px-tile-value').forEach(fitSummaryValue));
+    // Once laid out, shrink any value that would overflow its tile (long names), then
+    // roll each value in: numbers count up in steps, words type in letter by letter.
+    requestAnimationFrame(() => {
+        grid.querySelectorAll('.px-tile-value').forEach((el, i) => {
+            fitSummaryValue(el);
+            if (animate && !reducedMotion) rollSummaryValue(el.querySelector('.px-tile-text'), delay + i * 0.1);
+        });
+    });
     return grid;
+}
+
+function rollSummaryValue(el, delay) {
+    if (!el) return;
+    const final = el.textContent;
+    const m = final.match(/^(\D*?)(\d[\d,]*(?:\.\d+)?)(.*)$/);
+    if (m) {
+        const [, pre, num, post] = m;
+        const decimals = (num.split('.')[1] || '').length;
+        const grouped = num.includes(',');
+        const target = parseFloat(num.replace(/,/g, ''));
+        const fmt = v => grouped
+            ? v.toLocaleString('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+            : v.toFixed(decimals);
+        const counter = { v: 0 };
+        el.textContent = pre + fmt(0) + post;
+        gsap.to(counter, {
+            v: target, duration: 0.9, delay, ease: 'steps(16)',
+            onUpdate: () => { el.textContent = pre + fmt(counter.v) + post; },
+            onComplete: () => { el.textContent = final; }
+        });
+    } else {
+        const typed = { n: 0 };
+        el.textContent = '';
+        gsap.to(typed, {
+            n: final.length, duration: Math.min(0.7, 0.06 * final.length), delay, ease: `steps(${final.length})`,
+            onUpdate: () => { el.textContent = final.slice(0, Math.round(typed.n)); },
+            onComplete: () => { el.textContent = final; }
+        });
+    }
 }
 
 function fitSummaryValue(el) {
@@ -729,6 +767,7 @@ function fitSummaryValue(el) {
 }
 
 function fillSummaryTop(container) {
+    RecapTheme.sound('finale');
     const kicker = document.createElement('p');
     kicker.className = 'px-summary-kicker';
     kicker.textContent = 'Every answer, all correct';
@@ -815,6 +854,11 @@ const card2 = document.getElementById('card-2');
 
 // Audio for page flip sound effect
 const pageFlipAudio = new Audio('assets/page-flip.m4a');
+// Theme sound first (Pixel-fi: an 8-bit blip), else the original page-flip audio.
+function playFlipSound() {
+    if (document.hidden || RecapTheme.sound('flip')) return;
+    pageFlipAudio.play().catch(() => { });
+}
 pageFlipAudio.preload = 'auto';
 pageFlipAudio.volume = 0.7; // Set volume to 70%
 
@@ -1337,6 +1381,7 @@ async function init() {
     // Function to start the quiz (extracted for reuse)
     function startQuiz() {
         if (!introCover || introCover.style.display === 'none' || openingTimeline || isReturningToIntro) return;
+        RecapTheme.sound('start');
         isFlipping = true;
         startBtn.disabled = true;
         currentQuestionIndex = 0;
@@ -1405,7 +1450,7 @@ async function init() {
             .set('.bottom-half', { opacity: 1 }, 0.48)
             .call(() => {
                 pageFlipAudio.currentTime = 0;
-                if (!document.hidden) pageFlipAudio.play().catch(() => {});
+                playFlipSound();
             }, [], 0.7)
             .to(introCover, { rotationX: 180, transformOrigin: 'top center',
                 duration: 0.8, ease: 'power2.inOut' }, 0.48);
@@ -2254,6 +2299,7 @@ function handleAnswer(selectedIndex, btnElement, questionData) {
         targetIcon.appendChild(createEmojiSprite(randomMsg.emoji, '76px'));
         // Play correct answer sound
         playAnswerSound(true);
+        RecapTheme.moment('correct', btnElement);
     } else {
         btnElement.classList.add('wrong');
         const randomMsg = wrongMessages[Math.floor(Math.random() * wrongMessages.length)];
@@ -2268,6 +2314,7 @@ function handleAnswer(selectedIndex, btnElement, questionData) {
         }
         // Play wrong answer sound
         playAnswerSound(false);
+        RecapTheme.moment('wrong', btnElement);
     }
 
     // After answering once, disable all option buttons for this question
@@ -2826,7 +2873,7 @@ function flipPage() {
     // Play page flip sound with a slight delay
     setTimeout(() => {
         pageFlipAudio.currentTime = 0; // Reset to start
-        if (!document.hidden) pageFlipAudio.play().catch(() => { }); // Play sound
+        playFlipSound();
     }, 100); // 100ms delay
 
     gsap.to(activeCard, {
@@ -3212,7 +3259,7 @@ function flipPageBack() {
     // Play page flip sound
     setTimeout(() => {
         pageFlipAudio.currentTime = 0;
-        if (!document.hidden) pageFlipAudio.play().catch(() => { });
+        playFlipSound();
     }, 100);
 
     const overlay = nextCard.querySelector('.lighting-overlay');
@@ -3787,6 +3834,8 @@ function createConfettiPiece(colors, shapes) {
     const fallDuration = Math.random() * 2 + 2.5; // 2.5-4.5 seconds
     const rotateDegrees = Math.random() * 720 - 360; // -360 to 360 degrees
 
+    // Pixel-fi: hard square bits that turn in quarter steps and fall in steps.
+    const pixelBits = RecapTheme.id === 'pixel';
     piece.style.cssText = `
         position: absolute;
         left: ${startX}%;
@@ -3794,7 +3843,7 @@ function createConfettiPiece(colors, shapes) {
         width: ${width}px;
         height: ${height}px;
         background: ${color};
-        border-radius: ${shape === 'circle' ? '50%' : '2px'};
+        border-radius: ${pixelBits ? '0' : shape === 'circle' ? '50%' : '2px'};
         opacity: 1;
         pointer-events: none;
     `;
@@ -3802,13 +3851,19 @@ function createConfettiPiece(colors, shapes) {
     confettiContainer.appendChild(piece);
 
     // Animate with GSAP
+    if (pixelBits) {
+        const side = [6, 8, 10][Math.floor(Math.random() * 3)];
+        piece.style.width = `${side}px`;
+        piece.style.height = `${side}px`;
+        piece.style.background = ['#CDF34B', '#FF7AD0', '#7FE6FF', '#FFE45C', '#A98BFF', '#FFFFFF'][Math.floor(Math.random() * 6)];
+    }
     gsap.to(piece, {
         y: window.innerHeight + 50,
         x: driftX,
-        rotation: rotateDegrees,
+        rotation: pixelBits ? Math.round(rotateDegrees / 90) * 90 : rotateDegrees,
         opacity: 0,
         duration: fallDuration,
-        ease: "power1.in",
+        ease: pixelBits ? `steps(${Math.round(fallDuration * 12)})` : "power1.in",
         onComplete: () => piece.remove()
     });
 }
