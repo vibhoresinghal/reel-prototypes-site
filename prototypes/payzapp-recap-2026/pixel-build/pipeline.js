@@ -35,8 +35,8 @@
         ['feature-1', 4], ['feature-2', 4], ['feature-3', 4], ['feature-4', 4], ['feature-5', 4], ['feature-6', 4],
         ['autopay-icons', 3]]
         .forEach(([name, block]) => { PIXEL_ART[`assets/${name}.png`] = obj(block); });
-    PIXEL_ART['assets/outro-top.png'] = { bands: ['#3F2AD0', '#6A35E2'], corners: 'top' };
-    PIXEL_ART['assets/outro-bottom.png'] = { bands: ['#6A35E2', '#A646D9'], corners: 'bottom' };
+    PIXEL_ART['assets/outro-top.png'] = { bands: ['#2C2470', '#3A2F86'], corners: 'top' };
+    PIXEL_ART['assets/outro-bottom.png'] = { bands: ['#3A2F86', '#4E3794'], corners: 'bottom' };
 
     const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
     function nearest(r, g, b) {

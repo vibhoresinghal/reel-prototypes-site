@@ -45,7 +45,7 @@
             colors: {
                 // Page colour behind the flipbook: electric violets.
                 '#0F4252': '#4329D6', '#3F3313': '#5B2BD0', '#0E3D4E': '#3530CC',
-                '#373A27': '#4B27C2', '#3F2412': '#6A2BC4', '#36255B': '#4A23B4', '#2E2419': '#2A1680',
+                '#373A27': '#4B27C2', '#3F2412': '#6A2BC4', '#36255B': '#4A23B4', '#2E2419': '#1E1852',
                 // Question pages: lavender and blush instead of the original pastels.
                 '#D6F4FF': '#EFE9FF', '#FFECB8': '#FCE6F7', '#E9EECE': '#F1F9D9',
                 '#FFE1DB': '#FFE3F1', '#EED3F8': '#ECE2FF'

@@ -677,6 +677,58 @@ function summaryTiles() {
     });
 }
 
+// Small pixel data pictures inside some tiles: a 12-month strip with the answer lit,
+// a row of chai blocks (about 5 cups each), and one block per day of the streak (capped).
+const SUMMARY_MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+function summaryViz(t) {
+    if (t.icon === 'calendar') {
+        const at = SUMMARY_MONTHS.indexOf(String(t.value).trim().slice(0, 3).toLowerCase());
+        if (at < 0) return null;
+        const strip = document.createElement('div');
+        strip.className = 'px-viz px-viz-months';
+        strip.setAttribute('aria-hidden', 'true');
+        SUMMARY_MONTHS.forEach((m, i) => {
+            const cell = document.createElement('i');
+            if (i === at) cell.className = 'on';
+            strip.appendChild(cell);
+        });
+        return strip;
+    }
+    if (t.icon === 'cup') {
+        const cups = parseInt(String(t.value).replace(/[^\d]/g, ''), 10);
+        if (!cups) return null;
+        const strip = document.createElement('div');
+        strip.className = 'px-viz px-viz-cups';
+        strip.setAttribute('aria-hidden', 'true');
+        // A single row of at most 12 blocks; each stands for 5 cups, or more on big years.
+        const perBlock = Math.max(5, Math.ceil(cups / 12));
+        const blocks = Math.max(1, Math.min(12, Math.round(cups / perBlock)));
+        for (let i = 0; i < blocks; i++) {
+            const cell = document.createElement('i');
+            cell.style.background = i % 2 ? '#D2A27E' : '#B98560';
+            strip.appendChild(cell);
+        }
+        return strip;
+    }
+    if (t.icon === 'bolt') {
+        const days = parseInt(String(t.value).replace(/[^\d]/g, ''), 10);
+        if (!days) return null;
+        const grid = document.createElement('div');
+        grid.className = 'px-viz px-viz-streak';
+        grid.setAttribute('aria-hidden', 'true');
+        const shown = Math.min(days, 42);
+        for (let i = 0; i < shown; i++) {
+            const cell = document.createElement('i');
+            // Warm up along the streak: yellow, then orange, then red at the newest days.
+            const f = i / Math.max(1, shown - 1);
+            cell.style.background = f < 0.45 ? '#F2D27A' : f < 0.8 ? '#E9A066' : '#D9675E';
+            grid.appendChild(cell);
+        }
+        return grid;
+    }
+    return null;
+}
+
 function summaryGrid(tiles, heroFirst, { animate = true } = {}) {
     const grid = document.createElement('div');
     grid.className = 'px-bento';
@@ -708,6 +760,8 @@ function summaryGrid(tiles, heroFirst, { animate = true } = {}) {
             note.textContent = t.note;
             tile.appendChild(note);
         }
+        const viz = summaryViz(t);
+        if (viz) tile.appendChild(viz);
         grid.appendChild(tile);
     });
     const delay = heroFirst ? 0.35 : 0.5;
@@ -721,6 +775,12 @@ function summaryGrid(tiles, heroFirst, { animate = true } = {}) {
             fitSummaryValue(el);
             if (animate && !reducedMotion) rollSummaryValue(el.querySelector('.px-tile-text'), delay + i * 0.1);
         });
+        if (animate && !reducedMotion) {
+            grid.querySelectorAll('.px-viz').forEach(viz => {
+                const index = [...grid.children].indexOf(viz.closest('.px-tile'));
+                gsap.from(viz.children, { opacity: 0, duration: 0.01, stagger: 0.035, delay: delay + index * 0.1 + 0.25 });
+            });
+        }
     });
     return grid;
 }
@@ -4053,7 +4113,7 @@ async function generateQuestionShareImage() {
 // Generate outro share image with payment personality
 // Pixel-fi share card: the whole answers bento on one 360x640 card, drawn straight
 // onto a canvas (html2canvas mis-places tight text metrics), so every pixel is exact.
-const SUMMARY_TILE_COLORS = { cash: '#CDF34B', bag: '#E4DBFF', heart: '#FFCBEA', calendar: '#C4F1FF', cup: '#FFE98F', bolt: '#F3EEFF' };
+const SUMMARY_TILE_COLORS = { cash: '#EEF5CF', bag: '#FAF8FF', heart: '#FAF8FF', calendar: '#FAF8FF', cup: '#FAF8FF', bolt: '#FAF8FF' };
 
 async function generateSummaryShareImage() {
     const W = 360, H = 640, S = 2, INK = '#1B0F4A';
@@ -4066,7 +4126,7 @@ async function generateSummaryShareImage() {
     await document.fonts.load(font(700, 12));
 
     // Stepped violet-to-pink sky with soft big pixels in the corners.
-    const sky = ['#3F2AD0', '#4A2FD8', '#5532DD', '#6035E1', '#6A35E2', '#7A3AE0', '#8A3FDD', '#9843DB', '#A646D9', '#B24AD4'];
+    const sky = ['#2C2470', '#2F2676', '#32287C', '#352A81', '#382D86', '#3B2F8A', '#40328E', '#453491', '#4A3693', '#4E3794'];
     sky.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(0, i * H / 10, W, H / 10 + 1); });
     [[0, 0, .16], [1, 0, .1], [0, 1, .1], [8, 0, .16], [7, 0, .1], [8, 1, .1], [0, 15, .1], [8, 15, .1], [8, 14, .07]].forEach(([x, y, a]) => {
         ctx.fillStyle = `rgba(255,255,255,${a})`;
@@ -4107,10 +4167,8 @@ async function generateSummaryShareImage() {
     const px0 = tx + leadW;
     ctx.fillStyle = 'rgba(27,15,74,.7)';
     ctx.beginPath(); ctx.roundRect(px0, ty - 22 + 2, wordW + pillPadX * 2, 30, 8); ctx.fill();
-    ctx.fillStyle = '#CDF34B';
+    ctx.fillStyle = '#E3F0A6';
     ctx.beginPath(); ctx.roundRect(px0, ty - 22, wordW + pillPadX * 2, 30, 8); ctx.fill();
-    ctx.fillStyle = '#A6D61F';
-    ctx.fillRect(px0 + 4, ty + 5, wordW + pillPadX * 2 - 8, 3);
     text(word, px0 + pillPadX, ty, { size: 24 });
 
     // Bento.
