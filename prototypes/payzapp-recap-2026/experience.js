@@ -676,11 +676,12 @@ function summaryTiles() {
     });
 }
 
-function summaryGrid(tiles, heroFirst) {
+function summaryGrid(tiles, heroFirst, { animate = true } = {}) {
     const grid = document.createElement('div');
     grid.className = 'px-bento';
     tiles.forEach((t, i) => {
-        const wide = (heroFirst && i === 0) || (!heroFirst && tiles.length % 2 === 1 && i === tiles.length - 1);
+        const rest = heroFirst ? tiles.length - 1 : tiles.length;
+        const wide = (heroFirst && i === 0) || (rest % 2 === 1 && i === tiles.length - 1);
         const tile = document.createElement('div');
         tile.className = `px-tile${wide ? ' px-tile--wide' : ''}${heroFirst && i === 0 ? ' px-tile--hero' : ''}`;
         tile.dataset.icon = t.icon;
@@ -708,7 +709,7 @@ function summaryGrid(tiles, heroFirst) {
         }
         grid.appendChild(tile);
     });
-    if (!reducedMotion) {
+    if (animate && !reducedMotion) {
         gsap.from(grid.children, { opacity: 0, y: 12, duration: 0.45, stagger: 0.08, delay: heroFirst ? 0.35 : 0.5, ease: 'power2.out' });
     }
     // Once laid out, shrink any value that would overflow its tile (long names).
@@ -3995,7 +3996,115 @@ async function generateQuestionShareImage() {
 }
 
 // Generate outro share image with payment personality
+// Pixel-fi share card: the whole answers bento on one 360x640 card, drawn straight
+// onto a canvas (html2canvas mis-places tight text metrics), so every pixel is exact.
+const SUMMARY_TILE_COLORS = { cash: '#CDF34B', bag: '#E4DBFF', heart: '#FFCBEA', calendar: '#C4F1FF', cup: '#FFE98F', bolt: '#F3EEFF' };
+
+async function generateSummaryShareImage() {
+    const W = 360, H = 640, S = 2, INK = '#1B0F4A';
+    const canvas = document.createElement('canvas');
+    canvas.width = W * S; canvas.height = H * S;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(S, S);
+    const font = (weight, size) => `${weight} ${size}px Inter, sans-serif`;
+    await document.fonts.load(font(800, 20));
+    await document.fonts.load(font(700, 12));
+
+    // Stepped violet-to-pink sky with soft big pixels in the corners.
+    const sky = ['#3F2AD0', '#4A2FD8', '#5532DD', '#6035E1', '#6A35E2', '#7A3AE0', '#8A3FDD', '#9843DB', '#A646D9', '#B24AD4'];
+    sky.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(0, i * H / 10, W, H / 10 + 1); });
+    [[0, 0, .16], [1, 0, .1], [0, 1, .1], [8, 0, .16], [7, 0, .1], [8, 1, .1], [0, 15, .1], [8, 15, .1], [8, 14, .07]].forEach(([x, y, a]) => {
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.fillRect(x * 40, y * 40, 40, 40);
+    });
+
+    // Pixel wordmark.
+    const mark = new Image();
+    mark.src = RecapTheme.asset('wordmark.svg');
+    await new Promise(resolve => { mark.onload = mark.onerror = resolve; });
+    if (mark.naturalWidth) {
+        const mh = 40, mw = mark.naturalWidth * mh / mark.naturalHeight;
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(mark, (W - mw) / 2, 30, mw, mh);
+    }
+
+    const text = (str, x, y, { weight = 800, size = 14, color = INK, align = 'left', spacing = 0 } = {}) => {
+        ctx.font = font(weight, size);
+        ctx.letterSpacing = `${spacing}px`;
+        ctx.textAlign = align;
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = color;
+        ctx.fillText(str, x, y);
+        ctx.letterSpacing = '0px';
+    };
+    const measure = (str, weight, size) => { ctx.font = font(weight, size); return ctx.measureText(str).width; };
+
+    text('EVERY ANSWER, ALL CORRECT', W / 2, 98, { size: 10.5, color: 'rgba(255,255,255,.72)', align: 'center', spacing: 1 });
+
+    // Title with the lime "rewound" pill.
+    const lead = `${userFirstName ? `${userFirstName}'s` : 'Your'} 2026, `;
+    const leadW = measure(lead, 800, 24), word = 'rewound', wordW = measure(word, 800, 24);
+    const pillPadX = 7, total = leadW + wordW + pillPadX * 2;
+    let tx = (W - total) / 2;
+    const ty = 132;
+    text(lead, tx, ty + 2, { size: 24, color: 'rgba(27,15,74,.7)' });
+    text(lead, tx, ty, { size: 24, color: '#FFFFFF' });
+    const px0 = tx + leadW;
+    ctx.fillStyle = 'rgba(27,15,74,.7)';
+    ctx.beginPath(); ctx.roundRect(px0, ty - 22 + 2, wordW + pillPadX * 2, 30, 8); ctx.fill();
+    ctx.fillStyle = '#CDF34B';
+    ctx.beginPath(); ctx.roundRect(px0, ty - 22, wordW + pillPadX * 2, 30, 8); ctx.fill();
+    ctx.fillStyle = '#A6D61F';
+    ctx.fillRect(px0 + 4, ty + 5, wordW + pillPadX * 2 - 8, 3);
+    text(word, px0 + pillPadX, ty, { size: 24 });
+
+    // Bento.
+    const tiles = summaryTiles();
+    const pad = 22, gap = 9, colW = (W - pad * 2 - gap) / 2;
+    const drawIcon = (name, x, y, size) => {
+        const rows = SUMMARY_ICONS[name] || SUMMARY_ICONS.cash, cell = size / 9;
+        rows.forEach((row, ry) => [...row].forEach((c, rx) => {
+            if (c === '.') return;
+            ctx.fillStyle = SUMMARY_PALETTE[c];
+            ctx.fillRect(Math.round(x + rx * cell), Math.round(y + ry * cell), Math.ceil(cell), Math.ceil(cell));
+        }));
+    };
+    const drawTile = (t, x, y, w, h, hero) => {
+        ctx.fillStyle = INK;
+        ctx.beginPath(); ctx.roundRect(x, y + 3, w, h, 12); ctx.fill();
+        ctx.fillStyle = SUMMARY_TILE_COLORS[t.icon] || '#F3EEFF';
+        ctx.beginPath(); ctx.roundRect(x, y, w, h, 12); ctx.fill();
+        ctx.lineWidth = 2; ctx.strokeStyle = INK;
+        ctx.beginPath(); ctx.roundRect(x + 1, y + 1, w - 2, h - 2, 11); ctx.stroke();
+        text(t.label.toUpperCase(), x + 13, y + 22, { size: 9.5, color: 'rgba(27,15,74,.62)', spacing: 1 });
+        let size = hero ? 46 : 28;
+        const iconGap = size * 0.2, room = w - 26;
+        while (size > 14 && size * 0.82 + iconGap + measure(t.value, 800, size) > room) size -= 1;
+        const iconSize = Math.round(size * (hero ? 0.68 : 0.82));
+        const baseline = y + (hero ? 76 : h - 18);
+        drawIcon(t.icon, x + 13, baseline - size * 0.72 + (size * 0.72 - iconSize) / 2, iconSize);
+        text(t.value, x + 13 + iconSize + iconGap, baseline, { size, spacing: -size * 0.03 });
+        if (t.note) text(t.note, x + 13, y + h - 15, { weight: 700, size: 12, color: 'rgba(27,15,74,.72)' });
+    };
+    let y = 160;
+    if (tiles.length) { drawTile(tiles[0], pad, y, W - pad * 2, 114, true); y += 114 + gap + 3; }
+    const rest = tiles.slice(1);
+    for (let i = 0; i < rest.length; i += 2) {
+        if (i === rest.length - 1) {
+            drawTile(rest[i], pad, y, W - pad * 2, 86, false);
+        } else {
+            drawTile(rest[i], pad, y, colW, 86, false);
+            drawTile(rest[i + 1], pad + colW + gap, y, colW, 86, false);
+        }
+        y += 86 + gap + 3;
+    }
+
+    text('REWIND YOUR OWN YEAR ON PAYZAPP', W / 2, H - 26, { size: 11, color: 'rgba(255,255,255,.8)', align: 'center', spacing: 1 });
+    return canvas;
+}
+
 async function generateOutroShareImage() {
+    if (RecapTheme.summary) return generateSummaryShareImage();
     const template = document.getElementById('share-template-question');
     if (!template) return null;
 
@@ -4147,7 +4256,9 @@ function getShareMessage() {
         baseMessage = question?.shareMessage || "Check out this 2026 PayZapp Recap!";
     } else if (isInOutroState()) {
         const personalityTitle = userPersonality?.title || 'Digital Nomad';
-        baseMessage = `${userFirstName}'s payment personality is "${personalityTitle}"!`;
+        baseMessage = RecapTheme.summary
+            ? `${userFirstName || 'My'}${userFirstName ? "'s" : ''} 2026 on PayZapp, rewound: every answer, all correct!`
+            : `${userFirstName}'s payment personality is "${personalityTitle}"!`;
     } else {
         baseMessage = "Where did your money go in 2026? Check out your PayZapp story!";
     }
